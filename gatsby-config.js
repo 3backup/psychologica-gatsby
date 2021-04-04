@@ -1,6 +1,30 @@
 module.exports = {
   siteMetadata: {
-    title: "Psychologica Renata Zuba ",
+    title: `Psychologica - gabinet psychologiczny Renata Zuba`,
+    menuLinks: [
+      {
+        name: "Oferta",
+        link: "/oferta",
+      },
+      {
+        name: "Dla terapeutów",
+        link: "/dla-terapeutow",
+      },
+      {
+        name: "O mnie",
+        link: "/o-mnie",
+      },
+      {
+        name: "Lokalizacja",
+        link: "/lokalizacja",
+      },
+      {
+        name: "Skontaktuj się",
+        link: "/skontaktuj-sie",
+      },
+    ],
+    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
+    author: `Renata Zuba Psychologica`,
   },
   plugins: [
     {
@@ -10,6 +34,7 @@ module.exports = {
       },
     },
     "gatsby-plugin-sass",
+    "gatsby-plugin-linaria",
     "gatsby-plugin-image",
     {
       resolve: "gatsby-plugin-google-analytics",
@@ -20,6 +45,7 @@ module.exports = {
     "gatsby-plugin-sitemap",
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    `gatsby-plugin-react-helmet`,
     {
       resolve: "gatsby-source-filesystem",
       options: {
