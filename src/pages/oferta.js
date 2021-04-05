@@ -3,21 +3,16 @@ import { styled } from "linaria/react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
 
-const Title = styled.p`
-  font-family: sans-serif;
-  font-size: 36px;
-  color: #f15f79;
-`;
 // markup
-const IndexPage = ({ data }) => {
+const oferta = ({ data }) => {
   return (
     <>
       <Layout>
-        <Title>Hello world!</Title>;
+        <h3>To do </h3>
         <Footer />
       </Layout>
     </>
   );
 };
 
-export default IndexPage;
+export default oferta;

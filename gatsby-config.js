@@ -27,14 +27,31 @@ module.exports = {
     author: `Renata Zuba Psychologica`,
   },
   plugins: [
+    "gatsby-plugin-linaria",
     {
       resolve: "gatsby-source-datocms",
       options: {
         apiToken: "35d2a2c19a7e6e94a0e19385ede573",
+        preview: false,
+        disableLiveReload: false,
+      },
+    },
+    {
+      resolve: `gatsby-plugin-google-fonts`,
+      options: {
+        fonts: [`Manrope\:400`, `Red Hat Display\:400,700`],
+        display: "swap",
+      },
+    },
+    {
+      resolve: "gatsby-plugin-react-svg",
+      options: {
+        rule: {
+          include: /images/, // See below to configure properly
+        },
       },
     },
     "gatsby-plugin-sass",
-    "gatsby-plugin-linaria",
     "gatsby-plugin-image",
     {
       resolve: "gatsby-plugin-google-analytics",
