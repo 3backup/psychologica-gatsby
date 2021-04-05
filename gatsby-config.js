@@ -1,6 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Psychologica - gabinet psychologiczny Renata Zuba`,
+    siteUrl: "http://localhost:8000/",
     menuLinks: [
       {
         name: "Oferta",
