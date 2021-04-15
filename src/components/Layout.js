@@ -3,7 +3,6 @@ import { StaticQuery, graphql } from "gatsby";
 import { siteMetadata } from "../../gatsby-config";
 import { Helmet } from "react-helmet";
 import Header from "./Header";
-import "normalize.css";
 
 const Layout = ({ children }) => (
   <StaticQuery
@@ -31,8 +30,7 @@ const Layout = ({ children }) => (
         <Header
           menuLinks={data.site.siteMetadata.menuLinks}
           siteTitle={data.site.siteMetadata.title}
-        />{" "}
-        {console.log(siteMetadata)}
+        />
         {children}
       </React.Fragment>
     )}

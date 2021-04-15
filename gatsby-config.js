@@ -40,7 +40,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`Manrope\:400`, `Red Hat Display\:400,700`],
+        fonts: [`Manrope\:400`, `Red Hat Display\:400,500,600,700`],
         display: "swap",
       },
     },
@@ -54,6 +54,7 @@ module.exports = {
     },
     "gatsby-plugin-sass",
     "gatsby-plugin-image",
+
     {
       resolve: "gatsby-plugin-google-analytics",
       options: {
@@ -61,9 +62,6 @@ module.exports = {
       },
     },
     "gatsby-plugin-sitemap",
-    "gatsby-plugin-sharp",
-    "gatsby-transformer-sharp",
-    `gatsby-plugin-react-helmet`,
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -72,5 +70,8 @@ module.exports = {
       },
       __key: "images",
     },
+    "gatsby-plugin-sharp",
+    "gatsby-transformer-sharp",
+    `gatsby-plugin-react-helmet`,
   ],
 };
