@@ -4,12 +4,12 @@ module.exports = {
     siteUrl: "http://localhost:8000/",
     menuLinks: [
       {
-        name: "Oferta",
-        link: "/oferta",
+        name: "Oferta terapeutyczna",
+        link: "/oferta-terapeutyczna",
       },
       {
-        name: "Dla terapeutów",
-        link: "/dla-terapeutow",
+        name: "Edukacja",
+        link: "/edukacja",
       },
       {
         name: "O mnie",

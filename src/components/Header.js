@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 import { styled } from "linaria/react";
 import PropTypes from "prop-types";
 import Container from "./styles/Container";
-import LogoHeader from "../images/logo-psychologica.svg";
+import LogoHeader from "../images/logo-top-dwa.svg";
 import Phone from "../images/phone.svg";
 import "normalize.css";
 
@@ -41,9 +41,8 @@ const MenuLi = styled.li`
   list-style-type: none;
   line-height: 60px;
   height: 3.75rem;
-  margin-left: 3.25rem
+  margin-left: 2.75rem
   border-bottom: 2px solid rgba(40, 174, 102, 0);
-
   transition: 0.3s;
   
   &:hover {
@@ -81,7 +80,7 @@ const ContainerHeader = styled(Container)`
   flex-direction: row;
 `;
 const StyledFooterLogo = styled(LogoHeader)`
-  max-height: 3.75rem;
+  max-height: 5rem;
   margin: 0;
 `;
 const PhoneNumber = styled.div`
@@ -106,7 +105,7 @@ const Header = ({ siteTitle, menuLinks }) => (
   <HeaderMenu>
     <ContainerHeader>
       <Link to="/">
-        <StyledFooterLogo height="60" width="191" />
+        <StyledFooterLogo height="80" width="220" />
       </Link>
       <PhoneNumber>
         <Phone width="18" height="18" />

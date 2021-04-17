@@ -4,6 +4,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
+import { StaticImage } from "gatsby-plugin-image";
 import Button from "./styles/Button";
 
 const Top = styled.div`
@@ -23,7 +24,9 @@ const HalfBackground = styled.div`
   background-color: #f4f5f7;
 `;
 const TextContainer = styled.div`
-  width: 43.75%;
+  box-sizing: border-box;
+  width: 43.5%;
+  margin-right: 3.5rem;
 `;
 const HeaderTitle = styled.h2`
   font-family: Red Hat Display;
@@ -31,6 +34,7 @@ const HeaderTitle = styled.h2`
   font-weight: normal;
   font-size: 68px;
   line-height: 125%;
+  margin: 0;
   color: #1f1f1f;
   & span {
     font-weight: 500;
@@ -49,39 +53,59 @@ const ParagraphText = styled.p`
   color: #3e7672;
   opacity: 0.7;
 `;
+const CusomtImage = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 29%;
+`;
+const HeroContainer = styled(Container)`
+  display: flex;
+  position: relative;
+`;
+const HeroImageFront = styled.div`
+  width: 45%;
+  position: Absolute;
+  z-index: 5;
+  left: 45%
+  top: 5%;
+`;
 
-const Header = ({ data }) => (
+const Header = ({ props }) => (
   <Top>
-    <Container>
+    <HeroContainer>
       <TextContainer>
         <HeaderTitle>
           Psychoterapia <span>godna Ciebie</span>
         </HeaderTitle>
+        {/* DUZY SPACING TO DO  */}
         <ParagraphText>
-          We create smart and agile tests for Experience Management, Market
-          Research & Education. We have 20+ years of experience in
+          Jestem psychologiem klinicznym i psychoterapeutą
+          <br />z wieloletnim doświadczeniem w prowadzeniu psychoterapii oraz
+          pomocy psychologicznej.
         </ParagraphText>
-        {/* <Img fixed={data.file.childImageSharp.fixed} /> */}
         <Button>Skontaktuj się</Button>
       </TextContainer>
-    </Container>
+      <HeroImageFront>
+        <StaticImage
+          src="../images/rzuba-photo-top.png"
+          alt="Roslina psychologica"
+          placeholder="blurred"
+          layout="fullWidth"
+        />
+      </HeroImageFront>
+    </HeroContainer>
 
+    <CusomtImage>
+      <StaticImage
+        src="../images/top-image-plant.jpg"
+        alt="Roslina psychologica"
+        layout="fullWidth"
+        placeholder="blurred"
+      />
+    </CusomtImage>
     <HalfBackground></HalfBackground>
   </Top>
 );
 
 export default Header;
-
-export const query = graphql`
-  query {
-    file(relativePath: { eq: "./top-image-plant.jpg" }) {
-      childImageSharp {
-        # Specify the image processing specifications right in the query.
-        # Makes it trivial to update as your page's design changes.
-        fixed(width: 125, height: 125) {
-          ...GatsbyImageSharpFixed
-        }
-      }
-    }
-  }
-`;
