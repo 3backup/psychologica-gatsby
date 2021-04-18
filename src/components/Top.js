@@ -4,6 +4,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import { useStaticQuery, graphql } from "gatsby";
 import Img from "gatsby-image";
+import BackgroundPattern from "../images/leaves.svg";
 import { StaticImage } from "gatsby-plugin-image";
 import Button from "./styles/Button";
 
@@ -57,7 +58,9 @@ const CusomtImage = styled.div`
   position: absolute;
   right: 0;
   top: 0;
-  width: 29%;
+  max-height: 768px;
+  overflow: hidden;
+  width: 33%;
 `;
 const HeroContainer = styled(Container)`
   display: flex;
@@ -69,43 +72,89 @@ const HeroImageFront = styled.div`
   z-index: 5;
   left: 45%
   top: 5%;
+  @media (max-width: 1230px) {
+  left: 50%
+  }
+`;
+const HalfGrid = styled.div`
+  box-sizing: border-box;
+  display: flex;
+  width: 50%;
+  padding: 1.875rem 7.25rem;
+  justify-content: flex-end;
+  font-family: Red Hat Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 125%;
+  color: #3e7672;
+  position: relative;
+  &:before {
+    content: "";
+    width: 70%;
+    height: 1.1px; /* slight higher to work around rounding errors(?) on some zoom levels in some browsers. */
+    background-color: #000000;
+    opacity: 0.1;
+    position: absolute;
+    right: 0;
+    top: -1px;
+  }
+  @media (max-width: 1230px) {
+    display: none;
+  }
+`;
+
+const Leaves = styled(BackgroundPattern)`
+  position: absolute;
+  left: 0;
+  bottom: 0;
 `;
 
 const Header = ({ props }) => (
-  <Top>
-    <HeroContainer>
-      <TextContainer>
-        <HeaderTitle>
-          Psychoterapia <span>godna Ciebie</span>
-        </HeaderTitle>
-        {/* DUZY SPACING TO DO  */}
-        <ParagraphText>
-          Jestem psychologiem klinicznym i psychoterapeutą
-          <br />z wieloletnim doświadczeniem w prowadzeniu psychoterapii oraz
-          pomocy psychologicznej.
-        </ParagraphText>
-        <Button>Skontaktuj się</Button>
-      </TextContainer>
-      <HeroImageFront>
-        <StaticImage
-          src="../images/rzuba-photo-top.png"
-          alt="Roslina psychologica"
-          placeholder="blurred"
-          layout="fullWidth"
-        />
-      </HeroImageFront>
-    </HeroContainer>
+  <sectio id="hero">
+    <Top>
+      <HeroContainer>
+        <TextContainer>
+          <HeaderTitle>
+            Psychoterapia <span>godna Ciebie</span>
+          </HeaderTitle>
+          {/* DUZY SPACING TO DO  */}
+          <ParagraphText>
+            Jestem psychologiem klinicznym i psychoterapeutą z wieloletnim
+            doświadczeniem w prowadzeniu psychoterapii oraz pomocy
+            psychologicznej.
+          </ParagraphText>
+          <Button>Skontaktuj się</Button>
+        </TextContainer>
+        <HeroImageFront>
+          <StaticImage
+            src="../images/rzuba-photo-top.png"
+            alt="Roslina psychologica"
+            placeholder="blurred"
+            layout="fullWidth"
+          />
+        </HeroImageFront>
+      </HeroContainer>
 
-    <CusomtImage>
-      <StaticImage
-        src="../images/top-image-plant.jpg"
-        alt="Roslina psychologica"
-        layout="fullWidth"
+      <CusomtImage>
+        <StaticImage
+          src="../images/top-image-plant.jpg"
+          alt="Roslina psychologica"
+          layout="fullWidth"
+          placeholder="blurred"
+        />
+      </CusomtImage>
+      <Leaves
+        src="../images/leaves.svg"
+        alt="background pattern"
         placeholder="blurred"
       />
-    </CusomtImage>
-    <HalfBackground></HalfBackground>
-  </Top>
+      <HalfBackground></HalfBackground>
+    </Top>
+    <Container>
+      <HalfGrid>Psycholog Renata Zuba</HalfGrid>
+    </Container>
+  </sectio>
 );
 
 export default Header;
