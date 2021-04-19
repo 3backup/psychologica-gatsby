@@ -125,7 +125,7 @@ const HeaderMobile = styled.div`
   position: fixed;
   z-index: 9999;
   width: 100%;
-  height: 100px;
+  height: 80px;
   padding: 0 1.5rem;
   display: flex;
   align-content: center;
@@ -135,14 +135,13 @@ const HeaderMobile = styled.div`
   border: 1px solid #dadada;
   box-sizing: border-box;
   backdrop-filter: blur(10px);
-  border-radius: 15px;
   @media (min-width: 1025px) {
     display: none;
   }
 `;
 const MobileMenuActive = styled.nav`
   position: absolute;
-  top: 100px;
+  top: 80px;
   bottom: 0;
   width: 100%;
   z-index: 9998;
@@ -187,7 +186,7 @@ function Header({ siteTitle, menuLinks }) {
       </HeaderMenu>
       <HeaderMobile>
         <Link to="/">
-          <StyledFooterLogo height="80" width="220" />
+          <StyledFooterLogo height="60" width="200" />
         </Link>
         <MenuButton
           onClick={() => {

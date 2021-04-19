@@ -14,6 +14,9 @@ const Top = styled.div`
   align-items: center;
   position: relative;
   min-height: 47.5rem;
+  @media (max-width: 768px) {
+    padding-top: 80px;
+  }
 `;
 const HalfBackground = styled.div`
   position: fixed;
@@ -28,6 +31,10 @@ const TextContainer = styled.div`
   box-sizing: border-box;
   width: 43.5%;
   margin-right: 3.5rem;
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 4rem 0;
+  }
 `;
 const HeaderTitle = styled.h2`
   font-family: Red Hat Display;
@@ -37,11 +44,17 @@ const HeaderTitle = styled.h2`
   line-height: 125%;
   margin: 0;
   color: #1f1f1f;
+  @media (max-width: 1024px) {
+    font-size: 48px;
+  }
   & span {
     font-weight: 500;
     font-size: 68px;
     line-height: 125%;
     color: #4abd7f;
+    @media (max-width: 1024px) {
+      font-size: 48px;
+    }
   }
 `;
 const ParagraphText = styled.p`
@@ -61,10 +74,16 @@ const CusomtImage = styled.div`
   max-height: 768px;
   overflow: hidden;
   width: 33%;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const HeroContainer = styled(Container)`
   display: flex;
   position: relative;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const HeroImageFront = styled.div`
   width: 45%;
@@ -75,6 +94,12 @@ const HeroImageFront = styled.div`
   @media (max-width: 1230px) {
   left: 50%
   }
+  @media (max-width: 768px) {
+    position: static;
+    width: 100%;
+    aspect-ratio: 1;
+  }
+  
 `;
 const HalfGrid = styled.div`
   box-sizing: border-box;
