@@ -8,8 +8,12 @@ module.exports = {
         link: "/oferta-terapeutyczna",
       },
       {
-        name: "Edukacja",
+        name: "Oferta Edukacyjna",
         link: "/edukacja",
+      },
+      {
+        name: "Superwizja",
+        link: "/superwizja",
       },
       {
         name: "O mnie",

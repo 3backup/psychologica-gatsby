@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "gatsby";
 import { styled } from "linaria/react";
 import PropTypes from "prop-types";
@@ -16,12 +16,15 @@ const MenuLink = styled(Link)`
   height: 100%;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 0.9375rem;
   text-align: center;
   color: #005650;
   transition: 0.3s;
   &:hover{
     color: rgba(40, 174, 102, 1);
+  }
+  @media (max-width: 1230px){
+    font-size: 0.85rem;
   }
 `;
 const HeaderMenu = styled.header`
@@ -32,6 +35,8 @@ const HeaderMenu = styled.header`
   left: 50%;
   transform: translateX(-50%);
   align-items: center;
+  width: 100%;
+  transition: 0.5s;
   @media (max-width: 1024px) {
     display: none;
   }
@@ -50,7 +55,7 @@ const MenuLi = styled.li`
   list-style-type: none;
   line-height: 60px;
   height: 3.75rem;
-  margin-left: 2.75rem
+  margin-left: 1.7rem
   border-bottom: 2px solid rgba(40, 174, 102, 0);
   transition: 0.3s;
 
@@ -91,6 +96,7 @@ const MenuLi = styled.li`
   }
 `;
 const ContainerHeader = styled(Container)`
+  padding: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -98,13 +104,14 @@ const ContainerHeader = styled(Container)`
 `;
 const StyledFooterLogo = styled(LogoHeader)`
   max-height: 5rem;
+  transition: 0.3s;
   margin: 0;
 `;
 const PhoneNumber = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-right: 2rem;
+  padding-right: 1rem;
   border-right: 2px solid rgba(74, 189, 127, 0.15);
   border-bottom: 1px solid rgba(74, 189, 127, 0);
   @media (max-width: 1230px) {
@@ -115,7 +122,7 @@ const PhoneNumberText = styled.p`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
-  font-size: 16px;
+  font-size: 0.9375rem;
   line-height: 21px;
   text-align: center;
   color: #005650;
@@ -131,17 +138,16 @@ const HeaderMobile = styled.div`
   align-content: center;
   justify-content: space-between;
   align-items: center;
-  background: rgba(255, 255, 255, 0.6);
-  border: 1px solid #dadada;
   box-sizing: border-box;
-  backdrop-filter: blur(10px);
+  transition: 0.3s;
   @media (min-width: 1025px) {
     display: none;
   }
 `;
 const MobileMenuActive = styled.nav`
-  position: absolute;
-  top: 80px;
+  position: sticky;
+  padding: 100px 0;
+  top: 0;
   bottom: 0;
   width: 100%;
   z-index: 9998;
@@ -161,13 +167,39 @@ const MenuButton = styled.button`
 
 function Header({ siteTitle, menuLinks }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(false);
+  const handleScroll = () => {
+    // find current scroll position
+    const currentScrollPos = window.pageYOffset;
 
+    // set state based on location info (explained in more detail below)
+    setVisible(currentScrollPos > 10);
+
+    // set state to new scroll position
+    setPrevScrollPos(currentScrollPos);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    console.log(visible);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [prevScrollPos, visible, handleScroll]);
   return (
     <>
-      <HeaderMenu>
+      <HeaderMenu
+        style={{
+          background: visible ? "rgba(255, 255, 255, 0.8)" : "",
+          height: visible ? "5.625rem" : "6.875rem",
+          backdropFilter: visible ? "blur(10px)" : "",
+        }}>
         <ContainerHeader>
           <Link to="/">
-            <StyledFooterLogo height="80" width="220" />
+            <StyledFooterLogo
+              height={visible ? "60" : "80"}
+              width={visible ? "200" : "220"}
+            />
           </Link>
           <PhoneNumber>
             <Phone width="18" height="18" />
@@ -184,7 +216,13 @@ function Header({ siteTitle, menuLinks }) {
           </nav>
         </ContainerHeader>
       </HeaderMenu>
-      <HeaderMobile>
+      <HeaderMobile
+        style={{
+          background: visible ? "rgba(255, 255, 255, 0.8)" : "",
+          height: visible ? "5.625rem" : "6.875rem",
+          backdropFilter: visible ? "blur(10px)" : "",
+          border: visible ? "1px solid #dadada" : "",
+        }}>
         <Link to="/">
           <StyledFooterLogo height="60" width="200" />
         </Link>

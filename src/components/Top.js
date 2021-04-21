@@ -19,7 +19,7 @@ const Top = styled.div`
   }
 `;
 const HalfBackground = styled.div`
-  position: fixed;
+  position: absolute;
   top: 0px;
   left: 50%;
   width: 50%;
@@ -134,9 +134,12 @@ const Leaves = styled(BackgroundPattern)`
   left: 0;
   bottom: 0;
 `;
+const TopSection = styled.section`
+  position: relative;
+`;
 
 const Header = ({ props }) => (
-  <sectio id="hero">
+  <TopSection id="hero">
     <Top>
       <HeroContainer>
         <TextContainer>
@@ -174,12 +177,12 @@ const Header = ({ props }) => (
         alt="background pattern"
         placeholder="blurred"
       />
-      <HalfBackground></HalfBackground>
     </Top>
     <Container>
       <HalfGrid>Psycholog Renata Zuba</HalfGrid>
     </Container>
-  </sectio>
+    <HalfBackground></HalfBackground>
+  </TopSection>
 );
 
 export default Header;

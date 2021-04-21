@@ -8,6 +8,7 @@ const Button = styled.button`
   border-radius: 15px
   backdrop-filter: blur(4px);
   border-radius: 15px;
+  border:none;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
