@@ -8,6 +8,7 @@ import Top from "../components/Top";
 import AboutSection from "../components/AboutSection";
 import Testimonial from "../components/Testimonial";
 import Offer from "../components/Offer";
+import Problem from "../components/Problem";
 import "normalize.css";
 
 const IndexPage = ({ data }) => {
@@ -15,6 +16,7 @@ const IndexPage = ({ data }) => {
     <>
       <Layout>
         <Top />
+        <Problem />
         <Offer />
         <Testimonial />
         <AboutSection />
