@@ -3,7 +3,6 @@ import { StaticQuery, graphql, Link } from "gatsby";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
 import LogoFooter from "../images/logo-Psychologica-color-white.svg";
-import PropTypes from "prop-types";
 const FooterStyle = styled.footer`
   display: flex;
   align-items: center;

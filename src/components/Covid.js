@@ -9,7 +9,6 @@ import CovidBottomLeft from "../images/covid-bottom-left.svg";
 const CovidContainer = styled(Container)`
   margin: 8.75rem auto;
   display: flex;
-  padding-right: 0;
   flex-direction: column;
   justify-content: center;
   background: #005650;

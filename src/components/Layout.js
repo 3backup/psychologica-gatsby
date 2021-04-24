@@ -1,6 +1,6 @@
 import React from "react";
 import { StaticQuery, graphql } from "gatsby";
-import { siteMetadata } from "../../gatsby-config";
+// import { siteMetadata } from "../../gatsby-config";
 import { Helmet } from "react-helmet";
 import Header from "./Header";
 import "normalize.css";

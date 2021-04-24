@@ -1,9 +1,6 @@
 import React from "react";
-import { Link } from "gatsby";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
-import { useStaticQuery, graphql } from "gatsby";
-import Img from "gatsby-image";
 import BackgroundPattern from "../images/leaves.svg";
 import { StaticImage } from "gatsby-plugin-image";
 import Button from "./styles/Button";

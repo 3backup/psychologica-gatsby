@@ -170,20 +170,13 @@ function Header({ siteTitle, menuLinks }) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(false);
   const handleScroll = () => {
-    // find current scroll position
     const currentScrollPos = window.pageYOffset;
-
-    // set state based on location info (explained in more detail below)
     setVisible(currentScrollPos > 10);
-
-    // set state to new scroll position
     setPrevScrollPos(currentScrollPos);
   };
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    console.log(visible);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos, visible, handleScroll]);
   return (

@@ -6,14 +6,17 @@ import Process from "../components/Process";
 import Covid from "../components/Covid";
 import Top from "../components/Top";
 import AboutSection from "../components/AboutSection";
+import Testimonial from "../components/Testimonial";
+import Offer from "../components/Offer";
 import "normalize.css";
 
-// markup
 const IndexPage = ({ data }) => {
   return (
     <>
       <Layout>
         <Top />
+        <Offer />
+        <Testimonial />
         <AboutSection />
         <Covid />
         <Process />

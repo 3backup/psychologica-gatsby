@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import "normalize.css";
-import { Link } from "gatsby";
 import { styled } from "linaria/react";
+
 import { StaticImage } from "gatsby-plugin-image";
 import Container from "./styles/Container";
 import Money from "../images/money.svg";
@@ -20,7 +20,6 @@ const HalfGrid = styled.div`
 const Section = styled.section`
   margin: 7.5rem 0 0 0;
 `;
-const ProccesLook = styled.div``;
 const TitleSection = styled.h3`
   font-family: Red Hat Display;
   margin: 0;
@@ -100,7 +99,7 @@ const ContentGreen = styled(Container)`
 const SingleStep = styled.div`
   max-width: 28.5%;
 `;
-const SingleStep__Image = styled.div`
+const SingleStepImage = styled.div`
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(10px);
   /* Note: backdrop-filter has minimal browser support */
@@ -112,7 +111,7 @@ const SingleStep__Image = styled.div`
   justify-content: center;
   margin: 0;
 `;
-const SingleStep__Header = styled.h4`
+const SingleStepHeader = styled.h4`
   margin: 1.75rem 0 1.25rem 0;
   font-family: Red Hat Display;
   font-style: normal;
@@ -121,7 +120,7 @@ const SingleStep__Header = styled.h4`
   line-height: 125%;
   color: #1f1f1f;
 `;
-const SingleStep__Paragraph = styled.p`
+const SingleStepParagraph = styled.p`
   margin: 0;
   font-family: Manrope;
   font-style: normal;
@@ -182,38 +181,38 @@ function Process({ siteTitle, menuLinks }) {
         <Container>
           <ContentGreen>
             <SingleStep>
-              <SingleStep__Image>
+              <SingleStepImage>
                 <Contact />
-              </SingleStep__Image>
-              <SingleStep__Header>1. Skontaktuj się</SingleStep__Header>
-              <SingleStep__Paragraph>
+              </SingleStepImage>
+              <SingleStepHeader>1. Skontaktuj się</SingleStepHeader>
+              <SingleStepParagraph>
                 Każdy kontakt rozpoczyna się od wstępnej diagnozy problemów,
                 zasobów, potrzeb i możliwości.
-              </SingleStep__Paragraph>
+              </SingleStepParagraph>
               <Button>Skontaktuj się</Button>
             </SingleStep>
             <SingleStep>
-              <SingleStep__Image>
+              <SingleStepImage>
                 <Plan />
-              </SingleStep__Image>
-              <SingleStep__Header>
+              </SingleStepImage>
+              <SingleStepHeader>
                 2. Stworzenie planu terapi dla Ciebie
-              </SingleStep__Header>
-              <SingleStep__Paragraph>
+              </SingleStepHeader>
+              <SingleStepParagraph>
                 Następny krok to ustalenie celów i zasad pomocy psychologicznej
                 lub psychoterapii.
-              </SingleStep__Paragraph>
+              </SingleStepParagraph>
             </SingleStep>
             <SingleStep>
-              <SingleStep__Image>
+              <SingleStepImage>
                 <EveryTiime />
-              </SingleStep__Image>
-              <SingleStep__Header>3. Cykliczna praca</SingleStep__Header>
-              <SingleStep__Paragraph>
+              </SingleStepImage>
+              <SingleStepHeader>3. Cykliczna praca</SingleStepHeader>
+              <SingleStepParagraph>
                 Zarówno w krótkoterminowej pomocy psychologicznej, jak i w
                 psychoterapii, dążę do wzmacniania mocnych stron i uruchamiania
                 wewnętrznego potencjału osoby, z którą pracuję.
-              </SingleStep__Paragraph>
+              </SingleStepParagraph>
             </SingleStep>
           </ContentGreen>
         </Container>

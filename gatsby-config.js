@@ -44,7 +44,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [`Manrope\:400`, `Red Hat Display\:400,500,600,700`],
+        fonts: [`Manrope\:400,700`, `Red Hat Display\:400,500,600,700`],
         display: "swap",
       },
     },
