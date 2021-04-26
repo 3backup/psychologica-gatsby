@@ -26,6 +26,10 @@ const ProblemsHeader = styled.h2`
     font-weight: bold;
     color: #4abd7f;
   }
+  @media (max-width: 1024px) {
+    width: 100%;
+    max-width: 100%;
+  }
 `;
 const ProblemsParagraph = styled.p`
   font-family: Red Hat Display;
@@ -39,6 +43,10 @@ const ProblemsParagraph = styled.p`
   max-width: 87.5%;
   & span {
     font-weight: bold;
+  }
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
   }
 `;
 const ElementCarousel = styled.div`
@@ -114,14 +122,30 @@ class Problems extends Component {
       autoplay: false,
       autoplaySpeed: 5000,
       pauseOnHover: true,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 3,
+          },
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2,
+          },
+        },
+      ],
     };
     return (
       <>
         <SectionProblems>
           <Container>
             <ProblemsHeader>
-              Moge Ci pomóc w wielu obszarach z zakresu <span>Psychologii</span>{" "}
-              oraz <span>Psychoterapii</span>. To są jedne znich.
+              Moja pomoc obejmuje następujące obszary <span>Psychologii</span>{" "}
+              oraz <span>Psychoterapii</span>.
             </ProblemsHeader>
             <ProblemsParagraph>
               Mam duże doświadczenie w prowadzeniu psychoterapii osób

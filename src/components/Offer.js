@@ -18,16 +18,28 @@ const GridImage = styled.div`
   box-sizing: border-box;
   width: 43.75%;
   margin-top: -10rem;
+  @media (max-width: 1024px) {
+    margin: -10rem auto 5rem auto;
+    aspect-ratio: 1;
+    width: 80%;
+    overflow: hidden;
+  }
 `;
 const ContentGrid = styled.div`
   box-sizing: border-box;
   width: 56.25%;
   padding: 0 6.25%;
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 `;
 const OfferContainer = styled(Container)`
   display: flex;
   padding: 0;
   flex-direction: row;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 const OfferTitle = styled.h3`
   font-family: Red Hat Display;

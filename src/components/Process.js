@@ -16,6 +16,10 @@ const HalfGrid = styled.div`
   width: 50%;
   padding-left: 6.25%;
   z-index: 1;
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+  }
 `;
 const Section = styled.section`
   margin: 7.5rem 0 0 0;
@@ -51,9 +55,15 @@ const HowProcessLookLike = styled(Container)`
   max-height: 20rem;
   display: flex;
   padding-right: 0;
-
   flex-direction: row;
   align-items: center;
+  @media (max-width: 1230px) {
+    max-height: max-content;
+  }
+  @media (max-width: 768px) {
+    flex-direction: column-reverse;
+    padding: 0 1.5rem;
+  }
 `;
 const HowMuchItCost = styled.div`
   box-sizing: border-box;
@@ -95,9 +105,17 @@ const ContentGreen = styled(Container)`
   z-index: 0;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    padding: 4rem 0;
+  }
 `;
 const SingleStep = styled.div`
   max-width: 28.5%;
+  @media (max-width: 768px) {
+    max-width: 100%;
+    margin: 2rem 0;
+  }
 `;
 const SingleStepImage = styled.div`
   background: rgba(255, 255, 255, 0.6);
@@ -148,6 +166,12 @@ const LeavesBg = styled(ProcessLeaves)`
   right: 0;
   bottom: -40%;
 `;
+const ImageGrid = styled(HalfGrid)`
+  @media (max-width: 768px) {
+    width: 80%;
+    margin: 0 auto 2rem auto;
+  }
+`;
 
 function Process({ siteTitle, menuLinks }) {
   return (
@@ -168,14 +192,14 @@ function Process({ siteTitle, menuLinks }) {
             Koszt jednej wizyty to 100zł
           </HowMuchItCost>
         </HalfGrid>
-        <HalfGrid>
+        <ImageGrid>
           <StaticImage
             src="../images/Process-image.jpg"
             alt="Roslina psychologica"
             layout="fullWidth"
             placeholder="blurred"
           />
-        </HalfGrid>
+        </ImageGrid>
       </HowProcessLookLike>
       <GreenProcessElement>
         <Container>

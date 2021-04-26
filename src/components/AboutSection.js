@@ -12,15 +12,29 @@ const HalfGrid = styled.div`
   width: 50%;
   padding-left: 6.25%;
   z-index: 1;
+  @media (max-width: 1024px) {
+    width: 100%;
+    padding: 0 6.25%;
+  }
 `;
 const HalfGridRight = styled(HalfGrid)`
   margin-top: -7rem;
+  @media (max-width: 1024px) {
+    width: 80%;
+    aspect-ratio: 1;
+    overflow: hidden;
+    margin: -7rem auto 5rem auto;
+  }
 `;
 
 const AboutMaxContainer = styled(Container)`
   display: flex;
   flex-direction: row;
   padding-right: 0;
+  @media (max-width: 1024px) {
+    flex-direction: column-reverse;
+    padding-right: 1.5rem;
+  }
 `;
 
 const AboutContainer = styled.section`
@@ -62,6 +76,9 @@ const AboutParagraph = styled.p`
 const AboutButtons = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: 1024px) {
+    flex-direction: column;
+  }
 `;
 const AboutLink = styled(Link)`
   font-family: Red Hat Display;
@@ -78,10 +95,12 @@ color: #005650;
   margin-left: 3rem
   border-bottom: 2px solid rgba(40, 174, 102, 0);
   transition: 0.3s;
+  @media (max-width: 1024px) {
+    margin: 2rem auto 0 auto;
+  }
   &:hover{
     border-bottom: 2px solid rgba(40, 174, 102, 1);
   }`;
-
 const AboutSkillList = styled.div`
   display: flex;
   flex-direction: column;

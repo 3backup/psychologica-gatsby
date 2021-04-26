@@ -28,6 +28,7 @@ const ContainerFooter = styled(Container)`
   flex-direction: row;
   justify-content: space-between;
   @media (max-width: 768px) {
+    padding: 2rem 0;
     flex-direction: column;
     justify-content: center;
   }

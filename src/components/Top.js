@@ -94,7 +94,8 @@ const HeroImageFront = styled.div`
   @media (max-width: 768px) {
     position: static;
     width: 100%;
-    aspect-ratio: 1;
+    margin: 0 auto;
+    aspect-ratio: 0.9;
   }
   
 `;

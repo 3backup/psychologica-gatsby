@@ -37,6 +37,10 @@ const CovidParagraph = styled.p`
   text-align: center;
   color: #ffffff;
   opacity: 0.7;
+  @media (max-width: 768px) {
+    width: 100%;
+    max-width: 100%;
+  }
 `;
 const LightGreen = styled(Button)`
   background-color: #4abd7f;
@@ -44,6 +48,10 @@ const LightGreen = styled(Button)`
   &:hover {
     background-color: #fff;
     border: none;
+  }
+  @media (max-width: 1024px) {
+    min-width: 80%;
+    width: 80%;
   }
 `;
 const CovidImage = styled.div`

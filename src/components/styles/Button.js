@@ -22,7 +22,8 @@ const Button = styled.button`
     color: #005650;
     border: 1px solid #005650;
   }
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
+    min-width: 100%;
     width: 100%;
   }
 `;
