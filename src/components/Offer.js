@@ -16,9 +16,13 @@ const OfferSection = styled.section`
 `;
 const GridImage = styled.div`
   box-sizing: border-box;
+  height: max-content;
+  position: sticky;
+  top: 120px;
   width: 43.75%;
   margin-top: -10rem;
   @media (max-width: 1024px) {
+    position: static;
     margin: -10rem auto 5rem auto;
     aspect-ratio: 1;
     width: 80%;
@@ -62,16 +66,19 @@ const OfferParagraph = styled.p`
   font-family: Manrope;
   font-style: normal;
   font-weight: 500;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 150%;
   color: #3e7672;
+  & span {
+    font-weight: 700;
+  }
 `;
 
 const SingleOffer = styled.div`
   display: flex;
   flex-direction: row;
   margin-left: -1.2rem;
-  padding: 2.5rem 1.2rem 0 1.2rem;
+  padding: 2.5rem 1.2rem 2.5rem 1.2rem;
   backdrop-filter: blur(10px);
   border-radius: 15px;
   transition: 0.3s;
@@ -164,9 +171,12 @@ const Offer = () => {
             Moja <span>oferta</span>
           </OfferTitle>
           <OfferParagraph>
-            We create smart and agile tests for Experience Management,{" "}
-            <span>Market Research & Education.</span> We have 20+ years of
-            experience in academic an
+            Jako <span>psycholog kliniczny</span> i <span>psychoterapeuta</span>{" "}
+            zajmuję się diagnozą i<span>pomocą psychologiczną</span>, która
+            najczęściej ma postać <span>psychoterapii.</span> <br /> <br />
+            Swoim doświadczeniem dzielę się z osobami, które korzystają z mojej
+            superwizji, a także ze studentami i uczestnikami prowadzonych przeze
+            mnie warsztatów i innych form rozwoju osobistego.
           </OfferParagraph>
           <SingleOffer>
             <SingleOfferImage>
@@ -176,12 +186,8 @@ const Offer = () => {
               <SingleOfferHeader>
                 Psychoterapia i pomoc psychologiczna
               </SingleOfferHeader>
-              <SingleOfferParagraph>
-                We create smart and agile tests for Experience Management,
-                Market Research
-              </SingleOfferParagraph>
+
               <AboutLink to="/">
-                Czytaj więcej
                 <ArrowRight />
               </AboutLink>
             </SingleOfferText>
@@ -192,12 +198,8 @@ const Offer = () => {
             </SingleOfferImage>
             <SingleOfferText>
               <SingleOfferHeader>Superwizja </SingleOfferHeader>
-              <SingleOfferParagraph>
-                We create smart and agile tests for Experience Management,
-                Market Research
-              </SingleOfferParagraph>
+
               <AboutLink to="/">
-                Czytaj więcej
                 <ArrowRight />
               </AboutLink>
             </SingleOfferText>
@@ -208,12 +210,8 @@ const Offer = () => {
             </SingleOfferImage>
             <SingleOfferText>
               <SingleOfferHeader>Pscyhoedukacja </SingleOfferHeader>
-              <SingleOfferParagraph>
-                We create smart and agile tests for Experience Management,
-                Market Research
-              </SingleOfferParagraph>
+
               <AboutLink to="/">
-                Czytaj więcej
                 <ArrowRight />
               </AboutLink>
             </SingleOfferText>

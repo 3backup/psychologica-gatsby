@@ -19,8 +19,12 @@ const HalfGrid = styled.div`
 `;
 const HalfGridRight = styled(HalfGrid)`
   margin-top: -7rem;
+  height: max-content;
+  position: sticky;
+  top: 100px;
   @media (max-width: 1024px) {
     width: 80%;
+    position: static;
     aspect-ratio: 1;
     overflow: hidden;
     margin: -7rem auto 5rem auto;
@@ -65,7 +69,7 @@ const AboutParagraph = styled.p`
   font-style: normal;
   font-weight: 500;
   margin: 2.5rem 0;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 150%;
   color: #3e7672;
   opacity: 0.8;
@@ -152,41 +156,60 @@ const AboutSection = () => {
             Psycholog <span>Renata Zuba</span>
           </AboutTitle>
           <AboutParagraph>
-            Jestem certyfikowanym{" "}
-            <span>specjalistą psychoterapii uzależnień</span> oraz{" "}
-            <span>superwizorem</span> w tym obszarze, posiadam również
-            <span>ertyfikat I stopnia z psychodramy.</span> Ukończyłam także
-            wszystkie etapy szkolenia podyplomowego z psychoterapii prowadzonego
-            przez Sekcję Naukową Polskiego Towarzystwa Psychiatrycznego
-            zmierzającego do uzyskania certyfikatu psychoterapeuty.
+            Posiadam wykształcenie i doświadczenie w stosowaniu różnych modeli
+            psychoterapii – głównie: poznawczego, psychodynamicznego oraz
+            psychodramy.
+            <br />
+            <br />
+            Jestem certyfikowanym <span>specjalistą psychoterapii </span>
+            uzależnień oraz <span>superwizorem</span> w tym obszarze, posiadam
+            również certyfikat z psychodramy. Ukończyłam także wszystkie etapy
+            szkolenia podyplomowego z psychoterapii prowadzonego przez Sekcję
+            Naukową Polskiego Towarzystwa Psychiatrycznego zmierzającego do
+            uzyskania
+            <span> certyfikatu psychoterapeuty.</span>
+            <br />
+            <br />W celu zapewnienia najwyższej jakości oferowanej pomocy
+            regularnie korzystam z superwizji prowadzonej przez doświadczonych
+            superwizorów Polskiego Towarzystwa Psychiatrycznego i Polskiego
+            Towarzystwa Psychologicznego.
+            <br />
+            <br /> Jestem członkiem Polskiego Towarzystwa Psychologicznego oraz
+            Polskiego Towarzystwa Psychoterapii Uzależnień.
           </AboutParagraph>
           <AboutButtons>
             <Button>Czytaj o mnie</Button>
             <AboutLink to="/">Ofera terapeutyczna</AboutLink>
           </AboutButtons>
           <AboutSkillList>
-            <AboutSkillListTitle>Moje kompetencje</AboutSkillListTitle>
+            <AboutSkillListTitle>
+              Moje <span>kompetencje</span>
+            </AboutSkillListTitle>
             <AboutSkillListUL>
               <AboutSkillListLi>
                 <Dot />
-                Certyfikat Specjalisty Psychoterapii Uzależnień wydany przez
+                Certyfikat Specjalisty psychoterapii uzależnień wydany przez
+                Państwową Agencję Rozwiązywania Problemów Alkoholowych (Nr 123){" "}
               </AboutSkillListLi>
               <AboutSkillListLi>
                 <Dot />
-                Certyfikat Superwizora Psychoterapii Uzależnień
+                Certyfikat Superwizora psychoterapii uzależnień wydany przez
+                Radę Superwizorów Psychoterapii Uzależnień (Nr 34)
               </AboutSkillListLi>
               <AboutSkillListLi>
                 <Dot />
-                Certyfikat z psychodramy J.L. Moreno
+                Certyfikat Asystenta Psychodramy wydany przez Europejski
+                Instytut Psychodramy w Berlinie i Polski Instytut Psychodramy w
+                Krakowie (No 2015-PL-11){" "}
+              </AboutSkillListLi>
+              <AboutSkillListLi>
+                <Dot />
+                Stopień psychologa klinicznego
               </AboutSkillListLi>
               <AboutSkillListLi>
                 <Dot />
                 Dyplom magistra psychologii wydany przez Katedrę Psychologii
-                Uniwersytetu Jagiellońskiego w Krakowie
-              </AboutSkillListLi>
-              <AboutSkillListLi>
-                <Dot />
-                Stopień Psychologa Klinicznego
+                Uniwersytetu Jagiellońskiego w Krakowie{" "}
               </AboutSkillListLi>
             </AboutSkillListUL>
           </AboutSkillList>

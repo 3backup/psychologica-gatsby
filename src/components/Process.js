@@ -5,6 +5,7 @@ import { styled } from "linaria/react";
 import { StaticImage } from "gatsby-plugin-image";
 import Container from "./styles/Container";
 import Money from "../images/money.svg";
+import Clock from "../images/clock.svg";
 import Contact from "../images/Contact-us.svg";
 import Plan from "../images/Plan.svg";
 import EveryTiime from "../images/EveryTime.svg";
@@ -52,7 +53,7 @@ const ParagraphIntro = styled.p`
   opacity: 0.8;
 `;
 const HowProcessLookLike = styled(Container)`
-  max-height: 20rem;
+  max-height: 22rem;
   display: flex;
   padding-right: 0;
   flex-direction: row;
@@ -76,7 +77,7 @@ const HowMuchItCost = styled.div`
   position: relative;
   color: #1f1f1f;
   opacity: 0.8;
-  padding: 1.875rem 0;
+  padding: 1rem 0;
   &:before {
     content: "";
     width: 50%;
@@ -89,6 +90,9 @@ const HowMuchItCost = styled.div`
   }
 `;
 const MoneyDollarSign = styled(Money)`
+  margin-right: 0.75rem;
+`;
+const ClockSign = styled(Clock)`
   margin-right: 0.75rem;
 `;
 const GreenProcessElement = styled.div`
@@ -188,8 +192,12 @@ function Process({ siteTitle, menuLinks }) {
             poznawczo-behawioralnej, modelu systemowego i innych.
           </ParagraphIntro>
           <HowMuchItCost>
+            <ClockSign />
+            Czas sesji: 50 minut
+          </HowMuchItCost>
+          <HowMuchItCost>
             <MoneyDollarSign />
-            Koszt jednej wizyty to 100zł
+            Koszt: 100 pln
           </HowMuchItCost>
         </HalfGrid>
         <ImageGrid>

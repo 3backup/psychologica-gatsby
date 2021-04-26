@@ -59,7 +59,7 @@ const Testimonial = () => {
       <TestimonialQuote>
         Cokolwiek <span>zamierzasz zrobić</span> lub marzysz, że możesz zrobić,
         zacznij.
-        <span>Odwaga jest geniuszem</span>, w którym tkwi moc i magia. Zacznij
+        <span> Odwaga jest geniuszem</span>, w którym tkwi moc i magia. Zacznij
         teraz.
       </TestimonialQuote>
       <TestimonialHr />

@@ -87,12 +87,12 @@ const Covid = () => {
       <CovidImage>
         <CovidSvg />
       </CovidImage>
-      <CovidHeader>Sesje zdalne z powodu COVID-19</CovidHeader>
+      <CovidHeader>Spotkania osobiste lub sesje zdalne</CovidHeader>
       <CovidParagraph>
         Oferuję spotkania online za pomocą platform takich jak: Zoom, Skype,
-        WhatsApp, Microsoft Teams (w formie wideokonferencji lub
-        telekonferencji) oraz sesje telefoniczne. Sesje zdalne odbywają się na
-        takich samych zasadach jak sesje osobiste.
+        Microsoft Teams (w formie wideokonferencji lub telekonferencji) oraz
+        sesje telefoniczne. Sesje zdalne odbywają się na takich samych zasadach
+        jak sesje osobiste.
       </CovidParagraph>
       <LightGreen>Skontaktuj się</LightGreen>
       <CovidPostionTop />
