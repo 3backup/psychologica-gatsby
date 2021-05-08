@@ -1,30 +1,39 @@
 import * as React from "react";
 import { styled } from "linaria/react";
 import Container from "../components/styles/Container";
+import { Link } from "gatsby";
 import Button from "../components/styles/Button";
+import GoBackIcon from "../images/goback.svg";
 import { Helmet } from "react-helmet";
 import LogoHeader from "../images/logo-top-dwa.svg";
+import MailIcon from "../images/contact__mail.svg";
+import PhoneIcon from "../images/contact__phone.svg";
+import PinIcon from "../images/contact__pin.svg";
+import "normalize.css";
 
 const HeaderContact = styled.header`
   box-sizing: border-box;
-
-  margin-bottom: 3.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
 `;
 const ContactContainer = styled(Container)`
   box-sizing: border-box;
   padding-top: 3.25rem;
   padding-bottom: 3.25rem;
-  height: 100vh;
+  height: 95vh;
 `;
 const ContactContent = styled.div`
   display: flex;
+  height: 100%;
   flex-direction: column;
 `;
 const BgHalf = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 50%;
-
+  height: 100%;
   z-index: -999;
   right: 0;
   background: #f4f5f7;
@@ -43,13 +52,22 @@ const TitleContact = styled.h1`
 `;
 const InfoContent = styled.div`
   width: 100%;
-
+  height: 100%;
   display: flex;
   padding-bottom: 6.5rem;
   justify-content: space-between;
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 const LeftContact = styled.div`
   max-width: 28rem;
+  flex-direction: column;
+  display: flex;
+  justify-content: space-between;
+  @media (max-width: 768px) {
+    max-width: 100%;
+  }
 `;
 const DescParagraph = styled.p`
   font-family: Red Hat Display;
@@ -65,6 +83,9 @@ const RightContact = styled.div`
   justify-content: space-between;
   display: flex;
   flex-direction: column;
+  @media (max-width: 768px) {
+    width: 100%;
+  }
 `;
 const ContactForm = styled.form`
   display: flex;
@@ -141,11 +162,51 @@ const Footnotes = styled.p`
   font-size: 14px;
   line-height: 150%;
   /* or 21px */
-
   color: #3e7672;
-
   opacity: 0.7;
 `;
+
+const GoBack = styled(Link)`
+  display: flex;
+  align-content: center;
+  font-family: Red Hat Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  text-decoration: none;
+  line-height: 21px;
+  text-align: center;
+  color: #3e7672;
+  transition: 0.3s
+  &:hover {
+    color: #4abd7f;
+    & svg {
+    margin-right: 1.5rem;
+  }
+  }
+  & svg {
+    transition: 0.3s;
+    margin-right: 1rem;
+  }
+`;
+
+const AdditionalInformation = styled.div``;
+const SingleContactInformation = styled.div`
+  display: flex;
+  align-content: center;
+  align-items: center;
+  font-family: Red Hat Display;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 150%;
+  margin: 1.625rem 0;
+  color: #3e7672;
+  & svg {
+    margin-right: 1.6rem;
+  }
+`;
+const FormHeader = styled.h5``;
 
 const skontaktujSie = ({ data }) => {
   return (
@@ -158,7 +219,13 @@ const skontaktujSie = ({ data }) => {
         ]}></Helmet>
       <ContactContainer>
         <HeaderContact>
-          <LogoHeader height="60" width="185" />
+          <Link to="/">
+            <LogoHeader height="60" width="185" />
+          </Link>
+          <GoBack to="/">
+            <GoBackIcon />
+            Wróć do strony głównej
+          </GoBack>
         </HeaderContact>
         <ContactContent>
           <TitleContact>
@@ -171,6 +238,19 @@ const skontaktujSie = ({ data }) => {
                 Zostawienie wiadomości jest darmowe. Na podstawie wstępnej
                 diagnozy zaproponuję Ci sesję początkową na której określimy
                 wspólne cele. Koszt wizyty to 100zł
+                <AdditionalInformation>
+                  <SingleContactInformation>
+                    <PhoneIcon /> +48 881 442 883
+                  </SingleContactInformation>
+                  <SingleContactInformation>
+                    <MailIcon /> kontakt@psychologica.pl
+                  </SingleContactInformation>
+                  <SingleContactInformation>
+                    <PinIcon /> ul. Mikołaja Reja 12/32
+                    <br />
+                    35-211 Rzeszów
+                  </SingleContactInformation>
+                </AdditionalInformation>
               </DescParagraph>
               <Footnotes>
                 PSYCHOLOGICA Renata Zuba
@@ -179,8 +259,20 @@ const skontaktujSie = ({ data }) => {
               </Footnotes>
             </LeftContact>
             <RightContact>
-              <ContactForm>
-                <InputForm name="mail" type="email" placeholder="Email*" />
+              <FormHeader>Wyślij wiadomość</FormHeader>
+              <script
+                src="https://www.google.com/recaptcha/api.js"
+                async
+                defer></script>
+
+              <ContactForm
+                action="https://formkeep.com/f/c856eba7e66e"
+                accept-charset="UTF-8"
+                enctype="multipart/form-data"
+                method="POST">
+                <input type="hidden" name="utf8" value="✓" />
+
+                <InputForm name="email" type="email" placeholder="Email*" />
                 <InputForm
                   name="name"
                   type="text"
@@ -192,6 +284,11 @@ const skontaktujSie = ({ data }) => {
                   placeholder="Nr Telefonu"
                 />
                 <TextForm placeholder="Treść Wiadomości"></TextForm>
+                <div
+                  class="g-recaptcha"
+                  data-sitekey="6Lfd3csaAAAAANXTA8gX7Gatgqclfj57wVwmaDfg
+"></div>
+
                 <FormButton type="submit" value="Submit">
                   Skontaktuj się
                 </FormButton>
