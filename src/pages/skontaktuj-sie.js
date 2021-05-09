@@ -37,6 +37,9 @@ const BgHalf = styled.div`
   z-index: -999;
   right: 0;
   background: #f4f5f7;
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
 const TitleContact = styled.h1`
   font-family: Red Hat Display;
@@ -49,6 +52,9 @@ const TitleContact = styled.h1`
     color: rgba(74, 189, 127, 1);
     font-weight: 700;
   }
+  @media (max-width: 768px) {
+    font-size: 36px;
+  }
 `;
 const InfoContent = styled.div`
   width: 100%;
@@ -58,6 +64,8 @@ const InfoContent = styled.div`
   justify-content: space-between;
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-bottom: 2rem;
+    height: max-content;
   }
 `;
 const LeftContact = styled.div`
@@ -79,19 +87,33 @@ const DescParagraph = styled.p`
 `;
 const RightContact = styled.div`
   width: 28rem;
+  box-sizing: border-box;
 
   justify-content: space-between;
   display: flex;
   flex-direction: column;
   @media (max-width: 768px) {
+    background: #f4f5f7;
+    padding: 2rem;
     width: 100%;
+    position: relative;
+  }
+  @media (max-width: 578px) {
+    padding: 1rem;
   }
 `;
 const ContactForm = styled.form`
   display: flex;
+  box-sizing: border-box;
   flex-direction: column;
-
   justify-content: space-between;
+  @media (max-width: 768px) {
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  @media (max-width: 578px) {
+    padding: 0;
+  }
 `;
 const InputForm = styled.input`
   font-family: Red Hat Display;
@@ -159,11 +181,15 @@ const Footnotes = styled.p`
   font-weight: normal;
   margin: 0;
   display: block;
+  width: 80%;
   font-size: 14px;
   line-height: 150%;
   /* or 21px */
   color: #3e7672;
   opacity: 0.7;
+  @media (max-width: 768px) {
+    margin-bottom: 2rem;
+  }
 `;
 
 const GoBack = styled(Link)`
@@ -191,6 +217,7 @@ const GoBack = styled(Link)`
 `;
 
 const AdditionalInformation = styled.div``;
+
 const SingleContactInformation = styled.div`
   display: flex;
   align-content: center;
@@ -206,7 +233,17 @@ const SingleContactInformation = styled.div`
     margin-right: 1.6rem;
   }
 `;
-const FormHeader = styled.h5``;
+const FormHeader = styled.h5`
+  font-family: Red Hat Display;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 26px;
+  line-height: 125%;
+  text-align: left;
+  @media (min-width: 769px) {
+    display: none;
+  }
+`;
 
 const skontaktujSie = ({ data }) => {
   return (
@@ -224,7 +261,7 @@ const skontaktujSie = ({ data }) => {
           </Link>
           <GoBack to="/">
             <GoBackIcon />
-            Wróć do strony głównej
+            Wróć
           </GoBack>
         </HeaderContact>
         <ContactContent>
@@ -253,9 +290,7 @@ const skontaktujSie = ({ data }) => {
                 </AdditionalInformation>
               </DescParagraph>
               <Footnotes>
-                PSYCHOLOGICA Renata Zuba
-                <br />
-                NIP 8131239390 REGON 365481005
+                PSYCHOLOGICA Renata Zuba NIP:8131239390 REGON:365481005
               </Footnotes>
             </LeftContact>
             <RightContact>
@@ -286,8 +321,7 @@ const skontaktujSie = ({ data }) => {
                 <TextForm placeholder="Treść Wiadomości"></TextForm>
                 <div
                   class="g-recaptcha"
-                  data-sitekey="6Lfd3csaAAAAANXTA8gX7Gatgqclfj57wVwmaDfg
-"></div>
+                  data-sitekey="6Leh48waAAAAANkkSLOSPLPC1Rfckkm9aw6DbcXp"></div>
 
                 <FormButton type="submit" value="Submit">
                   Skontaktuj się
