@@ -34,6 +34,7 @@
     "gatsby-source-datocms": "^2.6.10",
     "gatsby-source-filesystem": "^3.3.0",
     "gatsby-transformer-sharp": "^3.3.0",
+    "google-maps-react": "^2.0.6",
     "linaria": "^1.4.0-beta.10",
     "normalize.css": "^8.0.1",
     "react": "^17.0.1",

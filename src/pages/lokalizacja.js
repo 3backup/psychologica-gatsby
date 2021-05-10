@@ -3,11 +3,22 @@ import { styled } from "linaria/react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
 
+import HowToGet from "../components/HowToGet";
+import Covid from "../components/Covid";
+import TopLocation from "../components/TopLocation";
+import Maps from "../components/Maps";
+
+import "normalize.css";
+
 const lokalizacja = ({ data }) => {
   return (
     <>
       <Layout>
-        <h3>Lokalizacja </h3>
+        <TopLocation />
+        <Maps />
+        <HowToGet />
+        <Covid />
+
         <Footer />
       </Layout>
     </>

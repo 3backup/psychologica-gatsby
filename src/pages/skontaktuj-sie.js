@@ -8,7 +8,9 @@ import { Helmet } from "react-helmet";
 import LogoHeader from "../images/logo-top-dwa.svg";
 import MailIcon from "../images/contact__mail.svg";
 import PhoneIcon from "../images/contact__phone.svg";
+import BgImage from "../images/contact-element.svg";
 import PinIcon from "../images/contact__pin.svg";
+
 import "normalize.css";
 
 const HeaderContact = styled.header`
@@ -244,6 +246,12 @@ const FormHeader = styled.h5`
     display: none;
   }
 `;
+const BgLeaves = styled(BgImage)`
+  position: absolute;
+  left: 0;
+  height: 20.8125rem 
+  bottom: 25%;
+`;
 
 const skontaktujSie = ({ data }) => {
   return (
@@ -295,10 +303,6 @@ const skontaktujSie = ({ data }) => {
             </LeftContact>
             <RightContact>
               <FormHeader>Wyślij wiadomość</FormHeader>
-              <script
-                src="https://www.google.com/recaptcha/api.js"
-                async
-                defer></script>
 
               <ContactForm
                 action="https://formkeep.com/f/c856eba7e66e"
@@ -335,6 +339,7 @@ const skontaktujSie = ({ data }) => {
           </InfoContent>
         </ContactContent>
       </ContactContainer>
+      <BgLeaves />
       <BgHalf />
     </>
   );
