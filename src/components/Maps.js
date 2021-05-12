@@ -11,7 +11,7 @@ position: relative;
   height: 31.25rem
   width: 100%;
   @media (max-width: 768px) {
-    padding: 4rem 0;
+    padding: 0;
   }
 `;
 const CustomMarker = styled(Marker)`
@@ -137,7 +137,7 @@ class Maps extends Component {
           id={index}
           icon={{
             url:
-              "https://github.com/3backup/psychologica-gatsby/blob/main/src/images/pin.svg",
+              "https://raw.githubusercontent.com/3backup/psychologica-gatsby/13b586cccccf6b30da7a6f566b5ae90e34247aa0/src/images/pin.svg",
             anchor: new window.google.maps.Point(0, 48),
             scaledSize: new window.google.maps.Size(48, 48),
           }}

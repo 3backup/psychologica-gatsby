@@ -14,6 +14,8 @@ const Top = styled.div`
   overflow: hidden;
   @media (max-width: 768px) {
     padding-top: 80px;
+    min-height: auto;
+    height: max-content;
   }
 `;
 const HalfBackground = styled.div`
@@ -25,6 +27,13 @@ const HalfBackground = styled.div`
   width: 50%;
   height: 44rem;
   height: 100%;
+  & div:first-child {
+    height: 100%;
+  }
+  @media (max-width: 768px) {
+    position: static;
+    width: 100%;
+  }
 `;
 const TextContainer = styled.div`
   box-sizing: border-box;
@@ -88,7 +97,7 @@ const Adress = styled.p`
 `;
 const SantBox = styled.div`
   position: absolute;
-  padding: 1.5rem 2.5rem;
+  padding: 1.5rem 2rem;
   display: flex;
   width: max-content;
   align-items: center;
@@ -111,6 +120,11 @@ const SantBox = styled.div`
   border-radius: 15px;
   & svg {
     margin-right: 1rem;
+  }
+  @media (max-width: 768px) {
+    font-size: 14px;
+    padding: 1rem;
+    max-width: 90%;
   }
 `;
 
@@ -135,15 +149,15 @@ const TopLocation = ({ props }) => (
       </HeroContainer>
     </Top>
     <HalfBackground>
-      <SantBox>
-        <Sanitization /> Gabinet jest dezynfekowany pomiędzy sesjami
-      </SantBox>
       <StaticImage
         src="../images/gabinet-psychologica.jpg"
         alt="Roslina psychologica"
         layout="fullWidth"
         placeholder="blurred"
       />
+      <SantBox>
+        <Sanitization /> Gabinet jest dezynfekowany pomiędzy sesjami
+      </SantBox>
     </HalfBackground>
   </TopSection>
 );

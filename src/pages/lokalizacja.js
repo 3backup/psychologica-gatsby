@@ -5,6 +5,7 @@ import Footer from "../components/Footer";
 
 import HowToGet from "../components/HowToGet";
 import Covid from "../components/Covid";
+import SeeOffer from "../components/SeeOffer";
 import TopLocation from "../components/TopLocation";
 import Maps from "../components/Maps";
 
@@ -18,7 +19,7 @@ const lokalizacja = ({ data }) => {
         <Maps />
         <HowToGet />
         <Covid />
-
+        <SeeOffer />
         <Footer />
       </Layout>
     </>
