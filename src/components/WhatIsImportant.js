@@ -47,15 +47,21 @@ const HeaderDiv = styled.div`
   margin: 0 auto;
   @media (max-width: 768px) {
     flex-direction: column;
+    margin-bottom: 7rem;
   }
 `;
 const SingleBox = styled.div`
   display: flex;
+  width: 33%;
   flex-direction: column;
   margin: 0 2rem;
   justify-content: space-between;
   @media (max-width: 1024px) {
     margin: 0 0.8rem;
+  }
+  @media (max-width: 768px) {
+    margin: 1rem 0;
+    width: 100%;
   }
 `;
 const BoxIcon = styled.div`
@@ -104,30 +110,18 @@ const WhatIsImportant = ({ props }) => (
             <Individual />
           </BoxIcon>
           <BoxHeader>Indywidualne podejście</BoxHeader>
-          <BoxParagraph>
-            We create smart and agile tests for Experience Management, Market
-            Research & Education. We have 20+ years of experience in acad
-          </BoxParagraph>
         </SingleBox>
         <SingleBox>
           <BoxIcon>
             <Discretion />
           </BoxIcon>
           <BoxHeader>Dyskrecja</BoxHeader>
-          <BoxParagraph>
-            We create smart and agile tests for Experience Management, Market
-            Research & Education. We have 20+ years of experience in acad
-          </BoxParagraph>
         </SingleBox>
         <SingleBox>
           <BoxIcon>
             <Acceptance />
           </BoxIcon>
           <BoxHeader> Akceptacja i wsparcie</BoxHeader>
-          <BoxParagraph>
-            We create smart and agile tests for Experience Management, Market
-            Research & Education. We have 20+ years of experience in acad
-          </BoxParagraph>
         </SingleBox>
       </HeaderDiv>
     </Container>

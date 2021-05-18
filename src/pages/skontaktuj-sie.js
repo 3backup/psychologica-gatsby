@@ -281,8 +281,8 @@ const skontaktujSie = ({ data }) => {
             <LeftContact>
               <DescParagraph>
                 Zostawienie wiadomości jest darmowe. Na podstawie wstępnej
-                diagnozy zaproponuję Ci sesję początkową na której określimy
-                wspólne cele. Koszt wizyty to 100zł
+                diagnozy zaproponuję Ci sesję początkową, na której określimy
+                wspólne cele. Koszt wizyty to 100 zł
                 <AdditionalInformation>
                   <SingleContactInformation>
                     <PhoneIcon /> +48 881 442 883
@@ -291,7 +291,7 @@ const skontaktujSie = ({ data }) => {
                     <MailIcon /> kontakt@psychologica.pl
                   </SingleContactInformation>
                   <SingleContactInformation>
-                    <PinIcon /> ul. Mikołaja Reja 12/32
+                    <PinIcon /> ul. Mikołaja Reja 12/320
                     <br />
                     35-211 Rzeszów
                   </SingleContactInformation>
@@ -332,8 +332,8 @@ const skontaktujSie = ({ data }) => {
                 </FormButton>
               </ContactForm>
               <Footnotes>
-                * Pola są wymagae. Wysyłając formularz zgdadzam się na
-                przetwarzanie danych ujętych w Polityce Prywatności.
+                * Pola są wymagane. Wysyłając formularz zgadzam się na
+                przetwarzanie danych ujętych w Polityce Prywatności..
               </Footnotes>
             </RightContact>
           </InfoContent>

@@ -1,4 +1,5 @@
 import { styled } from "linaria/react";
+import { Link } from "gatsby";
 
 const Button = styled.button`
   background: #005650;
@@ -17,6 +18,7 @@ const Button = styled.button`
   color: #ffffff;
   cursor: pointer;
   transition: 0.3s;
+  outline: none;
   &:hover{
     background-color: transparent;
     color: #005650;

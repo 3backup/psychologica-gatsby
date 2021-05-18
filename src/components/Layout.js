@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import Header from "./Header";
 import "normalize.css";
 
-const Layout = ({ children }) => (
+const Layout = ({ children, props }) => (
   <StaticQuery
     query={graphql`
       query SiteQuery {
@@ -20,7 +20,7 @@ const Layout = ({ children }) => (
         }
       }
     `}
-    render={(data) => (
+    render={(data, props) => (
       <React.Fragment>
         <Helmet
           title={data.site.siteMetadata.title}

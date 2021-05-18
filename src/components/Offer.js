@@ -172,7 +172,7 @@ const Offer = () => {
           </OfferTitle>
           <OfferParagraph>
             Jako <span>psycholog kliniczny</span> i <span>psychoterapeuta</span>{" "}
-            zajmuję się diagnozą i<span>pomocą psychologiczną</span>, która
+            zajmuję się diagnozą i <span>pomocą psychologiczną</span>, która
             najczęściej ma postać <span>psychoterapii.</span> <br /> <br />
             Swoim doświadczeniem dzielę się z osobami, które korzystają z mojej
             superwizji, a także ze studentami i uczestnikami prowadzonych przeze
@@ -209,7 +209,7 @@ const Offer = () => {
               <Psychoeducation />
             </SingleOfferImage>
             <SingleOfferText>
-              <SingleOfferHeader>Pscyhoedukacja </SingleOfferHeader>
+              <SingleOfferHeader>Psychoedukacja </SingleOfferHeader>
 
               <AboutLink to="/">
                 <ArrowRight />

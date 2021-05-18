@@ -2,6 +2,7 @@ import React from "react";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
 import Button from "./styles/Button";
+import { Link } from "gatsby";
 import CovidSvg from "../images/covid.svg";
 import CovidTopRight from "../images/covid-top-right.svg";
 import CovidBottomLeft from "../images/covid-bottom-left.svg";
@@ -80,6 +81,9 @@ const CovidPostionTop = styled(CovidBottomLeft)`
   bottom: 0;
   opacity: 0.05;
 `;
+const LinkElement = styled(Link)`
+  margin: 0 auto;
+`;
 
 const Covid = () => {
   return (
@@ -94,7 +98,9 @@ const Covid = () => {
         sesje telefoniczne. Sesje zdalne odbywają się na takich samych zasadach
         jak sesje osobiste.
       </CovidParagraph>
-      <LightGreen>Skontaktuj się</LightGreen>
+      <LinkElement to="/skontaktuj-sie">
+        <LightGreen>Skontaktuj się</LightGreen>
+      </LinkElement>
       <CovidPostionTop />
       <CovidPostionBottom />
     </CovidContainer>

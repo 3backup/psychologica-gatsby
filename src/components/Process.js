@@ -1,7 +1,7 @@
 import React from "react";
 import "normalize.css";
 import { styled } from "linaria/react";
-
+import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import Container from "./styles/Container";
 import Money from "../images/money.svg";
@@ -221,7 +221,9 @@ function Process({ siteTitle, menuLinks }) {
                 Każdy kontakt rozpoczyna się od wstępnej diagnozy problemów,
                 zasobów, potrzeb i możliwości.
               </SingleStepParagraph>
-              <Button>Skontaktuj się</Button>
+              <Link to="/skontaktuj-sie">
+                <Button>Skontaktuj się</Button>
+              </Link>
             </SingleStep>
             <SingleStep>
               <SingleStepImage>

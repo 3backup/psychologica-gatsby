@@ -11,10 +11,10 @@ import Offer from "../components/Offer";
 import Problem from "../components/Problem";
 import "normalize.css";
 
-const IndexPage = ({ data }) => {
+const IndexPage = ({ data, props }) => {
   return (
     <>
-      <Layout>
+      <Layout visableBackground>
         <Top />
         <Problem />
         <Offer />

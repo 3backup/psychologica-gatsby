@@ -3,6 +3,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import BackgroundPattern from "../images/leaves.svg";
 import { StaticImage } from "gatsby-plugin-image";
+import { Link } from "gatsby";
 import Button from "./styles/Button";
 
 const Top = styled.div`
@@ -77,6 +78,7 @@ const CusomtImage = styled.div`
 `;
 const HeroContainer = styled(Container)`
   display: flex;
+  margin: 0 auto;
   position: relative;
   @media (max-width: 768px) {
     flex-direction: column;
@@ -150,11 +152,13 @@ const Header = ({ props }) => (
             doświadczeniem w prowadzeniu psychoterapii oraz pomocy
             psychologicznej.
           </ParagraphText>
-          <Button>Skontaktuj się</Button>
+          <Link to="/skontaktuj-sie">
+            <Button>Skontaktuj się</Button>
+          </Link>
         </TextContainer>
         <HeroImageFront>
           <StaticImage
-            src="../images/rzuba-photo-top.png"
+            src="../images/rzuba-photo-top.jpg"
             alt="Roslina psychologica"
             placeholder="blurred"
             layout="fullWidth"

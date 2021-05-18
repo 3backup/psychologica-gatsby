@@ -9,7 +9,7 @@ const politykaPrywatnosci = ({ data }) => {
     <>
       <Layout>
         <h3>To do </h3>
-        <Footer />i
+        <Footer />
       </Layout>
     </>
   );
