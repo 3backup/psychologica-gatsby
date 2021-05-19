@@ -2,7 +2,7 @@ import React from "react";
 import { StaticQuery, graphql, Link } from "gatsby";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
-import LogoFooter from "../images/logo-Psychologica-color-white.svg";
+import LogoFooter from "../images/logo-psychologica-white.svg";
 const FooterStyle = styled.footer`
   display: flex;
   align-items: center;
@@ -39,7 +39,7 @@ const TermsAndConditionLink = styled(Link)`
 `;
 const currentYear = new Date().getFullYear();
 const StyledFooterLogo = styled(LogoFooter)`
-  max-height: 3.75rem;
+  max-height: 4.5rem;
   margin: 0;
   @media (max-width: 768px) {
     margin: 0 auto;
@@ -59,7 +59,7 @@ const Footer = () => {
       render={(data) => (
         <FooterStyle>
           <ContainerFooter>
-            <StyledFooterLogo height="60" width="191" />
+            <StyledFooterLogo height="90" width="211" />
             <TermsAndCondition>
               <TermsAndConditionLink to="/polityka-prywatnosci">
                 {data.datoCmsFooter.privacyPolicy}

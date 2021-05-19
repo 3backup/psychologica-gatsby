@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 import { styled } from "linaria/react";
 import PropTypes from "prop-types";
 import Container from "./styles/Container";
-import LogoHeader from "../images/logo-top-dwa.svg";
+import LogoHeader from "../images/logo-psychologica-black.svg";
 import Phone from "../images/phone.svg";
 import MenuMobile from "../images/menu.svg";
 import Close from "../images/close.svg";

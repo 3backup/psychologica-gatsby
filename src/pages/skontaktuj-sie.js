@@ -5,7 +5,7 @@ import { Link } from "gatsby";
 import Button from "../components/styles/Button";
 import GoBackIcon from "../images/goback.svg";
 import { Helmet } from "react-helmet";
-import LogoHeader from "../images/logo-top-dwa.svg";
+import LogoHeader from "../images/logo-psychologica-black.svg";
 import MailIcon from "../images/contact__mail.svg";
 import PhoneIcon from "../images/contact__phone.svg";
 import BgImage from "../images/contact-element.svg";
