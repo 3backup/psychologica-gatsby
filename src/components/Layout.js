@@ -31,6 +31,7 @@ const Layout = ({ children, ...props }) => (
         <Header
           menuLinks={data.site.siteMetadata.menuLinks}
           siteTitle={data.site.siteMetadata.title}
+          visableHeader={props.visableHeader}
         />{" "}
         {console.log(data)}
         {console.log(props)}

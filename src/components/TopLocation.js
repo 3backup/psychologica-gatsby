@@ -21,7 +21,7 @@ const Top = styled.div`
 const HalfBackground = styled.div`
   position: absolute;
   overflow: hidden;
-  top: 0;
+  top: 6.875rem;
   bottom: 0;
   left: 50%;
   width: 50%;
@@ -108,7 +108,7 @@ const SantBox = styled.div`
   font-size: 18px;
   line-height: 125%;
   color: #1f1f1f;
-  bottom: 3rem;
+  bottom: 10rem;
   left: 50%;
   transform: translateX(-50%);
   z-index: 5;
@@ -152,6 +152,7 @@ const TopLocation = ({ props }) => (
       <StaticImage
         src="../images/gabinet-psychologica.jpg"
         alt="Roslina psychologica"
+        position="top"
         layout="fullWidth"
         placeholder="blurred"
       />

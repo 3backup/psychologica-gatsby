@@ -12,7 +12,7 @@ import "normalize.css";
 const MenuLink = styled(Link)`
   text-decoration: none;
   font-family: Red Hat Display;
-  display: block
+  display: block;
   height: 100%;
   font-style: normal;
   font-weight: 500;
@@ -20,10 +20,10 @@ const MenuLink = styled(Link)`
   text-align: center;
   color: #005650;
   transition: 0.3s;
-  &:hover{
+  &:hover {
     color: rgba(40, 174, 102, 1);
   }
-  @media (max-width: 1230px){
+  @media (max-width: 1230px) {
     font-size: 0.85rem;
   }
 `;
@@ -58,9 +58,14 @@ const MenuLi = styled.li`
   margin-left: 1.7rem
   border-bottom: 2px solid rgba(40, 174, 102, 0);
   transition: 0.3s;
+  & .active{
+    color:rgba(40, 174, 102, 1);
+    border-bottom: 2px solid rgba(40, 174, 102, 1);
+  }
 
   &:hover {
     border-bottom: 2px solid rgba(40, 174, 102, 1);
+
   }
   &:last-of-type {
     width: 13.25rem;
@@ -183,11 +188,11 @@ function Header({ siteTitle, menuLinks, visableHeader }) {
     <>
       <HeaderMenu
         style={{
-          background: visible ? "rgba(255, 255, 255, 0.8)" : "",
+          background:
+            visible || visableHeader ? "rgba(255, 255, 255, 0.8)" : "",
           height: visible ? "5.625rem" : "6.875rem",
-          backdropFilter: visible ? "blur(10px)" : "",
+          backdropFilter: visible || visableHeader ? "blur(10px)" : "",
         }}>
-        {console.log(visableHeader)}
         <ContainerHeader>
           <Link to="/">
             <StyledFooterLogo
@@ -203,7 +208,9 @@ function Header({ siteTitle, menuLinks, visableHeader }) {
             <MenuUl>
               {menuLinks.map((link) => (
                 <MenuLi key={link.name}>
-                  <MenuLink to={link.link}>{link.name}</MenuLink>
+                  <MenuLink to={link.link} activeClassName="active">
+                    {link.name}
+                  </MenuLink>
                 </MenuLi>
               ))}
             </MenuUl>

@@ -2,6 +2,7 @@ import React from "react";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
 import { ButtonLightGreen } from "./styles/ButtonLightGreen";
+import { Link } from "gatsby";
 import OfferPriceImages from "../images/OfferPrice.svg";
 
 const AboutCopySection = styled.section`
@@ -69,7 +70,9 @@ const OfferPrice = () => {
         <OfferPriceText>
           Koszt wizyty Indywidualnej <span>100 zł</span>
         </OfferPriceText>
-        <ButtonLightGreenCenter>Skontaktuj się</ButtonLightGreenCenter>
+        <Link to="/skontaktuj-sie">
+          <ButtonLightGreenCenter>Skontaktuj się</ButtonLightGreenCenter>
+        </Link>
       </OfferContainer>
       <ImageCenter />
     </AboutCopySection>

@@ -13,7 +13,7 @@ import TopAbout from "../components/TopAbout";
 const oMnie = ({ data }) => {
   return (
     <>
-      <Layout>
+      <Layout visableHeader>
         <TopAbout />
         <AboutCopy />
         <Skills />

@@ -21,7 +21,7 @@ const Top = styled.div`
 const HalfBackground = styled.div`
   position: absolute;
   overflow: hidden;
-  top: 0;
+  top: 6.875rem;
   bottom: 0;
   left: 50%;
   width: 50%;

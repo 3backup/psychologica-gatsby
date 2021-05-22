@@ -9,7 +9,7 @@ module.exports = {
       },
       {
         name: "Oferta Edukacyjna",
-        link: "/edukacja",
+        link: "/oferta-edukacyjna",
       },
       {
         name: "Superwizja",

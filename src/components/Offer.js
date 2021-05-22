@@ -177,8 +177,19 @@ const Offer = () => {
                 Psychoterapia i pomoc psychologiczna
               </SingleOfferHeader>
 
-              <AboutLink to="/">
-                <ArrowRight />
+              <AboutLink to="/oferta-terapeutyczna">
+                Czytaj więcej <ArrowRight />
+              </AboutLink>
+            </SingleOfferText>
+          </SingleOffer>
+          <SingleOffer>
+            <SingleOfferImage>
+              <Psychoeducation />
+            </SingleOfferImage>
+            <SingleOfferText>
+              <SingleOfferHeader>Oferta Edukacyjna </SingleOfferHeader>
+              <AboutLink to="/oferta-edukacyjna">
+                Czytaj więcej <ArrowRight />
               </AboutLink>
             </SingleOfferText>
           </SingleOffer>
@@ -189,20 +200,8 @@ const Offer = () => {
             <SingleOfferText>
               <SingleOfferHeader>Superwizja </SingleOfferHeader>
 
-              <AboutLink to="/">
-                <ArrowRight />
-              </AboutLink>
-            </SingleOfferText>
-          </SingleOffer>
-          <SingleOffer>
-            <SingleOfferImage>
-              <Psychoeducation />
-            </SingleOfferImage>
-            <SingleOfferText>
-              <SingleOfferHeader>Psychoedukacja </SingleOfferHeader>
-
-              <AboutLink to="/">
-                <ArrowRight />
+              <AboutLink to="/superwizja">
+                Czytaj więcej <ArrowRight />
               </AboutLink>
             </SingleOfferText>
           </SingleOffer>

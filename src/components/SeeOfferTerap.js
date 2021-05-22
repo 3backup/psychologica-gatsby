@@ -96,7 +96,9 @@ const SeeOfferTerap = ({ props }) => (
         Research & Education. We have 20+ years of experience in{" "}
       </HeaderParagraph>
       <HeaderDiv>
-        <Button>Oferta Edukacyjna</Button>
+        <Link to="/oferta-edukacyjna">
+          <Button>Oferta Edukacyjna</Button>
+        </Link>
         <OfferLink>Superwizja</OfferLink>
       </HeaderDiv>
     </Container>

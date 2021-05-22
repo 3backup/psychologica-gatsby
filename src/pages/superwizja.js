@@ -6,8 +6,7 @@ import AboutOffer from "../components/AboutOffer";
 import SeeOfferTerap from "../components/SeeOfferTerap";
 import OfferPrice from "../components/OfferPrice";
 import Testimonial from "../components/Testimonial";
-import { OfferPsychoterapia } from "../components/OfferPsychoterapia";
-import { OfferPomoc } from "../components/OfferPomoc";
+import { OfferSuperwizja } from "../components/OfferSuperwizja";
 import Process from "../components/Process";
 import TopOffer from "../components/TopOffer";
 
@@ -17,11 +16,11 @@ const oferta = ({ data }) => {
     <>
       <Layout>
         <TopOffer
-          headerElement="Oferta Terapeutyczna"
+          headerElement="Superwizja"
           subheaderText="Prowadzę zarówno psychoterapię, jak i pomoc psychologiczną skoncentrowaną na poszukiwaniu rozwiązań
 problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
         />
-        <OfferPsychoterapia />
+        <OfferSuperwizja />
         <Testimonial
           quote={
             <>
@@ -31,7 +30,6 @@ problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
           }
           author="Leslie Greenberg"
         />
-        <OfferPomoc />
         <OfferPrice />
         <SeeOfferTerap />
         <AboutOffer />
