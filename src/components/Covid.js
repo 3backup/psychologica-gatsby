@@ -1,7 +1,6 @@
 import React from "react";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
-import Button from "./styles/Button";
 import { ButtonLightGreen } from "./styles/ButtonLightGreen";
 import { Link } from "gatsby";
 import CovidSvg from "../images/covid.svg";
