@@ -18,7 +18,16 @@ const IndexPage = ({ data, props }) => {
         <Top />
         <Problem />
         <Offer />
-        <Testimonial />
+        <Testimonial
+          quote={
+            <>
+              Cokolwiek <span>zamierzasz zrobić</span> lub marzysz, że możesz
+              zrobić, zacznij. <span>Odwaga jest geniuszem</span>, w którym tkwi
+              moc i magia. Zacznij teraz.
+            </>
+          }
+          author="Johann Wolfgang Goethe"
+        />
         <AboutSection />
         <Covid />
         <Process />

@@ -230,7 +230,7 @@ function Process({ siteTitle, menuLinks }) {
                 <Plan />
               </SingleStepImage>
               <SingleStepHeader>
-                2. Stworzenie planu terapi dla Ciebie
+                2. Stworzenie planu terapii dla Ciebie
               </SingleStepHeader>
               <SingleStepParagraph>
                 Następny krok to ustalenie celów i zasad pomocy psychologicznej

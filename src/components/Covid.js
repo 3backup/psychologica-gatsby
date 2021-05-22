@@ -2,6 +2,7 @@ import React from "react";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
 import Button from "./styles/Button";
+import { ButtonLightGreen } from "./styles/ButtonLightGreen";
 import { Link } from "gatsby";
 import CovidSvg from "../images/covid.svg";
 import CovidTopRight from "../images/covid-top-right.svg";
@@ -43,8 +44,7 @@ const CovidParagraph = styled.p`
     max-width: 100%;
   }
 `;
-const LightGreen = styled(Button)`
-  background-color: #4abd7f;
+const LightGreen = styled(ButtonLightGreen)`
   margin: 0 auto 5rem auto;
   &:hover {
     background-color: #fff;

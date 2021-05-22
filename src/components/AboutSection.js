@@ -5,7 +5,6 @@ import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
 import Button from "./styles/Button";
 import SkillList from "./styles/SkillList";
-import BulletPoint from "../images/bullet-point.svg";
 import AboutLeaves from "../images/about-leaves.svg";
 
 const HalfGrid = styled.div`

@@ -1,13 +1,10 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
-import Button from "./styles/Button";
-import { Link } from "gatsby";
 import Acceptance from "../images/acceptance.svg";
 import Discretion from "../images/discretion.svg";
 import Individual from "../images/indyvidual.svg";
 import Whatisimportant from "../images/whatisimportant-bg.svg";
-import { StaticImage } from "gatsby-plugin-image";
 
 const MainContainer = styled.section`
   position: relative;
@@ -79,17 +76,7 @@ const BoxHeader = styled.h3`
   text-align: center;
   color: #000000;
 `;
-const BoxParagraph = styled.p`
-  font-family: Manrope;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 150%;
-  margin: 0;
-  text-align: center;
-  color: #3e7672;
-  opacity: 0.8;
-`;
+
 const BgElement = styled(Whatisimportant)`
   position: absolute;
   bottom: 0;

@@ -165,7 +165,7 @@ const MenuButton = styled.button`
   border: none;
 `;
 
-function Header({ siteTitle, menuLinks }) {
+function Header({ siteTitle, menuLinks, visableHeader }) {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -187,6 +187,7 @@ function Header({ siteTitle, menuLinks }) {
           height: visible ? "5.625rem" : "6.875rem",
           backdropFilter: visible ? "blur(10px)" : "",
         }}>
+        {console.log(visableHeader)}
         <ContainerHeader>
           <Link to="/">
             <StyledFooterLogo

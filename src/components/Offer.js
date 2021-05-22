@@ -143,16 +143,6 @@ const SingleOfferHeader = styled.h5`
   margin: 0;
   color: #1f1f1f;
 `;
-const SingleOfferParagraph = styled.p`
-  font-family: Manrope;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 18px;
-  margin: 1rem 0;
-  line-height: 150%;
-  color: #3e7672;
-  opacity: 0.7;
-`;
 
 const Offer = () => {
   return (

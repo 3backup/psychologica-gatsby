@@ -1,6 +1,5 @@
 import React from "react";
 import Container from "./styles/Container";
-import { Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
 import Button from "./styles/Button";

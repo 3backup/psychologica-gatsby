@@ -1,5 +1,4 @@
 import { styled } from "linaria/react";
-import { Link } from "gatsby";
 
 const Button = styled.button`
   background: #005650;

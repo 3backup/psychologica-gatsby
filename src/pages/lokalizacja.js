@@ -14,7 +14,7 @@ import "normalize.css";
 const lokalizacja = ({ data }) => {
   return (
     <>
-      <Layout>
+      <Layout visableHeader="ffff">
         <TopLocation />
         <Maps />
         <HowToGet />

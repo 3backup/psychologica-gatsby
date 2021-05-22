@@ -1,5 +1,4 @@
 import React from "react";
-import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
 
@@ -53,17 +52,12 @@ const TestimonialHr = styled.div`
   width: 2.5rem;
 `;
 
-const Testimonial = () => {
+const Testimonial = ({ quote, author }) => {
   return (
     <TestimonialSection>
-      <TestimonialQuote>
-        Cokolwiek <span>zamierzasz zrobić</span> lub marzysz, że możesz zrobić,
-        zacznij.
-        <span> Odwaga jest geniuszem</span>, w którym tkwi moc i magia. Zacznij
-        teraz.
-      </TestimonialQuote>
+      <TestimonialQuote>{quote}</TestimonialQuote>
       <TestimonialHr />
-      <TestimonialAuthor>Johann Wolfgang Goethe</TestimonialAuthor>
+      <TestimonialAuthor>{author}</TestimonialAuthor>
       <TestimonialBg>
         <StaticImage
           src="../images/testimonial-bg.jpg"

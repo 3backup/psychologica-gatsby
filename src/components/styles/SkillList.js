@@ -1,6 +1,5 @@
 import React from "react";
 import { styled } from "linaria/react";
-import { css } from "linaria";
 import BulletPoint from "../../images/bullet-point.svg";
 
 const AboutSkillList = styled.div`
@@ -20,9 +19,7 @@ const AboutSkillListTitle = styled.h4`
     font-weight: bold;
   }
 `;
-const BiggerFont = styled(AboutSkillListTitle)`
-  font-size: 42px;
-`;
+
 const AboutSkillListUL = styled.ul`
   padding: 0;
   margin: 0;

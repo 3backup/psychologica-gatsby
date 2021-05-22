@@ -18,12 +18,14 @@ const AboutCopyContainer = styled(Container)`
   padding-bottom: 7rem;
   display: flex;
   justify-content: space-between;
+  z-index: 2;
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 const AboutCopyHalf = styled.div`
   width: 48%;
+  z-index: 2;
   @media (max-width: 768px) {
     width: 100%;
     margin-bottom: 2rem;
@@ -85,6 +87,7 @@ const BgTopLeft = styled(TopLeft)`
 `;
 const ProblemBg = styled.div`
   position: absolute;
+  z-index: 0;
   top: 0;
   left: 0;
   width: 100%;

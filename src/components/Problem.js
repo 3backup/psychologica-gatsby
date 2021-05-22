@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
-import { Link } from "gatsby";
 import Slider from "react-slick";
 import ArrowLeft from "../images/arrow-left.svg";
 import ArrowRight from "../images/arrow-right-green.svg";

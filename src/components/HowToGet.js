@@ -3,7 +3,6 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import Parking from "../images/parking.svg";
 import { StaticImage } from "gatsby-plugin-image";
-import Button from "./styles/Button";
 
 const MainContainer = styled.section`
   position: relative;
