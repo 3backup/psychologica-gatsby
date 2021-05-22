@@ -4,10 +4,10 @@ const Button = styled.button`
   background: #005650;
   height: 3.75rem;
   min-width: 17.5rem;
-  border-radius: 15px
+  border-radius: 15px;
   backdrop-filter: blur(4px);
   border-radius: 15px;
-  border:none;
+  border: none;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
@@ -18,7 +18,7 @@ const Button = styled.button`
   cursor: pointer;
   transition: 0.3s;
   outline: none;
-  &:hover{
+  &:hover {
     background-color: transparent;
     color: #005650;
     border: 1px solid #005650;
