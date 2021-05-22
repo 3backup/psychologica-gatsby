@@ -1,4 +1,4 @@
-import Button from "./button";
+import Button from "./Button";
 import { styled } from "linaria/react";
 
 export const ButtonLightGreen = styled(Button)`
