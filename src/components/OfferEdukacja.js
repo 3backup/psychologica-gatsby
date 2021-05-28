@@ -3,6 +3,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import Whatisimportant from "../images/whatisimportant-bg.svg";
+import { StaticQuery, graphql } from "gatsby";
 
 const PsychoterapiaSection = styled.section`
   position: relative;
@@ -84,33 +85,42 @@ const BgElement = styled(Whatisimportant)`
 
 export const OfferEdukacja = () => {
   return (
-    <PsychoterapiaSection>
-      <PsychoterapiaContainer>
-        <RightContent>
-          <HeaderPsychoterapia>Zajęcia edukacyjne</HeaderPsychoterapia>
-          <LeadPsychoterapia>
-            Psychoterapia to według mnie niełatwa, lecz fascynująca podróż w
-            głąb siebie, której celem jest zrozumienie samego siebie i dokonanie
-            zmian służących pełniejszemu wykorzystaniu własnego potencjału oraz
-            zaakceptowaniu siebie. Efektem psychoterapii jest – cytując J.L.
-            Moreno – stanie się reżyserem własnego życia.
-          </LeadPsychoterapia>
-          <ParagraphPsychoterapia>
-            Psychoterapia opiera się na przymierzu terapeutycznym, w którym
-            bardzo ważne są: wzajemne zaufanie, odpowiedzialność i zaangażowanie
-            każdej z osób uczestniczących w tym procesie.
-          </ParagraphPsychoterapia>
-        </RightContent>
-        <LeftContent>
-          <StaticImage
-            src="../images/Edukacja.jpg"
-            alt="Roslina psychologica"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </LeftContent>
-      </PsychoterapiaContainer>
-      <BgElement />
-    </PsychoterapiaSection>
+    <StaticQuery
+      query={graphql`
+        query ZajEdukacQuery {
+          datoCmsOfertaEdukacyjna {
+            edukacyjnaSzaraSekcjaOpisMniejszy
+            edukacyjnaSzaraSekcjaOpisWiKszy
+            edukacyjnaSzaraSekcjaTytu
+          }
+        }
+      `}
+      render={(data) => (
+        <PsychoterapiaSection>
+          <PsychoterapiaContainer>
+            <RightContent>
+              <HeaderPsychoterapia>
+                {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaTytu}
+              </HeaderPsychoterapia>
+              <LeadPsychoterapia>
+                {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisWiKszy}
+              </LeadPsychoterapia>
+              <ParagraphPsychoterapia>
+                {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisMniejszy}
+              </ParagraphPsychoterapia>
+            </RightContent>
+            <LeftContent>
+              <StaticImage
+                src="../images/Edukacja.jpg"
+                alt="Roslina psychologica"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </LeftContent>
+          </PsychoterapiaContainer>
+          <BgElement />
+        </PsychoterapiaSection>
+      )}
+    />
   );
 };

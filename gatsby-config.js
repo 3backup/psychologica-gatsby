@@ -89,6 +89,23 @@ module.exports = {
       },
       __key: "images",
     },
+    {
+      resolve: "gatsby-plugin-favicons",
+      options: {
+        logo: "./src/images/psychologica-favicon.png",
+        appName: "Psychologica - pomoc psychologiczna Rzeszów",
+        background: "#fff",
+        icons: {
+          android: true,
+          appleIcon: true,
+          appleStartup: true,
+          coast: false,
+          favicons: true,
+          yandex: false,
+          windows: false,
+        },
+      },
+    },
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     `gatsby-plugin-react-helmet`,

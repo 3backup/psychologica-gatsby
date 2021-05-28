@@ -2,7 +2,7 @@ import * as React from "react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
 import AboutOffer from "../components/AboutOffer";
-import SeeOfferTerap from "../components/SeeOfferTerap";
+import SeeOffer from "../components/SeeOffer";
 import OfferPrice from "../components/OfferPrice";
 import Testimonial from "../components/Testimonial";
 import { OfferPsychoterapia } from "../components/OfferPsychoterapia";
@@ -14,7 +14,7 @@ import TopOffer from "../components/TopOffer";
 const oferta = ({ data }) => {
   return (
     <>
-      <Layout>
+      <Layout pageTitle pageDesc>
         <TopOffer
           headerElement="Oferta Terapeutyczna"
           subheaderText="Prowadzę zarówno psychoterapię, jak i pomoc psychologiczną skoncentrowaną na poszukiwaniu rozwiązań
@@ -28,7 +28,7 @@ problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
         />
         <OfferPomoc />
         <OfferPrice />
-        <SeeOfferTerap />
+        <SeeOffer />
         <AboutOffer />
         <Process />
         <Footer />
@@ -36,5 +36,14 @@ problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
     </>
   );
 };
-
+export const query = graphql`
+  query TerapeutycznaQuery {
+    datoCmsOfertaEdukacyjna {
+      edukacyjnaTytuTop
+      edukacyjnaTytuTopCopy1
+      ofertaEdukacyjnaCytat
+      ofertaEdukacyjnaCytatAutor
+    }
+  }
+`;
 export default oferta;

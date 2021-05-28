@@ -5,6 +5,7 @@ import Button from "./styles/Button";
 import { Link } from "gatsby";
 import OfferLeft from "../images/offer-left.svg";
 import OfferRight from "../images/offer-right.svg";
+import { StaticQuery, graphql } from "gatsby";
 
 const MainContainer = styled.section`
   position: relative;
@@ -87,24 +88,47 @@ const OfferRightPosition = styled(OfferRight)`
   top: 15%;
 `;
 
-const SeeOfferTerap = ({ props }) => (
-  <MainContainer id="SeeOffer">
-    <Container>
-      <HeaderTitle>Sprawdź moją ofertę</HeaderTitle>
-      <HeaderParagraph>
-        We create smart and agile tests for Experience Management, Market
-        Research & Education. We have 20+ years of experience in{" "}
-      </HeaderParagraph>
-      <HeaderDiv>
-        <Link to="/oferta-edukacyjna">
-          <Button>Oferta Edukacyjna</Button>
-        </Link>
-        <OfferLink>Superwizja</OfferLink>
-      </HeaderDiv>
-    </Container>
-    <OfferLeftPosition></OfferLeftPosition>
-    <OfferRightPosition></OfferRightPosition>
-  </MainContainer>
-);
-
+const SeeOfferTerap = ({ props }) => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query OfferEdukacjaQuery {
+          datoCmsOfertaEdukacyjna {
+            sprawdMojOfertOpis
+            sprawdMojOfertPrzyciskdrugiejkategorii
+            sprawdMojOfertPrzyciskglowny
+            sprawdMojOfertTytu
+          }
+        }
+      `}
+      render={(data) => (
+        <MainContainer id="SeeOffer">
+          <Container>
+            <HeaderTitle>
+              {data.datoCmsOfertaEdukacyjna.sprawdMojOfertTytu}
+            </HeaderTitle>
+            <HeaderParagraph>
+              {data.datoCmsOfertaEdukacyjna.sprawdMojOfertOpis}
+            </HeaderParagraph>
+            <HeaderDiv>
+              <Link to="/oferta-edukacyjna">
+                <Button>
+                  {data.datoCmsOfertaEdukacyjna.sprawdMojOfertPrzyciskglowny}
+                </Button>
+              </Link>
+              <OfferLink>
+                {
+                  data.datoCmsOfertaEdukacyjna
+                    .sprawdMojOfertPrzyciskdrugiejkategorii
+                }
+              </OfferLink>
+            </HeaderDiv>
+          </Container>
+          <OfferLeftPosition></OfferLeftPosition>
+          <OfferRightPosition></OfferRightPosition>
+        </MainContainer>
+      )}
+    />
+  );
+};
 export default SeeOfferTerap;

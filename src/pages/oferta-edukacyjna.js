@@ -2,6 +2,8 @@ import * as React from "react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
 import AboutOffer from "../components/AboutOffer";
+import { graphql } from "gatsby";
+
 import SeeOfferTerap from "../components/SeeOfferTerap";
 import Testimonial from "../components/Testimonial";
 import { OfferEdukacja } from "../components/OfferEdukacja";
@@ -14,15 +16,13 @@ const oferta = ({ data }) => {
     <>
       <Layout>
         <TopOffer
-          headerElement="Oferta Edukacyjna"
-          subheaderText="Prowadzę zarówno psychoterapię, jak i pomoc psychologiczną skoncentrowaną na poszukiwaniu rozwiązań
-problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
+          headerElement={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTop}
+          subheaderText={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTopCopy1}
         />
         <OfferEdukacja />
         <Testimonial
-          quote="Chcąc opuścić <span>jakieś miejsce</span> musimy najpierw do niego
-          <span>dotrzeć.</span>"
-          author="Leslie Greenberg"
+          quote={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytat}
+          author={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytatAutor}
         />
         <SeeOfferTerap />
         <AboutOffer />
@@ -32,5 +32,14 @@ problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
     </>
   );
 };
-
+export const query = graphql`
+  query EdukacyjnaQuery {
+    datoCmsOfertaEdukacyjna {
+      edukacyjnaTytuTop
+      edukacyjnaTytuTopCopy1
+      ofertaEdukacyjnaCytat
+      ofertaEdukacyjnaCytatAutor
+    }
+  }
+`;
 export default oferta;

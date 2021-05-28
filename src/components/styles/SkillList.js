@@ -49,8 +49,8 @@ const SkillList = (props) => {
     <StaticQuery
       query={graphql`
         query SkillListQuery {
-          datoCmsAboout {
-            skills {
+          datoCmsSkillList {
+            listaKompetencji {
               skillsElement
             }
           }
@@ -63,7 +63,7 @@ const SkillList = (props) => {
             {props.header} <span>{props.subheader}</span>
           </AboutSkillListTitle>
           <AboutSkillListUL>
-            {data.datoCmsAboout.skills.map((singleSkill) => (
+            {data.datoCmsSkillList.listaKompetencji.map((singleSkill) => (
               <AboutSkillListLi>
                 <Dot />
                 {singleSkill.skillsElement}

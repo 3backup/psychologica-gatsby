@@ -161,7 +161,7 @@ const Offer = () => {
             Moja <span>oferta</span>
           </OfferTitle>
           <OfferParagraph>
-            Jako <span>psycholog kliniczny</span> i <span>psychoterapeuta</span>{" "}
+            Jako <span>psycholog kliniczny</span> i <span>psychoterapeuta</span>
             zajmuję się diagnozą i <span>pomocą psychologiczną</span>, która
             najczęściej ma postać <span>psychoterapii.</span> <br /> <br />
             Swoim doświadczeniem dzielę się z osobami, które korzystają z mojej
