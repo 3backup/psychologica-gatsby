@@ -2,7 +2,8 @@ import React from "react";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
-import { Link } from "gatsby";
+
+import { StaticQuery, graphql, Link } from "gatsby";
 import Psychology from "../images/offer-psychology.svg";
 import Psychoeducation from "../images/psychology.svg";
 import Supervision from "../images/supervision.svg";
@@ -146,68 +147,90 @@ const SingleOfferHeader = styled.h5`
 
 const Offer = () => {
   return (
-    <OfferSection>
-      <OfferContainer>
-        <GridImage>
-          <StaticImage
-            src="../images/offer-image.jpg"
-            alt="Renata Zuba oferta"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </GridImage>
-        <ContentGrid>
-          <OfferTitle>
-            Moja <span>oferta</span>
-          </OfferTitle>
-          <OfferParagraph>
-            Jako <span>psycholog kliniczny</span> i <span>psychoterapeuta</span>
-            zajmuję się diagnozą i <span>pomocą psychologiczną</span>, która
-            najczęściej ma postać <span>psychoterapii.</span> <br /> <br />
-            Swoim doświadczeniem dzielę się z osobami, które korzystają z mojej
-            superwizji, a także ze studentami i uczestnikami prowadzonych przeze
-            mnie warsztatów i innych form rozwoju osobistego.
-          </OfferParagraph>
-          <SingleOffer>
-            <SingleOfferImage>
-              <Psychology />
-            </SingleOfferImage>
-            <SingleOfferText>
-              <SingleOfferHeader>
-                Psychoterapia i pomoc psychologiczna
-              </SingleOfferHeader>
+    <StaticQuery
+      query={graphql`
+        query OfferQuery {
+          datoCmsIndex {
+            myofferFirsttile
+            myofferDesc
+            myofferFirsttileTxt
+            myofferSecondtile
+            myofferSecondtitleTxt
+            myofferThirdtile
+            myofferThirdtileTxt
+            myofferTitle
+          }
+        }
+      `}
+      render={(data) => (
+        <OfferSection>
+          <OfferContainer>
+            <GridImage>
+              <StaticImage
+                src="../images/offer-image.jpg"
+                alt="Renata Zuba oferta psycholog Rzeszów"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </GridImage>
+            <ContentGrid>
+              <OfferTitle
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsIndex.myofferTitle,
+                }}></OfferTitle>
+              <OfferParagraph
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsIndex.myofferDesc,
+                }}></OfferParagraph>
+              <SingleOffer>
+                <SingleOfferImage>
+                  <Psychology />
+                </SingleOfferImage>
+                <SingleOfferText>
+                  <SingleOfferHeader>
+                    {data.datoCmsIndex.myofferFirsttile}
+                  </SingleOfferHeader>
 
-              <AboutLink to="/oferta-terapeutyczna">
-                Czytaj więcej <ArrowRight />
-              </AboutLink>
-            </SingleOfferText>
-          </SingleOffer>
-          <SingleOffer>
-            <SingleOfferImage>
-              <Psychoeducation />
-            </SingleOfferImage>
-            <SingleOfferText>
-              <SingleOfferHeader>Oferta Edukacyjna </SingleOfferHeader>
-              <AboutLink to="/oferta-edukacyjna">
-                Czytaj więcej <ArrowRight />
-              </AboutLink>
-            </SingleOfferText>
-          </SingleOffer>
-          <SingleOffer>
-            <SingleOfferImage>
-              <Supervision />
-            </SingleOfferImage>
-            <SingleOfferText>
-              <SingleOfferHeader>Superwizja </SingleOfferHeader>
+                  <AboutLink to="/oferta-terapeutyczna">
+                    {data.datoCmsIndex.myofferFirsttileTxt}
+                    <ArrowRight />
+                  </AboutLink>
+                </SingleOfferText>
+              </SingleOffer>
+              <SingleOffer>
+                <SingleOfferImage>
+                  <Psychoeducation />
+                </SingleOfferImage>
+                <SingleOfferText>
+                  <SingleOfferHeader>
+                    {data.datoCmsIndex.myofferSecondtile}{" "}
+                  </SingleOfferHeader>
+                  <AboutLink to="/oferta-edukacyjna">
+                    {data.datoCmsIndex.myofferSecondtitleTxt}
+                    <ArrowRight />
+                  </AboutLink>
+                </SingleOfferText>
+              </SingleOffer>
+              <SingleOffer>
+                <SingleOfferImage>
+                  <Supervision />
+                </SingleOfferImage>
+                <SingleOfferText>
+                  <SingleOfferHeader>
+                    {data.datoCmsIndex.myofferThirdtile}{" "}
+                  </SingleOfferHeader>
 
-              <AboutLink to="/superwizja">
-                Czytaj więcej <ArrowRight />
-              </AboutLink>
-            </SingleOfferText>
-          </SingleOffer>
-        </ContentGrid>
-      </OfferContainer>
-    </OfferSection>
+                  <AboutLink to="/superwizja">
+                    {data.datoCmsIndex.myofferThirdtileTxt}
+                    <ArrowRight />
+                  </AboutLink>
+                </SingleOfferText>
+              </SingleOffer>
+            </ContentGrid>
+          </OfferContainer>
+        </OfferSection>
+      )}
+    />
   );
 };
 export default Offer;

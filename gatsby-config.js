@@ -34,6 +34,23 @@ module.exports = {
   plugins: [
     "gatsby-plugin-linaria",
     {
+      resolve: `gatsby-plugin-manifest`,
+      options: {
+        name: "GatsbyJS",
+        short_name: "GatsbyJS",
+        start_url: "/",
+        background_color: "#6b37bf",
+        theme_color: "#6b37bf",
+
+        display: "standalone",
+        icon: "src/images/gatsby-icon.png", // This path is relative to the root of the site.
+        // An optional attribute which provides support for CORS check.
+        // If you do not provide a crossOrigin option, it will skip CORS for manifest.
+        // Any invalid keyword or empty string defaults to `anonymous`
+        crossOrigin: `use-credentials`,
+      },
+    },
+    {
       resolve: "gatsby-source-datocms",
       options: {
         apiToken: "35d2a2c19a7e6e94a0e19385ede573",
@@ -89,23 +106,7 @@ module.exports = {
       },
       __key: "images",
     },
-    {
-      resolve: "gatsby-plugin-favicons",
-      options: {
-        logo: "./src/images/psychologica-favicon.png",
-        appName: "Psychologica - pomoc psychologiczna Rzeszów",
-        background: "#fff",
-        icons: {
-          android: true,
-          appleIcon: true,
-          appleStartup: true,
-          coast: false,
-          favicons: true,
-          yandex: false,
-          windows: false,
-        },
-      },
-    },
+
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     `gatsby-plugin-react-helmet`,

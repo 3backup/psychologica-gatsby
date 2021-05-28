@@ -7,7 +7,10 @@ import { CouldNotFind } from "../components/CouldNotFind";
 const NotFoundPage = () => {
   return (
     <>
-      <Layout visableHeader>
+      <Layout
+        visableHeader
+        pageTitle="Brak strony - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
+        pageDescription="Nieznaleźlismy takiej strony - wróć do Pscyhologica Rzeszów">
         <CouldNotFind></CouldNotFind>
         <Footer />
       </Layout>

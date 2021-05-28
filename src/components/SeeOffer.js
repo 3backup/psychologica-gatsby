@@ -99,7 +99,13 @@ const LogoBg = styled(Logo)`
   transform: translate(-50%, -50%);
 `;
 
-const SeeOffer = ({ mainTitle, subParagraph, mainCta, secondCta }) => (
+const SeeOffer = ({
+  mainTitle,
+  subParagraph,
+  mainCta,
+  secondCta,
+  supervision,
+}) => (
   <MainContainer id="SeeOffer">
     <Container>
       <HeaderTitle>{mainTitle ? mainTitle : "Sprawdź moją ofertę"}</HeaderTitle>
@@ -113,7 +119,7 @@ const SeeOffer = ({ mainTitle, subParagraph, mainCta, secondCta }) => (
           <Button>{mainCta ? mainCta : "Oferta terapeutyczna"}</Button>
         </Link>
         <OfferLink>
-          <Link to="/oferta-edukacyjna">
+          <Link to={supervision ? "/oferta-edukacyjna" : "/superwizja"}>
             {secondCta ? secondCta : "Oferta edukacyjna"}
           </Link>
         </OfferLink>

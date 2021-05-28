@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
+import { StaticQuery, graphql } from "gatsby";
 import { styled } from "linaria/react";
 import Slider from "react-slick";
 import ArrowLeft from "../images/arrow-left.svg";
@@ -176,90 +177,63 @@ class Problems extends Component {
       ],
     };
     return (
-      <>
-        <SectionProblems>
-          <ProblemContainer>
-            <ProblemsHeader>
-              Moja pomoc obejmuje <span>następujące obszary</span>
-            </ProblemsHeader>
-            <ProblemsParagraph>
-              Specjalizuję się w pracy terapeutycznej z osobami uzależnionymi
-              oraz tymi, u których w rodzinie/związku występuje (bądź
-              występował) problem uzależnienia, a także w pracy z osobami, które
-              borykają się z:
-            </ProblemsParagraph>
-            <div>
-              <SliderDesign ref={(c) => (this.slider = c)} {...settings}>
-                <ElementCarousel key="1">
-                  Uzależnienia chemiczne i behawioralne
-                </ElementCarousel>
-                <ElementCarousel key="2">
-                  Problem uzależnienia w związku/rodzinie
-                </ElementCarousel>
-                <ElementCarousel key="3">
-                  Kryzysy – w związku, w życiu zawodowym i inne
-                </ElementCarousel>
-                <ElementCarousel key="4">
-                  Dokonywanie bilansu życia
-                </ElementCarousel>
-                <ElementCarousel key="5">Problemy w relacjach</ElementCarousel>
-                <ElementCarousel key="6">Napięcie, stres</ElementCarousel>
-                <ElementCarousel key="7">
-                  Niepokój, lęk, ataki paniki
-                </ElementCarousel>
-                <ElementCarousel key="8">Problemy ze snem</ElementCarousel>
-                <ElementCarousel key="9">
-                  Smutek, przygnębienie, depresja
-                </ElementCarousel>
-                <ElementCarousel key="10">
-                  Poczucie osamotnienia
-                </ElementCarousel>
-
-                <ElementCarousel key="11">
-                  Niskie poczucie własnej wartości
-                </ElementCarousel>
-                <ElementCarousel key="12">
-                  Trudności w podejmowaniu decyzji
-                </ElementCarousel>
-                <ElementCarousel key="13">
-                  Problemy w przeżywaniu emocji
-                </ElementCarousel>
-                <ElementCarousel key="14">
-                  Trudności w panowaniu nad złością, impulsywność
-                </ElementCarousel>
-                <ElementCarousel key="15">
-                  Traumatyczne doświadczenia
-                </ElementCarousel>
-                <ElementCarousel key="16">Bolesna strata</ElementCarousel>
-                <ElementCarousel key="17">
-                  Ciężka choroba, niepełnosprawność
-                </ElementCarousel>
-                <ElementCarousel key="18">
-                  Doświadczenia związane z pandemią COVID-19
-                </ElementCarousel>
-              </SliderDesign>
-              <ButtonsContainer>
-                <ButtonClick className="button" onClick={this.previous}>
-                  <ArrowLeft />
-                </ButtonClick>
-                <ButtonClick className="button" onClick={this.next}>
-                  <ArrowRight />
-                </ButtonClick>
-              </ButtonsContainer>
-            </div>
-          </ProblemContainer>
-          <ProblemBg>
-            <StaticImage
-              src="../images/background-problem.png"
-              alt="bg-testimonial"
-              layout="fullWidth"
-              placeholder="blurred"
-            />
-          </ProblemBg>
-          <BgTopRight />
-          <BgTopLeft />
-        </SectionProblems>
-      </>
+      <StaticQuery
+        query={graphql`
+          query ProblemsListQuery {
+            datoCmsIndex {
+              obszaryNaSliderze {
+                area
+              }
+              zielonaSekcjaDesc
+              zielonaSekcjaTytu
+            }
+          }
+        `}
+        render={(data) => (
+          <>
+            <SectionProblems>
+              <ProblemContainer>
+                <ProblemsHeader
+                  dangerouslySetInnerHTML={{
+                    __html: data.datoCmsIndex.zielonaSekcjaTytu,
+                  }}></ProblemsHeader>
+                <ProblemsParagraph>
+                  {data.datoCmsIndex.zielonaSekcjaDesc}
+                </ProblemsParagraph>
+                <div>
+                  <SliderDesign ref={(c) => (this.slider = c)} {...settings}>
+                    {data.datoCmsIndex.obszaryNaSliderze.map(
+                      (singleProblem, i) => (
+                        <ElementCarousel key={i}>
+                          {singleProblem.area}
+                        </ElementCarousel>
+                      ),
+                    )}
+                  </SliderDesign>
+                  <ButtonsContainer>
+                    <ButtonClick className="button" onClick={this.previous}>
+                      <ArrowLeft />
+                    </ButtonClick>
+                    <ButtonClick className="button" onClick={this.next}>
+                      <ArrowRight />
+                    </ButtonClick>
+                  </ButtonsContainer>
+                </div>
+              </ProblemContainer>
+              <ProblemBg>
+                <StaticImage
+                  src="../images/background-problem.png"
+                  alt="bg-testimonial"
+                  layout="fullWidth"
+                  placeholder="blurred"
+                />
+              </ProblemBg>
+              <BgTopRight />
+              <BgTopLeft />
+            </SectionProblems>
+          </>
+        )}
+      />
     );
   }
 }

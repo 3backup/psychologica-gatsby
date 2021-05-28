@@ -166,7 +166,7 @@ const AboutOffer = () => {
                 </Link>
 
                 <OfferLink>
-                  <Link to="/skontaktuj-sie.js">
+                  <Link to="/skontaktuj-sie">
                     {data.datoCmsSummaryAbout.aboutSummarySecondbutton}
                   </Link>
                 </OfferLink>

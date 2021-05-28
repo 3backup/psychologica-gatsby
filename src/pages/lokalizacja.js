@@ -13,7 +13,10 @@ import "normalize.css";
 const lokalizacja = ({ data }) => {
   return (
     <>
-      <Layout visableHeader>
+      <Layout
+        visableHeader
+        pageTitle="Gabinet Psychologiczny Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
+        pageDescription="Gabinet psychologiczny, w którym świadcze usługi pomocy psychologicznej na terenie Rzeszowa znajduję się na Mikołaja Reja 12/320, 35-211 Rzeszów">
         <TopLocation />
         <Maps />
         <HowToGet />

@@ -57,7 +57,7 @@ export const CouldNotFind = () => {
       <ErrorContainer>
         <MainTitle>Ooppps...</MainTitle>
         <MainParagraph>
-          Wyglląda na to, że ta strona nie istnieje. <br />
+          Wygląda na to, że ta strona nie istnieje. <br />
           Wróc do strony głównej
         </MainParagraph>
         <Link to="/">

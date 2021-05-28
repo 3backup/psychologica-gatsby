@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby";
 import { styled } from "linaria/react";
 import PropTypes from "prop-types";
 import Container from "./styles/Container";
@@ -170,7 +170,7 @@ const MenuButton = styled.button`
   border: none;
 `;
 
-function Header({ siteTitle, menuLinks, visableHeader }) {
+const Header = ({ siteTitle, menuLinks, visableHeader }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -185,71 +185,84 @@ function Header({ siteTitle, menuLinks, visableHeader }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [prevScrollPos, visible, handleScroll]);
   return (
-    <>
-      <HeaderMenu
-        style={{
-          background:
-            visible || visableHeader ? "rgba(255, 255, 255, 0.8)" : "",
-          height: visible ? "5.625rem" : "6.875rem",
-          backdropFilter: visible || visableHeader ? "blur(10px)" : "",
-        }}>
-        <ContainerHeader>
-          <Link to="/">
-            <StyledFooterLogo
-              height={visible ? "60" : "80"}
-              width={visible ? "200" : "220"}
-            />
-          </Link>
-          <PhoneNumber>
-            <Phone width="18" height="18" />
-            <PhoneNumberText>+48 881 442 883</PhoneNumberText>
-          </PhoneNumber>
-          <nav>
-            <MenuUl>
-              {menuLinks.map((link) => (
-                <MenuLi key={link.name}>
-                  <MenuLink to={link.link} activeClassName="active">
-                    {link.name}
-                  </MenuLink>
-                </MenuLi>
-              ))}
-            </MenuUl>
-          </nav>
-        </ContainerHeader>
-      </HeaderMenu>
-      <HeaderMobile
-        style={{
-          background: visible ? "rgba(255, 255, 255, 0.8)" : "",
-          height: visible ? "5.625rem" : "6.875rem",
-          backdropFilter: visible ? "blur(10px)" : "",
-          border: visible ? "1px solid #dadada" : "",
-        }}>
-        <Link to="/">
-          <StyledFooterLogo height="60" width="200" />
-        </Link>
-        <MenuButton
-          onClick={() => {
-            setMenuOpen(!isMenuOpen);
-          }}>
-          {isMenuOpen ? <Close /> : <MenuMobile />}
-        </MenuButton>
-      </HeaderMobile>
-      {isMenuOpen ? (
-        <MobileMenuActive>
-          <MenuUl>
-            {menuLinks.map((link) => (
-              <MenuLi key={link.name}>
-                <MenuLink to={link.link}>{link.name}</MenuLink>
-              </MenuLi>
-            ))}
-          </MenuUl>
-        </MobileMenuActive>
-      ) : (
-        <MobileMenuNoneActive></MobileMenuNoneActive>
+    <StaticQuery
+      query={graphql`
+        query HeaderQuery {
+          datoCmsGlobal {
+            phonenumber
+          }
+        }
+      `}
+      render={(data) => (
+        <>
+          <HeaderMenu
+            style={{
+              background:
+                visible || visableHeader ? "rgba(255, 255, 255, 0.8)" : "",
+              height: visible ? "5.625rem" : "6.875rem",
+              backdropFilter: visible || visableHeader ? "blur(10px)" : "",
+            }}>
+            <ContainerHeader>
+              <Link to="/">
+                <StyledFooterLogo
+                  height={visible ? "60" : "80"}
+                  width={visible ? "200" : "220"}
+                />
+              </Link>
+              <PhoneNumber>
+                <Phone width="18" height="18" />
+                <PhoneNumberText>
+                  {data.datoCmsGlobal.phonenumber}
+                </PhoneNumberText>
+              </PhoneNumber>
+              <nav>
+                <MenuUl>
+                  {menuLinks.map((link) => (
+                    <MenuLi key={link.name}>
+                      <MenuLink to={link.link} activeClassName="active">
+                        {link.name}
+                      </MenuLink>
+                    </MenuLi>
+                  ))}
+                </MenuUl>
+              </nav>
+            </ContainerHeader>
+          </HeaderMenu>
+          <HeaderMobile
+            style={{
+              background: visible ? "rgba(255, 255, 255, 0.8)" : "",
+              height: visible ? "5.625rem" : "6.875rem",
+              backdropFilter: visible ? "blur(10px)" : "",
+              border: visible ? "1px solid #dadada" : "",
+            }}>
+            <Link to="/">
+              <StyledFooterLogo height="60" width="200" />
+            </Link>
+            <MenuButton
+              onClick={() => {
+                setMenuOpen(!isMenuOpen);
+              }}>
+              {isMenuOpen ? <Close /> : <MenuMobile />}
+            </MenuButton>
+          </HeaderMobile>
+          {isMenuOpen ? (
+            <MobileMenuActive>
+              <MenuUl>
+                {menuLinks.map((link) => (
+                  <MenuLi key={link.name}>
+                    <MenuLink to={link.link}>{link.name}</MenuLink>
+                  </MenuLi>
+                ))}
+              </MenuUl>
+            </MobileMenuActive>
+          ) : (
+            <MobileMenuNoneActive></MobileMenuNoneActive>
+          )}
+        </>
       )}
-    </>
+    />
   );
-}
+};
 
 Header.propTypes = {
   siteTitle: PropTypes.string,

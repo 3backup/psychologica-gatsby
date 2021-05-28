@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
+import { StaticQuery, graphql } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import Whatisimportant from "../images/about-leaves.svg";
 
@@ -81,32 +82,43 @@ const BgElement = styled(Whatisimportant)`
 
 export const OfferPomoc = () => {
   return (
-    <PomocSection>
-      <PomocContainer>
-        <LeftContent>
-          <HeaderPomoc>Pomoc psychologiczna</HeaderPomoc>
-          <LeadPomoc>
-            Głównym celem oferowanej przeze mnie pomocy psychologicznej jest
-            poszerzenie perspektywy widzenia aktualnej sytuacji życiowej oraz
-            znalezienie możliwości poradzenia sobie z problemami.
-          </LeadPomoc>
-          <ParagraphPomoc>
-            Rola psychologa polega na wspieraniu w poszukiwaniu drogi wyjścia z
-            kryzysu oraz w wypracowywaniu skutecznych sposobów radzenia sobie z
-            trudnościami.
-          </ParagraphPomoc>
-        </LeftContent>
+    <StaticQuery
+      query={graphql`
+        query OfferPomocQuery {
+          datoCmsOfertaTerapeutyczna {
+            pomocPsychologicznaLead
+            pomocPsychologiczna
+            pomocPsychologicznaLeadCopy1
+          }
+        }
+      `}
+      render={(data) => (
+        <PomocSection>
+          <PomocContainer>
+            <LeftContent>
+              <HeaderPomoc>
+                {data.datoCmsOfertaTerapeutyczna.pomocPsychologiczna}
+              </HeaderPomoc>
+              <LeadPomoc>
+                {data.datoCmsOfertaTerapeutyczna.pomocPsychologicznaLead}
+              </LeadPomoc>
+              <ParagraphPomoc>
+                {data.datoCmsOfertaTerapeutyczna.pomocPsychologicznaLeadCopy1}
+              </ParagraphPomoc>
+            </LeftContent>
 
-        <RightContent>
-          <StaticImage
-            src="../images/offerterapeutyczna.jpg"
-            alt="Roslina psychologica"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </RightContent>
-      </PomocContainer>
-      <BgElement />
-    </PomocSection>
+            <RightContent>
+              <StaticImage
+                src="../images/offerterapeutyczna.jpg"
+                alt="Roslina psychologica"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </RightContent>
+          </PomocContainer>
+          <BgElement />
+        </PomocSection>
+      )}
+    />
   );
 };

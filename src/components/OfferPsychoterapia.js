@@ -1,6 +1,8 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
+import { StaticQuery, graphql } from "gatsby";
+
 import { StaticImage } from "gatsby-plugin-image";
 import Whatisimportant from "../images/whatisimportant-bg.svg";
 
@@ -84,33 +86,42 @@ const BgElement = styled(Whatisimportant)`
 
 export const OfferPsychoterapia = () => {
   return (
-    <PsychoterapiaSection>
-      <PsychoterapiaContainer>
-        <LeftContent>
-          <StaticImage
-            src="../images/psychoterapia.jpg"
-            alt="Roslina psychologica"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </LeftContent>
-        <RightContent>
-          <HeaderPsychoterapia>Psychoterapia</HeaderPsychoterapia>
-          <LeadPsychoterapia>
-            Psychoterapia to według mnie niełatwa, lecz fascynująca podróż w
-            głąb siebie, której celem jest zrozumienie samego siebie i dokonanie
-            zmian służących pełniejszemu wykorzystaniu własnego potencjału oraz
-            zaakceptowaniu siebie. Efektem psychoterapii jest – cytując J.L.
-            Moreno – stanie się reżyserem własnego życia.
-          </LeadPsychoterapia>
-          <ParagraphPsychoterapia>
-            Psychoterapia opiera się na przymierzu terapeutycznym, w którym
-            bardzo ważne są: wzajemne zaufanie, odpowiedzialność i zaangażowanie
-            każdej z osób uczestniczących w tym procesie.
-          </ParagraphPsychoterapia>
-        </RightContent>
-      </PsychoterapiaContainer>
-      <BgElement />
-    </PsychoterapiaSection>
+    <StaticQuery
+      query={graphql`
+        query PsychoterapiaQuery {
+          datoCmsOfertaTerapeutyczna {
+            psychoterapiaOpis
+            psychoterapiaOpisMniejszy
+            psychoterapiaTytu
+          }
+        }
+      `}
+      render={(data) => (
+        <PsychoterapiaSection>
+          <PsychoterapiaContainer>
+            <LeftContent>
+              <StaticImage
+                src="../images/psychoterapia.jpg"
+                alt="Roslina psychologica"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </LeftContent>
+            <RightContent>
+              <HeaderPsychoterapia>
+                {data.datoCmsOfertaTerapeutyczna.psychoterapiaTytu}
+              </HeaderPsychoterapia>
+              <LeadPsychoterapia>
+                {data.datoCmsOfertaTerapeutyczna.psychoterapiaOpis}
+              </LeadPsychoterapia>
+              <ParagraphPsychoterapia>
+                {data.datoCmsOfertaTerapeutyczna.psychoterapiaOpisMniejszy}
+              </ParagraphPsychoterapia>
+            </RightContent>
+          </PsychoterapiaContainer>
+          <BgElement />
+        </PsychoterapiaSection>
+      )}
+    />
   );
 };

@@ -13,7 +13,10 @@ import TopAbout from "../components/TopAbout";
 const oMnie = ({ data }) => {
   return (
     <>
-      <Layout visableHeader>
+      <Layout
+        visableHeader
+        pageTitle="Psycholog Rzeszów - Renata Zuba - PSYCHOLOGICA - Psychoterapia i psychoedukacja"
+        pageDescription="Jestem psychologiem klinicznym i psychoterapeutą z wieloletnim doświadczeniem w prowadzeniu psychoterapii i pomocy psychologicznej na terenie Rzeszowa.">
         <TopAbout />
         <AboutCopy />
         <Skills />
@@ -23,6 +26,7 @@ const oMnie = ({ data }) => {
           subParagraph={data.datoCmsAboout.offerDesc}
           mainCta={data.datoCmsAboout.offertFirstcta}
           secondCta={data.datoCmsAboout.offerctaSecond}
+          supervision
         />
         <Process />
         <Footer />

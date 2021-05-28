@@ -3,7 +3,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import BackgroundPattern from "../images/leaves.svg";
 import { StaticImage } from "gatsby-plugin-image";
-import { Link } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby";
 import Button from "./styles/Button";
 
 const Top = styled.div`
@@ -138,53 +138,66 @@ const TopSection = styled.section`
   position: relative;
 `;
 
-const Header = ({ props }) => (
-  <TopSection id="hero">
-    <Top>
-      <HeroContainer>
-        <TextContainer>
-          <HeaderTitle>
-            Psychoterapia <span>godna Ciebie</span>
-          </HeaderTitle>
-          {/* DUZY SPACING TO DO  */}
-          <ParagraphText>
-            Jestem psychologiem klinicznym i psychoterapeutą z wieloletnim
-            doświadczeniem w prowadzeniu psychoterapii oraz pomocy
-            psychologicznej.
-          </ParagraphText>
-          <Link to="/skontaktuj-sie">
-            <Button>Skontaktuj się</Button>
-          </Link>
-        </TextContainer>
-        <HeroImageFront>
-          <StaticImage
-            src="../images/rzuba-photo-top.jpg"
-            alt="Roslina psychologica"
-            placeholder="blurred"
-            layout="fullWidth"
-          />
-        </HeroImageFront>
-      </HeroContainer>
+const Header = ({ props }) => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query TopStronaGlownaQuery {
+          datoCmsIndex {
+            sgtytuGlowny
+            opis
+            gRnaSekcjaImiINazwisko
+            gRnaSekcjaPrzycisk
+          }
+        }
+      `}
+      render={(data) => (
+        <TopSection id="hero">
+          <Top>
+            <HeroContainer>
+              <TextContainer>
+                <HeaderTitle
+                  dangerouslySetInnerHTML={{
+                    __html: data.datoCmsIndex.sgtytuGlowny,
+                  }}></HeaderTitle>
+                {/* DUZY SPACING TO DO  */}
+                <ParagraphText>{data.datoCmsIndex.opis}</ParagraphText>
+                <Link to="/skontaktuj-sie">
+                  <Button>{data.datoCmsIndex.gRnaSekcjaPrzycisk}</Button>
+                </Link>
+              </TextContainer>
+              <HeroImageFront>
+                <StaticImage
+                  src="../images/rzuba-photo-top.jpg"
+                  alt="Roslina psychologica"
+                  placeholder="blurred"
+                  layout="fullWidth"
+                />
+              </HeroImageFront>
+            </HeroContainer>
 
-      <CusomtImage>
-        <StaticImage
-          src="../images/top-image-plant.jpg"
-          alt="Roslina psychologica"
-          layout="fullWidth"
-          placeholder="blurred"
-        />
-      </CusomtImage>
-      <Leaves
-        src="../images/leaves.svg"
-        alt="background pattern"
-        placeholder="blurred"
-      />
-    </Top>
-    <Container>
-      <HalfGrid>Psycholog Renata Zuba</HalfGrid>
-    </Container>
-    <HalfBackground></HalfBackground>
-  </TopSection>
-);
+            <CusomtImage>
+              <StaticImage
+                src="../images/top-image-plant.jpg"
+                alt="Roslina psychologica"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </CusomtImage>
+            <Leaves
+              src="../images/leaves.svg"
+              alt="background pattern"
+              placeholder="blurred"
+            />
+          </Top>
+          <Container>
+            <HalfGrid>{data.datoCmsIndex.gRnaSekcjaImiINazwisko}</HalfGrid>
+          </Container>
+          <HalfBackground></HalfBackground>
+        </TopSection>
+      )}
+    />
+  );
+};
 
 export default Header;

@@ -13,7 +13,9 @@ import TopOffer from "../components/TopOffer";
 const oferta = ({ data }) => {
   return (
     <>
-      <Layout>
+      <Layout
+        pageTitle="Superwizja psychologa  - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
+        pageDescription="Prowadzę superwizję indywidualną i grupową dla specjalistów psychoterapii uzależnień oraz dla innych profesjinalistów zajmujących się pomocą i wsparciem dla osób uzależnionych lub członków ich rodzin.">
         <TopOffer
           headerElement={data.datoCmsSupervision.supervisionTitle}
           subheaderText={data.datoCmsSupervision.supervisionSubheader}
@@ -29,6 +31,7 @@ const oferta = ({ data }) => {
           subParagraph={data.datoCmsSupervision.supervisionOfferParagraph}
           mainCta={data.datoCmsSupervision.supervisionOfferCta}
           secondCta={data.datoCmsSupervision.supervisionOfferCtaCopy1}
+          supervision
         />
         <AboutOffer />
         <Process />

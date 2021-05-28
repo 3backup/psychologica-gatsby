@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "./styles/Container";
-import { Link } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
 import Button from "./styles/Button";
@@ -113,54 +113,56 @@ const LeavesBg = styled(AboutLeaves)`
 `;
 const AboutSection = () => {
   return (
-    <AboutContainer>
-      <AboutMaxContainer>
-        <HalfGrid>
-          <AboutTitle>
-            Psycholog <span>Renata Zuba</span>
-          </AboutTitle>
-          <AboutParagraph>
-            Posiadam wykształcenie i doświadczenie w stosowaniu różnych modeli
-            psychoterapii – głównie: poznawczego, psychodynamicznego oraz
-            psychodramy.
-            <br />
-            <br />
-            Jestem certyfikowanym <span>specjalistą psychoterapii </span>
-            uzależnień oraz <span>superwizorem</span> w tym obszarze, posiadam
-            również certyfikat z psychodramy. Ukończyłam także wszystkie etapy
-            szkolenia podyplomowego z psychoterapii prowadzonego przez Sekcję
-            Naukową Polskiego Towarzystwa Psychiatrycznego zmierzającego do
-            uzyskania
-            <span> certyfikatu psychoterapeuty.</span>
-            <br />
-            <br />W celu zapewnienia najwyższej jakości oferowanej pomocy
-            regularnie korzystam z superwizji prowadzonej przez doświadczonych
-            superwizorów Polskiego Towarzystwa Psychiatrycznego i Polskiego
-            Towarzystwa Psychologicznego.
-            <br />
-            <br /> Jestem członkiem Polskiego Towarzystwa Psychologicznego oraz
-            Polskiego Towarzystwa Psychoterapii Uzależnień.
-          </AboutParagraph>
-          <AboutButtons>
-            <Link to="/o-mnie">
-              {" "}
-              <Button>Czytaj o mnie</Button>
-            </Link>
-            <AboutLink to="/">Ofera terapeutyczna</AboutLink>
-          </AboutButtons>
-          <SkillList header="Moje" subheader="kompetencje" />
-        </HalfGrid>
-        <HalfGridRight>
-          <StaticImage
-            src="../images/about-renata-zuba.jpg"
-            alt="about Renata Zuba"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </HalfGridRight>
-      </AboutMaxContainer>
-      <LeavesBg />
-    </AboutContainer>
+    <StaticQuery
+      query={graphql`
+        query AboutSectionQuery {
+          datoCmsIndex {
+            psychologDesc
+            psychologTitle
+            psychologTitleSkills
+            psychologCtaDrugi
+            psychologCta
+          }
+        }
+      `}
+      render={(data) => (
+        <AboutContainer>
+          <AboutMaxContainer>
+            <HalfGrid>
+              <AboutTitle
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsIndex.psychologTitle,
+                }}></AboutTitle>
+              <AboutParagraph
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsIndex.psychologDesc,
+                }}></AboutParagraph>
+              <AboutButtons>
+                <Link to="/o-mnie">
+                  <Button>{data.datoCmsIndex.psychologCta}</Button>
+                </Link>
+                <AboutLink to="/">
+                  {data.datoCmsIndex.psychologCtaDrugi}
+                </AboutLink>
+              </AboutButtons>
+              <SkillList
+                header={data.datoCmsIndex.psychologTitleSkills}
+                subheader={data.datoCmsIndex.psychologTitleSkillsPart}
+              />
+            </HalfGrid>
+            <HalfGridRight>
+              <StaticImage
+                src="../images/about-renata-zuba.jpg"
+                alt="about Renata Zuba"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </HalfGridRight>
+          </AboutMaxContainer>
+          <LeavesBg />
+        </AboutContainer>
+      )}
+    />
   );
 };
 export default AboutSection;

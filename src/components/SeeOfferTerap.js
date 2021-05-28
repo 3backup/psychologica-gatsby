@@ -67,6 +67,14 @@ const OfferLink = styled(Link)`
   color: #005650;
   transition: 0.3s
   border-bottom: 2px solid rgba(40, 174, 102, 0);
+  a{
+    text-decoration: none;
+    color: #005650;
+    transition: 0.3s;
+    &:hover{
+      color: rgba(40, 174, 102, 1);
+    }
+  }
   &:hover {
       color: rgba(40, 174, 102, 1);
     border-bottom: 2px solid rgba(40, 174, 102, 1);
@@ -93,9 +101,9 @@ const SeeOfferTerap = ({ props }) => {
     <StaticQuery
       query={graphql`
         query OfferEdukacjaQuery {
-          datoCmsOfertaEdukacyjna {
-            sprawdMojOfertOpis
-            sprawdMojOfertPrzyciskdrugiejkategorii
+          datoCmsOfertaTerapeutyczna {
+            sprawdMojOfertParagraf
+            sprawdMojOfertPrzyciskdrugi
             sprawdMojOfertPrzyciskglowny
             sprawdMojOfertTytu
           }
@@ -105,22 +113,21 @@ const SeeOfferTerap = ({ props }) => {
         <MainContainer id="SeeOffer">
           <Container>
             <HeaderTitle>
-              {data.datoCmsOfertaEdukacyjna.sprawdMojOfertTytu}
+              {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertTytu}
             </HeaderTitle>
             <HeaderParagraph>
-              {data.datoCmsOfertaEdukacyjna.sprawdMojOfertOpis}
+              {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertParagraf}
             </HeaderParagraph>
             <HeaderDiv>
               <Link to="/oferta-edukacyjna">
                 <Button>
-                  {data.datoCmsOfertaEdukacyjna.sprawdMojOfertPrzyciskglowny}
+                  {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertPrzyciskglowny}
                 </Button>
               </Link>
               <OfferLink>
-                {
-                  data.datoCmsOfertaEdukacyjna
-                    .sprawdMojOfertPrzyciskdrugiejkategorii
-                }
+                <Link to="/superwizja">
+                  {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertPrzyciskdrugi}
+                </Link>
               </OfferLink>
             </HeaderDiv>
           </Container>

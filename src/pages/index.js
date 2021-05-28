@@ -1,6 +1,6 @@
 import * as React from "react";
-import { styled } from "linaria/react";
 import Layout from "../components/Layout";
+import { graphql } from "gatsby";
 import Footer from "../components/Footer";
 import Process from "../components/Process";
 import Covid from "../components/Covid";
@@ -14,17 +14,16 @@ import "normalize.css";
 const IndexPage = ({ data, props }) => {
   return (
     <>
-      <Layout visableBackground>
+      <Layout
+        visableBackground
+        pageTitle="Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
+        pageDescription="Oferuje pomoc psychologiczną, psychoterapie i psychoedukacje w Rzeszowie. Nazywam się Renata Zuba i jestem psychologiem z wieloletnim doświadczeniem.">
         <Top />
         <Problem />
         <Offer />
         <Testimonial
-          quote="
-              Cokolwiek <span>zamierzasz zrobić</span> lub marzysz, że możesz
-              zrobić, zacznij. <span>Odwaga jest geniuszem</span>, w którym tkwi
-              moc i magia. Zacznij teraz.
-            "
-          author="Johann Wolfgang Goethe"
+          quote={data.datoCmsIndex.cytat}
+          author={data.datoCmsIndex.author}
         />
         <AboutSection />
         <Covid />
@@ -34,5 +33,13 @@ const IndexPage = ({ data, props }) => {
     </>
   );
 };
+export const query = graphql`
+  query StronaGlownaQuery {
+    datoCmsIndex {
+      cytat
+      author
+    }
+  }
+`;
 
 export default IndexPage;
