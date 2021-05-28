@@ -1,7 +1,7 @@
 import React from "react";
 import "normalize.css";
 import { styled } from "linaria/react";
-import { Link } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import Container from "./styles/Container";
 import Money from "../images/money.svg";
@@ -159,7 +159,7 @@ const GreenProcessImage = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  z-index: -8
+  z-index: -8;
   overflow: hidden;
   opacity: 0.5;
   left: 0;
@@ -177,91 +177,111 @@ const ImageGrid = styled(HalfGrid)`
   }
 `;
 
-function Process({ siteTitle, menuLinks }) {
+const Process = ({ siteTitle, menuLinks }) => {
   return (
-    <Section id="cooperation" sn>
-      <HowProcessLookLike>
-        <HalfGrid>
-          <TitleSection>
-            Jak wygląda <span>współpraca?</span>
-          </TitleSection>
-          <ParagraphIntro>
-            Sposób pracy dostosowuję do problematyki i potrzeb konkretnej osoby.
-            Korzystając z szerokich możliwości podejścia integracyjnego stosuję
-            dialog terapeutyczny oraz techniki psychodramy, terapii
-            poznawczo-behawioralnej, modelu systemowego i innych.
-          </ParagraphIntro>
-          <HowMuchItCost>
-            <ClockSign />
-            Czas sesji: 50 minut
-          </HowMuchItCost>
-          <HowMuchItCost>
-            <MoneyDollarSign />
-            Koszt: 100 pln
-          </HowMuchItCost>
-        </HalfGrid>
-        <ImageGrid>
-          <StaticImage
-            src="../images/Process-image.jpg"
-            alt="Roslina psychologica"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </ImageGrid>
-      </HowProcessLookLike>
-      <GreenProcessElement>
-        <Container>
-          <ContentGreen>
-            <SingleStep>
-              <SingleStepImage>
-                <Contact />
-              </SingleStepImage>
-              <SingleStepHeader>1. Skontaktuj się</SingleStepHeader>
-              <SingleStepParagraph>
-                Każdy kontakt rozpoczyna się od wstępnej diagnozy problemów,
-                zasobów, potrzeb i możliwości.
-              </SingleStepParagraph>
-              <Link to="/skontaktuj-sie">
-                <Button>Skontaktuj się</Button>
-              </Link>
-            </SingleStep>
-            <SingleStep>
-              <SingleStepImage>
-                <Plan />
-              </SingleStepImage>
-              <SingleStepHeader>
-                2. Stworzenie planu terapii dla Ciebie
-              </SingleStepHeader>
-              <SingleStepParagraph>
-                Następny krok to ustalenie celów i zasad pomocy psychologicznej
-                lub psychoterapii.
-              </SingleStepParagraph>
-            </SingleStep>
-            <SingleStep>
-              <SingleStepImage>
-                <EveryTiime />
-              </SingleStepImage>
-              <SingleStepHeader>3. Cykliczna praca</SingleStepHeader>
-              <SingleStepParagraph>
-                Zarówno w krótkoterminowej pomocy psychologicznej, jak i w
-                psychoterapii, dążę do wzmacniania mocnych stron i uruchamiania
-                wewnętrznego potencjału osoby, z którą pracuję.
-              </SingleStepParagraph>
-            </SingleStep>
-          </ContentGreen>
-        </Container>
-        <GreenProcessImage>
-          <StaticImage
-            src="../images/process-bg.jpg"
-            alt="background-proces"
-            placeholder="blurred"
-            layout="fullWidth"
-          />
-        </GreenProcessImage>
-        <LeavesBg />
-      </GreenProcessElement>
-    </Section>
+    <StaticQuery
+      query={graphql`
+        query ProcessQuery {
+          datoCmsHowitlookslike {
+            wspPracaTytu
+            wspPracaOpis
+            processTime
+            processThirdsstepDesc
+            processThirddstepTitle
+            processSecondststepDesc
+            processSecondstepTitle
+            processFirststepTitle
+            processFirststepDesc
+            processFirststepCta
+            wspPracaCena
+          }
+        }
+      `}
+      render={(data) => (
+        <Section id="cooperation">
+          <HowProcessLookLike>
+            <HalfGrid>
+              <TitleSection
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsHowitlookslike.wspPracaTytu,
+                }}></TitleSection>
+              <ParagraphIntro>
+                {data.datoCmsHowitlookslike.wspPracaOpis}
+              </ParagraphIntro>
+              <HowMuchItCost>
+                <ClockSign />
+                {data.datoCmsHowitlookslike.processTime}
+              </HowMuchItCost>
+              <HowMuchItCost>
+                <MoneyDollarSign />
+                {data.datoCmsHowitlookslike.wspPracaCena}
+              </HowMuchItCost>
+            </HalfGrid>
+            <ImageGrid>
+              <StaticImage
+                src="../images/Process-image.jpg"
+                alt="Roslina psychologica"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </ImageGrid>
+          </HowProcessLookLike>
+          <GreenProcessElement>
+            <Container>
+              <ContentGreen>
+                <SingleStep>
+                  <SingleStepImage>
+                    <Contact />
+                  </SingleStepImage>
+                  <SingleStepHeader>
+                    {data.datoCmsHowitlookslike.processFirststepTitle}
+                  </SingleStepHeader>
+                  <SingleStepParagraph>
+                    {data.datoCmsHowitlookslike.processFirststepDesc}
+                  </SingleStepParagraph>
+                  <Link to="/skontaktuj-sie">
+                    <Button>
+                      {data.datoCmsHowitlookslike.processFirststepCta}
+                    </Button>
+                  </Link>
+                </SingleStep>
+                <SingleStep>
+                  <SingleStepImage>
+                    <Plan />
+                  </SingleStepImage>
+                  <SingleStepHeader>
+                    {data.datoCmsHowitlookslike.processSecondstepTitle}
+                  </SingleStepHeader>
+                  <SingleStepParagraph>
+                    {data.datoCmsHowitlookslike.processSecondststepDesc}
+                  </SingleStepParagraph>
+                </SingleStep>
+                <SingleStep>
+                  <SingleStepImage>
+                    <EveryTiime />
+                  </SingleStepImage>
+                  <SingleStepHeader>
+                    {data.datoCmsHowitlookslike.processThirddstepTitle}
+                  </SingleStepHeader>
+                  <SingleStepParagraph>
+                    {data.datoCmsHowitlookslike.processThirdsstepDesc}
+                  </SingleStepParagraph>
+                </SingleStep>
+              </ContentGreen>
+            </Container>
+            <GreenProcessImage>
+              <StaticImage
+                src="../images/process-bg.jpg"
+                alt="background-proces"
+                placeholder="blurred"
+                layout="fullWidth"
+              />
+            </GreenProcessImage>
+            <LeavesBg />
+          </GreenProcessElement>
+        </Section>
+      )}
+    />
   );
-}
-
+};
 export default Process;

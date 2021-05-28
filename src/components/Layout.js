@@ -32,9 +32,8 @@ const Layout = ({ children, ...props }) => (
           menuLinks={data.site.siteMetadata.menuLinks}
           siteTitle={data.site.siteMetadata.title}
           visableHeader={props.visableHeader}
-        />{" "}
-        {console.log(data)}
-        {console.log(props)}
+        />
+
         {children}
       </React.Fragment>
     )}

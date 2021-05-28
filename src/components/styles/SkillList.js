@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "linaria/react";
 import BulletPoint from "../../images/bullet-point.svg";
+import { StaticQuery, graphql } from "gatsby";
 
 const AboutSkillList = styled.div`
   display: flex;
@@ -45,39 +46,33 @@ const Dot = styled(BulletPoint)`
 
 const SkillList = (props) => {
   return (
-    <AboutSkillList>
-      <AboutSkillListTitle
-        style={{ fontSize: `${props.bigFont ? "42px" : "26px"}` }}>
-        {props.header} <span>{props.subheader}</span>
-      </AboutSkillListTitle>
-      <AboutSkillListUL>
-        <AboutSkillListLi>
-          <Dot />
-          Certyfikat Specjalisty psychoterapii uzależnień wydany przez Państwową
-          Agencję Rozwiązywania Problemów Alkoholowych (Nr 123){" "}
-        </AboutSkillListLi>
-        <AboutSkillListLi>
-          <Dot />
-          Certyfikat Superwizora psychoterapii uzależnień wydany przez Radę
-          Superwizorów Psychoterapii Uzależnień (Nr 34)
-        </AboutSkillListLi>
-        <AboutSkillListLi>
-          <Dot />
-          Certyfikat Asystenta Psychodramy wydany przez Europejski Instytut
-          Psychodramy w Berlinie i Polski Instytut Psychodramy w Krakowie (No
-          2015-PL-11){" "}
-        </AboutSkillListLi>
-        <AboutSkillListLi>
-          <Dot />
-          Stopień psychologa klinicznego
-        </AboutSkillListLi>
-        <AboutSkillListLi>
-          <Dot />
-          Dyplom magistra psychologii wydany przez Katedrę Psychologii
-          Uniwersytetu Jagiellońskiego w Krakowie{" "}
-        </AboutSkillListLi>
-      </AboutSkillListUL>
-    </AboutSkillList>
+    <StaticQuery
+      query={graphql`
+        query SkillListQuery {
+          datoCmsAboout {
+            skills {
+              skillsElement
+            }
+          }
+        }
+      `}
+      render={(data) => (
+        <AboutSkillList>
+          <AboutSkillListTitle
+            style={{ fontSize: `${props.bigFont ? "42px" : "26px"}` }}>
+            {props.header} <span>{props.subheader}</span>
+          </AboutSkillListTitle>
+          <AboutSkillListUL>
+            {data.datoCmsAboout.skills.map((singleSkill) => (
+              <AboutSkillListLi>
+                <Dot />
+                {singleSkill.skillsElement}
+              </AboutSkillListLi>
+            ))}
+          </AboutSkillListUL>
+        </AboutSkillList>
+      )}
+    />
   );
 };
 export default SkillList;

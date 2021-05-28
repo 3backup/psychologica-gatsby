@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
+import { StaticQuery, graphql } from "gatsby";
 import Button from "./styles/Button";
 import { StaticImage } from "gatsby-plugin-image";
 
@@ -94,39 +95,49 @@ const SmallerParagraph = styled.p`
   opacity: 0.7;
 `;
 
-const TopAbout = ({ props }) => (
-  <TopSection id="hero">
-    <Top>
-      <HeroContainer>
-        <TextContainer>
-          <HeaderTitle>
-            Renata <span>Zuba</span>
-          </HeaderTitle>
-          {/* DUZY SPACING TO DO  */}
-          <ParagraphText>
-            Jestem psychologiem klinicznym i psychoterapeutą z wieloletnim
-            doświadczeniem w prowadzeniu psychoterapii i pomocy psychologicznej.
-          </ParagraphText>
-          <SmallerParagraph>
-            Prowadzę psychoterapię osób dorosłych – zarówno młodych, które
-            niedawno weszły w pełnoletniość, jak i osób będących na różnych
-            etapach rozwoju osobistego, mierzących się z kryzysami, dokonujących
-            bilansu życia.
-          </SmallerParagraph>
-          <Button>Skontaktuj się</Button>
-        </TextContainer>
-      </HeroContainer>
-    </Top>
-    <HalfBackground>
-      <StaticImage
-        src="../images/about-renata-zuba.jpg"
-        alt="Renata Zuba - o mnie"
-        layout="fullWidth"
-        quality="100"
-        placeholder="blurred"
-      />
-    </HalfBackground>
-  </TopSection>
-);
-
+const TopAbout = () => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query AboutTop {
+          datoCmsAboout {
+            renataZuba
+            lead
+            paragraph
+            buttonCta
+          }
+        }
+      `}
+      render={(data) => (
+        <TopSection id="hero">
+          <Top>
+            <HeroContainer>
+              <TextContainer>
+                <HeaderTitle
+                  dangerouslySetInnerHTML={{
+                    __html: data.datoCmsAboout.renataZuba,
+                  }}></HeaderTitle>
+                {/* DUZY SPACING TO DO  */}
+                <ParagraphText>{data.datoCmsAboout.lead}</ParagraphText>
+                <SmallerParagraph>
+                  {data.datoCmsAboout.paragraph}
+                </SmallerParagraph>
+                <Button> {data.datoCmsAboout.buttonCta}</Button>
+              </TextContainer>
+            </HeroContainer>
+          </Top>
+          <HalfBackground>
+            <StaticImage
+              src="../images/about-renata-zuba.jpg"
+              alt="Renata Zuba - o mnie"
+              layout="fullWidth"
+              quality="100"
+              placeholder="blurred"
+            />
+          </HalfBackground>
+        </TopSection>
+      )}
+    />
+  );
+};
 export default TopAbout;

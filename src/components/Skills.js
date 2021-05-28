@@ -1,4 +1,5 @@
 import React from "react";
+import { StaticQuery, graphql, Link } from "gatsby";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
@@ -47,26 +48,41 @@ const ButtonLightGreen = styled(Button)`
 `;
 const Skills = () => {
   return (
-    <SkillSection>
-      <SkillsContainer>
-        <SkillsPhoto>
-          <StaticImage
-            src="../images/skills-image.jpg"
-            alt="bg-testimonial"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </SkillsPhoto>
-        <SkillsText>
-          <SkillList
-            header="Moje kompetencje potwierdzone"
-            subheader="dyplomami i certyfikatami"
-            bigFont
-          />
-          <ButtonLightGreen>Skontaktuj się</ButtonLightGreen>
-        </SkillsText>
-      </SkillsContainer>
-    </SkillSection>
+    <StaticQuery
+      query={graphql`
+        query SkillsQuery {
+          datoCmsAboout {
+            skillsTitle
+            skillsSubtitle
+            skillsCta
+          }
+        }
+      `}
+      render={(data) => (
+        <SkillSection>
+          <SkillsContainer>
+            <SkillsPhoto>
+              <StaticImage
+                src="../images/skills-image.jpg"
+                alt="bg-testimonial"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </SkillsPhoto>
+            <SkillsText>
+              <SkillList
+                header={data.datoCmsAboout.skillsTitle}
+                subheader={data.datoCmsAboout.skillsSubtitle}
+                bigFont
+              />
+              <ButtonLightGreen>
+                {data.datoCmsAboout.skillsCta}
+              </ButtonLightGreen>
+            </SkillsText>
+          </SkillsContainer>
+        </SkillSection>
+      )}
+    />
   );
 };
 export default Skills;

@@ -3,6 +3,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import Sanitization from "../images/satnitization.svg";
 import { StaticImage } from "gatsby-plugin-image";
+import { StaticQuery, graphql } from "gatsby";
 
 const Top = styled.div`
   width: 100%;
@@ -128,39 +129,49 @@ const SantBox = styled.div`
   }
 `;
 
-const TopLocation = ({ props }) => (
-  <TopSection id="hero">
-    <Top>
-      <HeroContainer>
-        <TextContainer>
-          <HeaderTitle>Gabinet</HeaderTitle>
-          {/* DUZY SPACING TO DO  */}
-          <ParagraphText>
-            Gabinet, w którym się spotykamy, jest częścią dużego biurowca.
-            Miejsce to gwarantuje zarówno komfortowe warunki pracy, jak i
-            dyskrecję.
-          </ParagraphText>
-          <TitleGabinet>Psychologica Renata Zuba</TitleGabinet>
-          <Adress>
-            ul. Mikołaja Reja 12/320
-            <br /> 35-211 Rzeszów
-          </Adress>
-        </TextContainer>
-      </HeroContainer>
-    </Top>
-    <HalfBackground>
-      <StaticImage
-        src="../images/gabinet-psychologica.jpg"
-        alt="Roslina psychologica"
-        position="top"
-        layout="fullWidth"
-        placeholder="blurred"
-      />
-      <SantBox>
-        <Sanitization /> Gabinet jest dezynfekowany pomiędzy sesjami
-      </SantBox>
-    </HalfBackground>
-  </TopSection>
-);
+const TopLocation = ({ props }) => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query LocationQuery {
+          datoCmsLocation {
+            title
+            subheader
+            paragraf
+            sanitization
+          }
+          datoCmsGlobal {
+            adress
+          }
+        }
+      `}
+      render={(data) => (
+        <TopSection id="hero">
+          <Top>
+            <HeroContainer>
+              <TextContainer>
+                <HeaderTitle>{data.datoCmsLocation.title}</HeaderTitle>
 
+                <ParagraphText>{data.datoCmsLocation.paragraf}</ParagraphText>
+                <TitleGabinet>{data.datoCmsLocation.subheader}</TitleGabinet>
+                <Adress>{data.datoCmsGlobal.adress}</Adress>
+              </TextContainer>
+            </HeroContainer>
+          </Top>
+          <HalfBackground>
+            <StaticImage
+              src="../images/gabinet-psychologica.jpg"
+              alt="Roslina psychologica"
+              layout="fullWidth"
+              placeholder="blurred"
+            />
+            <SantBox>
+              <Sanitization /> {data.datoCmsLocation.sanitization}
+            </SantBox>
+          </HalfBackground>
+        </TopSection>
+      )}
+    />
+  );
+};
 export default TopLocation;

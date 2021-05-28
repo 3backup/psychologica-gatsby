@@ -1,8 +1,7 @@
 import * as React from "react";
-import { styled } from "linaria/react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
-
+import { graphql } from "gatsby";
 import HowToGet from "../components/HowToGet";
 import Covid from "../components/Covid";
 import SeeOffer from "../components/SeeOffer";
@@ -19,11 +18,25 @@ const lokalizacja = ({ data }) => {
         <Maps />
         <HowToGet />
         <Covid />
-        <SeeOffer />
+        <SeeOffer
+          mainTitle={data.datoCmsLocation.offer}
+          subParagraph={data.datoCmsLocation.offerDesc}
+          mainCta={data.datoCmsLocation.offerCta}
+          secondCta={data.datoCmsLocation.offerCtasecond}
+        />
         <Footer />
       </Layout>
     </>
   );
 };
-
+export const query = graphql`
+  query LocationPageQuery {
+    datoCmsLocation {
+      offer
+      offerCta
+      offerCtasecond
+      offerDesc
+    }
+  }
+`;
 export default lokalizacja;

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "linaria/react";
 import Container from "../components/styles/Container";
-import { Link } from "gatsby";
+import { graphql, Link } from "gatsby";
 import Button from "../components/styles/Button";
 import GoBackIcon from "../images/goback.svg";
 import { Helmet } from "react-helmet";
@@ -47,6 +47,7 @@ const TitleContact = styled.h1`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
+  width: 70%;
   font-size: 56px;
   line-height: 125%;
   color: #1f1f1f;
@@ -152,8 +153,8 @@ const TextForm = styled.textarea`
   background: transparent;
   border-top: none;
   border-left: none;
-  border-right: none
-  font-weight: bold;;
+  border-right: none;
+  font-weight: bold;
   max-width: 100%;
   border-bottom: 1px solid #dbdbdb;
   font-style: normal;
@@ -249,7 +250,7 @@ const FormHeader = styled.h5`
 const BgLeaves = styled(BgImage)`
   position: absolute;
   left: 0;
-  height: 20.8125rem 
+  height: 20.8125rem;
   bottom: 25%;
 `;
 
@@ -257,10 +258,13 @@ const skontaktujSie = ({ data }) => {
   return (
     <>
       <Helmet
-        title="Psychologica - Skontaktuj się"
+        title="Skontaktuj się - Uzyskaj pomoc psychologa w Rzeszowie"
         meta={[
-          { name: "description", content: "Sample" },
-          { name: "keywords", content: "sample, something" },
+          {
+            name: "description",
+            content:
+              "Skontaktuj się z Renata Zuba aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do kadego przypadku podchodzę indywidualnie",
+          },
         ]}></Helmet>
       <ContactContainer>
         <HeaderContact>
@@ -269,37 +273,31 @@ const skontaktujSie = ({ data }) => {
           </Link>
           <GoBack to="/">
             <GoBackIcon />
-            Wróć
+            {data.datoCmsContact.back}
           </GoBack>
         </HeaderContact>
         <ContactContent>
           <TitleContact>
-            Zostaw wiadomość w formularzu bądź korzystaj z
-            <span> danych obok</span>
+            {data.datoCmsContact.title}
+            <span>{data.datoCmsContact.titleGreen}</span>
           </TitleContact>
           <InfoContent>
             <LeftContact>
               <DescParagraph>
-                Zostawienie wiadomości jest darmowe. Na podstawie wstępnej
-                diagnozy zaproponuję Ci sesję początkową, na której określimy
-                wspólne cele. Koszt wizyty to 100 zł
+                {data.datoCmsContact.desc}
                 <AdditionalInformation>
                   <SingleContactInformation>
-                    <PhoneIcon /> +48 881 442 883
+                    <PhoneIcon /> {data.datoCmsGlobal.phonenumber}
                   </SingleContactInformation>
                   <SingleContactInformation>
-                    <MailIcon /> kontakt@psychologica.pl
+                    <MailIcon /> {data.datoCmsGlobal.email}
                   </SingleContactInformation>
                   <SingleContactInformation>
-                    <PinIcon /> ul. Mikołaja Reja 12/320
-                    <br />
-                    35-211 Rzeszów
+                    <PinIcon /> {data.datoCmsGlobal.adress}
                   </SingleContactInformation>
                 </AdditionalInformation>
               </DescParagraph>
-              <Footnotes>
-                PSYCHOLOGICA Renata Zuba NIP:8131239390 REGON:365481005
-              </Footnotes>
+              <Footnotes>{data.datoCmsContact.companyDetails}</Footnotes>
             </LeftContact>
             <RightContact>
               <FormHeader>Wyślij wiadomość</FormHeader>
@@ -344,5 +342,21 @@ const skontaktujSie = ({ data }) => {
     </>
   );
 };
+export const query = graphql`
+  query ContactQuery {
+    datoCmsGlobal {
+      adress
+      email
+      phonenumber
+    }
+    datoCmsContact {
+      title
+      titleGreen
+      companyDetails
+      desc
+      back
+    }
+  }
+`;
 
 export default skontaktujSie;

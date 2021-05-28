@@ -1,4 +1,5 @@
 import React from "react";
+import { StaticQuery, graphql } from "gatsby";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import Acceptance from "../images/acceptance.svg";
@@ -83,37 +84,58 @@ const BgElement = styled(Whatisimportant)`
   right: 0;
 `;
 
-const WhatIsImportant = ({ props }) => (
-  <MainContainer id="WhatIsImportant">
-    <Container>
-      <HeaderTitle>Co jest ważne w mojej pracy?</HeaderTitle>
-      <HeaderParagraph>
-        We create smart and agile tests for Experience Management, Market
-        Research & Education. We have 20+ years of experience in
-      </HeaderParagraph>
-      <HeaderDiv>
-        <SingleBox>
-          <BoxIcon>
-            <Individual />
-          </BoxIcon>
-          <BoxHeader>Indywidualne podejście</BoxHeader>
-        </SingleBox>
-        <SingleBox>
-          <BoxIcon>
-            <Discretion />
-          </BoxIcon>
-          <BoxHeader>Dyskrecja</BoxHeader>
-        </SingleBox>
-        <SingleBox>
-          <BoxIcon>
-            <Acceptance />
-          </BoxIcon>
-          <BoxHeader> Akceptacja i wsparcie</BoxHeader>
-        </SingleBox>
-      </HeaderDiv>
-    </Container>
-    <BgElement />
-  </MainContainer>
-);
-
+const WhatIsImportant = ({ props }) => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query WhatisimportantQuery {
+          datoCmsAboout {
+            whatisimportantFirstelement
+            whatisimportantParagraph
+            whatisimportantSecondelement
+            whatisimportantThirdelement
+            whatisimportantTitle
+          }
+        }
+      `}
+      render={(data) => (
+        <MainContainer id="WhatIsImportant">
+          <Container>
+            <HeaderTitle>{data.datoCmsAboout.whatisimportantTitle}</HeaderTitle>
+            <HeaderParagraph>
+              {data.datoCmsAboout.whatisimportantParagraph}
+            </HeaderParagraph>
+            <HeaderDiv>
+              <SingleBox>
+                <BoxIcon>
+                  <Individual />
+                </BoxIcon>
+                <BoxHeader>
+                  {data.datoCmsAboout.whatisimportantSecondelement}
+                </BoxHeader>
+              </SingleBox>
+              <SingleBox>
+                <BoxIcon>
+                  <Discretion />
+                </BoxIcon>
+                <BoxHeader>
+                  {data.datoCmsAboout.whatisimportantFirstelement}
+                </BoxHeader>
+              </SingleBox>
+              <SingleBox>
+                <BoxIcon>
+                  <Acceptance />
+                </BoxIcon>
+                <BoxHeader>
+                  {data.datoCmsAboout.whatisimportantThirdelement}
+                </BoxHeader>
+              </SingleBox>
+            </HeaderDiv>
+          </Container>
+          <BgElement />
+        </MainContainer>
+      )}
+    />
+  );
+};
 export default WhatIsImportant;

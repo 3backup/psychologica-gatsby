@@ -49,7 +49,7 @@ const Footer = () => {
   return (
     <StaticQuery
       query={graphql`
-        query MyQuery {
+        query FooterQuery {
           datoCmsFooter {
             privacyPolicy
             rightsReserverd

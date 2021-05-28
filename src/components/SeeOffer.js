@@ -67,6 +67,15 @@ const OfferLink = styled(Link)`
   color: #005650;
   transition: 0.3s
   border-bottom: 2px solid rgba(40, 174, 102, 0);
+  a{
+    text-decoration: none;
+    color: #005650;
+    transition: 0.3s
+    &:hover{
+      color: rgba(40, 174, 102, 1);
+
+    }
+  }
   &:hover {
       color: rgba(40, 174, 102, 1);
     border-bottom: 2px solid rgba(40, 174, 102, 1);
@@ -90,19 +99,24 @@ const LogoBg = styled(Logo)`
   transform: translate(-50%, -50%);
 `;
 
-const SeeOffer = ({ props }) => (
+const SeeOffer = ({ mainTitle, subParagraph, mainCta, secondCta }) => (
   <MainContainer id="SeeOffer">
     <Container>
-      <HeaderTitle>Sprawdź moją ofertę</HeaderTitle>
+      <HeaderTitle>{mainTitle ? mainTitle : "Sprawdź moją ofertę"}</HeaderTitle>
       <HeaderParagraph>
-        We create smart and agile tests for Experience Management, Market
-        Research & Education. We have 20+ years of experience in{" "}
+        {subParagraph
+          ? subParagraph
+          : "We create smart and agile tests for Experience Management, Market Research & Education. We have 20+ years of experience in"}
       </HeaderParagraph>
       <HeaderDiv>
-        <Button>
-          <Link>Oferta terapeutyczna</Link>
-        </Button>
-        <OfferLink>Oferta Edukacyjna</OfferLink>
+        <Link to="/oferta-terapeutyczna">
+          <Button>{mainCta ? mainCta : "Oferta terapeutyczna"}</Button>
+        </Link>
+        <OfferLink>
+          <Link to="/oferta-edukacyjna">
+            {secondCta ? secondCta : "Oferta edukacyjna"}
+          </Link>
+        </OfferLink>
       </HeaderDiv>
     </Container>
     <LogoBg />

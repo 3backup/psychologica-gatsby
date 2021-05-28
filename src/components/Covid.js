@@ -6,6 +6,7 @@ import { Link } from "gatsby";
 import CovidSvg from "../images/covid.svg";
 import CovidTopRight from "../images/covid-top-right.svg";
 import CovidBottomLeft from "../images/covid-bottom-left.svg";
+import { StaticQuery, graphql } from "gatsby";
 
 const CovidContainer = styled(Container)`
   margin: 8.75rem auto;
@@ -53,6 +54,10 @@ const LightGreen = styled(ButtonLightGreen)`
     min-width: 80%;
     width: 80%;
   }
+  @media (max-width: 768px) {
+    min-width: 100%;
+    width: 100%;
+  }
 `;
 const CovidImage = styled.div`
   width: 8.25rem;
@@ -65,7 +70,6 @@ const CovidImage = styled.div`
   box-sizing: border-box;
   background: #ffffff;
   backdrop-filter: blur(10px);
-  /* Note: backdrop-filter has minimal browser support */
   border-radius: 50px;
 `;
 const CovidPostionBottom = styled(CovidTopRight)`
@@ -86,23 +90,33 @@ const LinkElement = styled(Link)`
 
 const Covid = () => {
   return (
-    <CovidContainer>
-      <CovidImage>
-        <CovidSvg />
-      </CovidImage>
-      <CovidHeader>Spotkania osobiste lub sesje zdalne</CovidHeader>
-      <CovidParagraph>
-        Oferuję spotkania online za pomocą platform takich jak: Zoom, Skype,
-        Microsoft Teams (w formie wideokonferencji lub telekonferencji) oraz
-        sesje telefoniczne. Sesje zdalne odbywają się na takich samych zasadach
-        jak sesje osobiste.
-      </CovidParagraph>
-      <LinkElement to="/skontaktuj-sie">
-        <LightGreen>Skontaktuj się</LightGreen>
-      </LinkElement>
-      <CovidPostionTop />
-      <CovidPostionBottom />
-    </CovidContainer>
+    <StaticQuery
+      query={graphql`
+        query CovidQuery {
+          datoCmsCovi {
+            paragraph
+            spotkaniaOsobisteLubSesjeZdalne
+            buttonCta
+          }
+        }
+      `}
+      render={(data) => (
+        <CovidContainer>
+          <CovidImage>
+            <CovidSvg />
+          </CovidImage>
+          <CovidHeader>
+            {data.datoCmsCovi.spotkaniaOsobisteLubSesjeZdalne}
+          </CovidHeader>
+          <CovidParagraph>{data.datoCmsCovi.paragraph}</CovidParagraph>
+          <LinkElement to="/skontaktuj-sie">
+            <LightGreen>{data.datoCmsCovi.buttonCta}</LightGreen>
+          </LinkElement>
+          <CovidPostionTop />
+          <CovidPostionBottom />
+        </CovidContainer>
+      )}
+    />
   );
 };
 export default Covid;

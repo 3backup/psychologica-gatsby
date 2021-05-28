@@ -3,6 +3,7 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import Parking from "../images/parking.svg";
 import { StaticImage } from "gatsby-plugin-image";
+import { StaticQuery, graphql } from "gatsby";
 
 const MainContainer = styled.section`
   position: relative;
@@ -105,47 +106,56 @@ const ParkingInfo = styled.div`
   }
 `;
 
-const HowToGet = ({ props }) => (
-  <MainContainer id="HowToGetTo">
-    <InnerContianer>
-      <LeftContet>
-        <Headlines>
-          Dojazd <span>komunikacją miejską</span>
-        </Headlines>
-        <ParagraphLeft>
-          Najbliższe przystanki: Marszałkowska szkoła, Dworzec Lokalny,
-          Okulickiego C. handlowe..
-        </ParagraphLeft>
-      </LeftContet>
-      <RightContent>
-        <Headlines>
-          Dojazd <span>samochodem</span>
-        </Headlines>
-        <ListContainer>
-          <li>
-            Jadąc od Okulickiego: skręcić w Baczyńskiego, a następnie w prawo na
-            Reja.
-          </li>
-          <li>
-            Jadąc od Lubelskiej: skręcić w Konopnickiej, a następnie za torami w
-            prawo na Reja.
-          </li>
-        </ListContainer>
-        <ParkingInfo>
-          <Parking /> Mozliwość zaparkowania przy ulicy Reja. Brak płatnej
-          strefy.
-        </ParkingInfo>
-      </RightContent>
-    </InnerContianer>
-    <TestimonialBg>
-      <StaticImage
-        src="../images/testimonial-bg.jpg"
-        alt="bg-testimonial"
-        layout="fullWidth"
-        placeholder="blurred"
-      />
-    </TestimonialBg>
-  </MainContainer>
-);
-
+const HowToGet = ({ props }) => {
+  return (
+    <StaticQuery
+      query={graphql`
+        query HowToGetQuery {
+          datoCmsLocation {
+            bus
+            busDesc
+            car
+            carDescOne
+            carDescParking
+            carDescTwo
+          }
+        }
+      `}
+      render={(data) => (
+        <MainContainer id="HowToGetTo">
+          <InnerContianer>
+            <LeftContet>
+              <Headlines
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsLocation.bus,
+                }}></Headlines>
+              <ParagraphLeft>{data.datoCmsLocation.busDesc}</ParagraphLeft>
+            </LeftContet>
+            <RightContent>
+              <Headlines
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsLocation.car,
+                }}></Headlines>
+              <ListContainer>
+                <li>{data.datoCmsLocation.carDescOne}</li>
+                <li>{data.datoCmsLocation.carDescTwo}</li>
+              </ListContainer>
+              <ParkingInfo>
+                <Parking /> {data.datoCmsLocation.carDescParking}
+              </ParkingInfo>
+            </RightContent>
+          </InnerContianer>
+          <TestimonialBg>
+            <StaticImage
+              src="../images/testimonial-bg.jpg"
+              alt="bg-testimonial"
+              layout="fullWidth"
+              placeholder="blurred"
+            />
+          </TestimonialBg>
+        </MainContainer>
+      )}
+    />
+  );
+};
 export default HowToGet;

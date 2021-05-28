@@ -1,7 +1,7 @@
 import React from "react";
 import Container from "./styles/Container";
-import { Link } from "gatsby";
 import Button from "./styles/Button";
+import { StaticQuery, graphql, Link } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
 
@@ -99,14 +99,22 @@ const OfferLink = styled(Link)`
   align-items: center;
   text-align: center;
   color: #005650;
-  transition: 0.3s
+  transition: 0.3s;
   border-bottom: 2px solid rgba(40, 174, 102, 0);
-  &:hover {
+  a {
+    text-decoration: none;
+    color: #005650;
+    transition: 0.3s;
+    &:hover {
       color: rgba(40, 174, 102, 1);
+    }
+  }
+  &:hover {
+    color: rgba(40, 174, 102, 1);
     border-bottom: 2px solid rgba(40, 174, 102, 1);
   }
   @media (max-width: 1024px) {
-    margin: 2rem auto ;
+    margin: 2rem auto;
   }
 `;
 const BgContainer = styled.div`
@@ -119,42 +127,63 @@ const BgContainer = styled.div`
 
 const AboutOffer = () => {
   return (
-    <AboutCopySection>
-      <OfferContainer>
-        <OfferImage>
-          <StaticImage
-            src="../images/about-renata-zuba.jpg"
-            alt="Renata Zuba - o mnie"
-            layout="fullWidth"
-            quality="100"
-            placeholder="blurred"
-          />
-        </OfferImage>
-        <OfferContent>
-          <OfferAboutHeader>
-            Psycholog <span>Renata Zuba</span>
-          </OfferAboutHeader>
-          <OfferAboutPragraph>
-            We create smart and agile tests for Experience Management, Market
-            Research & Education. We have 20+ years of experience in academic
-            and commercial research in emotions. We are global pioneers in
-            consumer neuroscience.
-          </OfferAboutPragraph>
-          <HeaderDiv>
-            <Button>Oferta terapeutyczna</Button>
-            <OfferLink>Oferta Edukacyjna</OfferLink>
-          </HeaderDiv>
-        </OfferContent>
-        <BgContainer>
-          <StaticImage
-            src="../images/background-problem.png"
-            alt="bg-testimonial"
-            layout="fullWidth"
-            placeholder="blurred"
-          />
-        </BgContainer>
-      </OfferContainer>
-    </AboutCopySection>
+    <StaticQuery
+      query={graphql`
+        query PsychologRenataQuery {
+          datoCmsSummaryAbout {
+            aboutSummaryDesc
+            aboutSummaryMainbutton
+            aboutSummarySecondbutton
+            aboutSummaryTitle
+          }
+        }
+      `}
+      render={(data) => (
+        <AboutCopySection>
+          <OfferContainer>
+            <OfferImage>
+              <StaticImage
+                src="../images/about-renata-zuba.jpg"
+                alt="Renata Zuba - o mnie"
+                layout="fullWidth"
+                quality="100"
+                placeholder="blurred"
+              />
+            </OfferImage>
+            <OfferContent>
+              <OfferAboutHeader
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsSummaryAbout.aboutSummaryTitle,
+                }}></OfferAboutHeader>
+              <OfferAboutPragraph>
+                {data.datoCmsSummaryAbout.aboutSummaryDesc}
+              </OfferAboutPragraph>
+              <HeaderDiv>
+                <Link to="o-mnie">
+                  <Button>
+                    {data.datoCmsSummaryAbout.aboutSummaryMainbutton}
+                  </Button>
+                </Link>
+
+                <OfferLink>
+                  <Link to="/skontaktuj-sie.js">
+                    {data.datoCmsSummaryAbout.aboutSummarySecondbutton}
+                  </Link>
+                </OfferLink>
+              </HeaderDiv>
+            </OfferContent>
+            <BgContainer>
+              <StaticImage
+                src="../images/background-problem.png"
+                alt="bg-testimonial"
+                layout="fullWidth"
+                placeholder="blurred"
+              />
+            </BgContainer>
+          </OfferContainer>
+        </AboutCopySection>
+      )}
+    />
   );
 };
 export default AboutOffer;

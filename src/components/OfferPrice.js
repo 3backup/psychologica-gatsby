@@ -2,8 +2,8 @@ import React from "react";
 import Container from "./styles/Container";
 import { styled } from "linaria/react";
 import { ButtonLightGreen } from "./styles/ButtonLightGreen";
-import { Link } from "gatsby";
 import OfferPriceImages from "../images/OfferPrice.svg";
+import { StaticQuery, graphql, Link } from "gatsby";
 
 const AboutCopySection = styled.section`
   width: 100%;
@@ -65,17 +65,33 @@ const ImageCenter = styled(OfferPriceImages)`
 
 const OfferPrice = () => {
   return (
-    <AboutCopySection>
-      <OfferContainer>
-        <OfferPriceText>
-          Koszt wizyty Indywidualnej <span>100 zł</span>
-        </OfferPriceText>
-        <Link to="/skontaktuj-sie">
-          <ButtonLightGreenCenter>Skontaktuj się</ButtonLightGreenCenter>
-        </Link>
-      </OfferContainer>
-      <ImageCenter />
-    </AboutCopySection>
+    <StaticQuery
+      query={graphql`
+        query OfferPrice {
+          datoCmsOfferprice {
+            offerprice
+            offerpriceCta
+            offerpricePrice
+          }
+        }
+      `}
+      render={(data) => (
+        <AboutCopySection>
+          <OfferContainer>
+            <OfferPriceText>
+              {data.datoCmsOfferprice.offerprice}
+              <span>{data.datoCmsOfferprice.offerpricePrice}</span>
+            </OfferPriceText>
+            <Link to="/skontaktuj-sie">
+              <ButtonLightGreenCenter>
+                {data.datoCmsOfferprice.offerpriceCta}
+              </ButtonLightGreenCenter>
+            </Link>
+          </OfferContainer>
+          <ImageCenter />
+        </AboutCopySection>
+      )}
+    />
   );
 };
 export default OfferPrice;

@@ -55,7 +55,10 @@ const TestimonialHr = styled.div`
 const Testimonial = ({ quote, author }) => {
   return (
     <TestimonialSection>
-      <TestimonialQuote>{quote}</TestimonialQuote>
+      <TestimonialQuote
+        dangerouslySetInnerHTML={{
+          __html: quote,
+        }}></TestimonialQuote>
       <TestimonialHr />
       <TestimonialAuthor>{author}</TestimonialAuthor>
       <TestimonialBg>

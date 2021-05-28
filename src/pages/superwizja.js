@@ -1,37 +1,35 @@
 import * as React from "react";
-import { styled } from "linaria/react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
+import { graphql } from "gatsby";
 import AboutOffer from "../components/AboutOffer";
-import SeeOfferTerap from "../components/SeeOfferTerap";
+import SeeOffer from "../components/SeeOffer";
 import OfferPrice from "../components/OfferPrice";
 import Testimonial from "../components/Testimonial";
 import { OfferSuperwizja } from "../components/OfferSuperwizja";
 import Process from "../components/Process";
 import TopOffer from "../components/TopOffer";
 
-// markup
 const oferta = ({ data }) => {
   return (
     <>
       <Layout>
         <TopOffer
-          headerElement="Superwizja"
-          subheaderText="Prowadzę zarówno psychoterapię, jak i pomoc psychologiczną skoncentrowaną na poszukiwaniu rozwiązań
-problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
+          headerElement={data.datoCmsSupervision.supervisionTitle}
+          subheaderText={data.datoCmsSupervision.supervisionSubheader}
         />
         <OfferSuperwizja />
         <Testimonial
-          quote={
-            <>
-              Chcąc opuścić <span>jakieś miejsce</span> musimy najpierw do niego{" "}
-              <span>dotrzeć.</span>
-            </>
-          }
-          author="Leslie Greenberg"
+          quote={data.datoCmsSupervision.supervisionQuote}
+          author={data.datoCmsSupervision.supervisionAuthor}
         />
         <OfferPrice />
-        <SeeOfferTerap />
+        <SeeOffer
+          mainTitle={data.datoCmsSupervision.supervisionOfferTitle}
+          subParagraph={data.datoCmsSupervision.supervisionOfferParagraph}
+          mainCta={data.datoCmsSupervision.supervisionOfferCta}
+          secondCta={data.datoCmsSupervision.supervisionOfferCtaCopy1}
+        />
         <AboutOffer />
         <Process />
         <Footer />
@@ -39,5 +37,18 @@ problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami."
     </>
   );
 };
-
+export const query = graphql`
+  query SuperwizjaQuery {
+    datoCmsSupervision {
+      supervisionTitle
+      supervisionSubheader
+      supervisionQuote
+      supervisionAuthor
+      supervisionOfferCta
+      supervisionOfferCtaCopy1
+      supervisionOfferParagraph
+      supervisionOfferTitle
+    }
+  }
+`;
 export default oferta;

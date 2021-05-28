@@ -1,6 +1,6 @@
 import React from "react";
 import Container from "./styles/Container";
-import { Link } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby";
 import Button from "./styles/Button";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
@@ -37,7 +37,6 @@ const AboutCopyHeader = styled.h2`
   font-weight: 500;
   font-size: 42px;
   line-height: 125%;
-  /* identical to box height, or 52px */
   margin: 0;
   padding: 0;
   color: #ffffff;
@@ -96,53 +95,49 @@ const ProblemBg = styled.div`
 
 const AboutCopy = () => {
   return (
-    <AboutCopySection>
-      <AboutCopyContainer>
-        <AboutCopyHalf>
-          <AboutCopyHeader>O mnie</AboutCopyHeader>
-          <AboutCopyParagraphLeft>
-            Jestem certyfikowanym specjalistą psychoterapii uzależnień oraz
-            superwizorem w tym obszarze, posiadam również certyfikat I stopnia z
-            psychodramy. Ukończyłam także wszystkie etapy szkolenia
-            podyplomowego z psychoterapii prowadzonego przez Sekcję Naukową
-            Polskiego Towarzystwa Psychiatrycznego zmierzającego do uzyskania
-            certyfikatu psychoterapeuty.
-          </AboutCopyParagraphLeft>
-          <Link to="/skontaktuj-sie">
-            <ButtonLight>Skontaktuj się</ButtonLight>
-          </Link>
-        </AboutCopyHalf>
-        <AboutCopyHalf>
-          <AboutCopyParagraphRight>
-            Mam duże doświadczenie w prowadzeniu psychoterapii osób
-            uzależnionych, osób, u których – obecnie bądź w przeszłości –
-            <span>występował w rodzinie/związku problem</span> uzależnienia oraz
-            w psychoterapii innych osób borykających się m.in. z lękiem,
-            depresją, niskim poczuciem własnej wartości, mierzących się z
-            kryzysem (w związku, <span>życiu zawodowym</span>, przewlekłą
-            chorobą, bolesną stratą oraz innymi trudnymi doświadczeniami).
-          </AboutCopyParagraphRight>
-          <AboutCopyParagraphRight>
-            Posiadam wykształcenie i doświadczenie w stosowaniu kilku modeli
-            psychoterapii: psychodynamicznego, poznawczego oraz psychodramy J.L.
-            Moreno.
-          </AboutCopyParagraphRight>
-          <AboutCopyParagraphRight>
-            Jestem członkiem Polskiego Towarzystwa Psychologicznego.
-          </AboutCopyParagraphRight>
-        </AboutCopyHalf>
-      </AboutCopyContainer>
-      <ProblemBg>
-        <StaticImage
-          src="../images/background-problem.png"
-          alt="bg-testimonial"
-          layout="fullWidth"
-          placeholder="blurred"
-        />
-      </ProblemBg>
-      <BgTopRight />
-      <BgTopLeft />
-    </AboutCopySection>
+    <StaticQuery
+      query={graphql`
+        query AboutGreenQuery {
+          datoCmsAboout {
+            greenLead
+            greenCta
+            greenParagraph
+            aboutGreen
+          }
+        }
+      `}
+      render={(data) => (
+        <AboutCopySection>
+          <AboutCopyContainer>
+            <AboutCopyHalf>
+              <AboutCopyHeader>{data.datoCmsAboout.aboutGreen}</AboutCopyHeader>
+              <AboutCopyParagraphLeft>
+                {data.datoCmsAboout.greenLead}
+              </AboutCopyParagraphLeft>
+              <Link to="/skontaktuj-sie">
+                <ButtonLight>{data.datoCmsAboout.greenCta}</ButtonLight>
+              </Link>
+            </AboutCopyHalf>
+            <AboutCopyHalf>
+              <AboutCopyParagraphRight
+                dangerouslySetInnerHTML={{
+                  __html: data.datoCmsAboout.greenParagraph,
+                }}></AboutCopyParagraphRight>
+            </AboutCopyHalf>
+          </AboutCopyContainer>
+          <ProblemBg>
+            <StaticImage
+              src="../images/background-problem.png"
+              alt="bg-testimonial"
+              layout="fullWidth"
+              placeholder="blurred"
+            />
+          </ProblemBg>
+          <BgTopRight />
+          <BgTopLeft />
+        </AboutCopySection>
+      )}
+    />
   );
 };
 export default AboutCopy;

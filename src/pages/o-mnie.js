@@ -1,6 +1,6 @@
 import * as React from "react";
-import { styled } from "linaria/react";
 import Layout from "../components/Layout";
+import { graphql } from "gatsby";
 import Footer from "../components/Footer";
 
 import AboutCopy from "../components/AboutCopy";
@@ -18,12 +18,26 @@ const oMnie = ({ data }) => {
         <AboutCopy />
         <Skills />
         <WhatIsImportant />
-        <SeeOffer />
+        <SeeOffer
+          mainTitle={data.datoCmsAboout.checkoffer}
+          subParagraph={data.datoCmsAboout.offerDesc}
+          mainCta={data.datoCmsAboout.offertFirstcta}
+          secondCta={data.datoCmsAboout.offerctaSecond}
+        />
         <Process />
         <Footer />
       </Layout>
     </>
   );
 };
-
+export const query = graphql`
+  query AboutPageQuery {
+    datoCmsAboout {
+      offertFirstcta
+      offerctaSecond
+      offerDesc
+      checkoffer
+    }
+  }
+`;
 export default oMnie;
