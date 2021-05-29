@@ -331,7 +331,8 @@ const skontaktujSie = ({ data }) => {
               </ContactForm>
               <Footnotes>
                 * Pola są wymagane. Wysyłając formularz zgadzam się na
-                przetwarzanie danych ujętych w Polityce Prywatności..
+                przetwarzanie danych ujętych w{" "}
+                <Link to="polityka-prywatnosci">Polityce Prywatności.</Link>
               </Footnotes>
             </RightContact>
           </InfoContent>

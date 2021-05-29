@@ -15,7 +15,7 @@ const oferta = ({ data }) => {
   return (
     <>
       <Layout
-        pageTitle="Oferta edukacyjna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja"
+        pageTitle="Oferta edukacyjna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
         pageDescription="Opierając się na swoich doświadczeniach jako psychologa klinicznego prowadzę specjalistyczne szkolenia dla osób zajmujących się psychoterapią lub pomocą psychologiczną, a także warsztaty i treningi kompetencji skierowane do różnych grup zawodowych i społecznych.">
         <TopOffer
           headerElement={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTop}

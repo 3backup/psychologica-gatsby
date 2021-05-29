@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Psychologica - gabinet psychologiczny Renata Zuba Rzeszów`,
-    siteUrl: "http://localhost:8000/",
+    siteUrl: "http://www.psychologica.pl/",
     menuLinks: [
       {
         name: "Oferta terapeutyczna",

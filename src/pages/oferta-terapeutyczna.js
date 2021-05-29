@@ -16,7 +16,7 @@ const oferta = ({ data }) => {
   return (
     <>
       <Layout
-        pageTitle="Oferta terapeutyczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja"
+        pageTitle="Oferta terapeutyczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
         pageDescription="Prowadzę zarówno psychoterapię, jak i pomoc psychologiczną w Rzeszowie skoncentrowaną na poszukiwaniu rozwiązań problemów oraz wspieraniu w radzeniu sobie z trudnościami i wyzwaniami.">
         <TopOffer
           headerElement={

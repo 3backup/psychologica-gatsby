@@ -1,5 +1,5 @@
 import React from "react";
-import { StaticQuery, graphql, Link } from "gatsby";
+import { StaticQuery, graphql } from "gatsby";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
