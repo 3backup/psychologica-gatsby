@@ -268,7 +268,7 @@ const skontaktujSie = ({ data }) => {
         ]}></Helmet>
       <ContactContainer>
         <HeaderContact>
-          <Link to={window.history.back()}>
+          <Link to="/">
             <LogoHeader height="60" width="185" />
           </Link>
           <GoBack to="/">
