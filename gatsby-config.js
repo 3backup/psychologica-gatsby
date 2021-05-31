@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Psychologica - gabinet psychologiczny Renata Zuba Rzeszów`,
+    title: `Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba`,
     siteUrl: "http://www.psychologica.pl/",
     menuLinks: [
       {
@@ -28,8 +28,8 @@ module.exports = {
         link: "/skontaktuj-sie",
       },
     ],
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `Renata Zuba Psychologica`,
+    description: `Oferuje pomoc psychologiczną, psychoterapie i psychoedukacje w Rzeszowie. Nazywam się Renata Zuba i jestem psychologiem z wieloletnim doświadczeniem.`,
+    author: `Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba`,
   },
   plugins: [
     "gatsby-plugin-linaria",
@@ -75,7 +75,12 @@ module.exports = {
     },
     "gatsby-plugin-sass",
     "gatsby-plugin-image",
-
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl: `https://www.psychologica.pl`,
+      },
+    },
     {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
