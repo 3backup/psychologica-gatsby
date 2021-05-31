@@ -82,7 +82,7 @@ const OfferPrice = () => {
               {data.datoCmsOfferprice.offerprice}
               <span>{data.datoCmsOfferprice.offerpricePrice}</span>
             </OfferPriceText>
-            <Link to="/skontaktuj-sie">
+            <Link to="/skontaktuj-sie/">
               <ButtonLightGreenCenter>
                 {data.datoCmsOfferprice.offerpriceCta}
               </ButtonLightGreenCenter>

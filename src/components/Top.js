@@ -162,7 +162,7 @@ const Header = ({ props }) => {
                   }}></HeaderTitle>
                 {/* DUZY SPACING TO DO  */}
                 <ParagraphText>{data.datoCmsIndex.opis}</ParagraphText>
-                <Link to="/skontaktuj-sie">
+                <Link to="/skontaktuj-sie/">
                   <Button>{data.datoCmsIndex.gRnaSekcjaPrzycisk}</Button>
                 </Link>
               </TextContainer>

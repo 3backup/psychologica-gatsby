@@ -115,11 +115,11 @@ const SeeOffer = ({
           : "We create smart and agile tests for Experience Management, Market Research & Education. We have 20+ years of experience in"}
       </HeaderParagraph>
       <HeaderDiv>
-        <Link to="/oferta-terapeutyczna">
+        <Link to="/oferta-terapeutyczna/">
           <Button>{mainCta ? mainCta : "Oferta terapeutyczna"}</Button>
         </Link>
         <OfferLink>
-          <Link to={supervision ? "/oferta-edukacyjna" : "/superwizja"}>
+          <Link to={supervision ? "/oferta-edukacyjna/" : "/superwizja/"}>
             {secondCta ? secondCta : "Oferta edukacyjna"}
           </Link>
         </OfferLink>

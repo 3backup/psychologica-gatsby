@@ -239,7 +239,7 @@ const Process = ({ siteTitle, menuLinks }) => {
                   <SingleStepParagraph>
                     {data.datoCmsHowitlookslike.processFirststepDesc}
                   </SingleStepParagraph>
-                  <Link to="/skontaktuj-sie">
+                  <Link to="/skontaktuj-sie/">
                     <Button>
                       {data.datoCmsHowitlookslike.processFirststepCta}
                     </Button>

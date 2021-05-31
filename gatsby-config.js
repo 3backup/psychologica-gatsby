@@ -5,27 +5,27 @@ module.exports = {
     menuLinks: [
       {
         name: "Oferta terapeutyczna",
-        link: "/oferta-terapeutyczna",
+        link: "/oferta-terapeutyczna/",
       },
       {
         name: "Oferta Edukacyjna",
-        link: "/oferta-edukacyjna",
+        link: "/oferta-edukacyjna/",
       },
       {
         name: "Superwizja",
-        link: "/superwizja",
+        link: "/superwizja/",
       },
       {
         name: "O mnie",
-        link: "/o-mnie",
+        link: "/o-mnie/",
       },
       {
         name: "Lokalizacja",
-        link: "/lokalizacja",
+        link: "/lokalizacja/",
       },
       {
         name: "Skontaktuj się",
-        link: "/skontaktuj-sie",
+        link: "/skontaktuj-sie/",
       },
     ],
     description: `Oferuje pomoc psychologiczną, psychoterapie i psychoedukacje w Rzeszowie. Nazywam się Renata Zuba i jestem psychologiem z wieloletnim doświadczeniem.`,

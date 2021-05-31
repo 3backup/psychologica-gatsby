@@ -268,7 +268,7 @@ const skontaktujSie = ({ data }) => {
         ]}></Helmet>
       <ContactContainer>
         <HeaderContact>
-          <Link to="/">
+          <Link to={window.history.back()}>
             <LogoHeader height="60" width="185" />
           </Link>
           <GoBack to="/">
@@ -332,7 +332,7 @@ const skontaktujSie = ({ data }) => {
               <Footnotes>
                 * Pola są wymagane. Wysyłając formularz zgadzam się na
                 przetwarzanie danych ujętych w{" "}
-                <Link to="polityka-prywatnosci">Polityce Prywatności.</Link>
+                <Link to="/polityka-prywatnosci/">Polityce Prywatności.</Link>
               </Footnotes>
             </RightContact>
           </InfoContent>

@@ -138,7 +138,7 @@ const AboutSection = () => {
                   __html: data.datoCmsIndex.psychologDesc,
                 }}></AboutParagraph>
               <AboutButtons>
-                <Link to="/o-mnie">
+                <Link to="/o-mnie/">
                   <Button>{data.datoCmsIndex.psychologCta}</Button>
                 </Link>
                 <AboutLink to="/">

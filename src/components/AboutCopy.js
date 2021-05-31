@@ -114,7 +114,7 @@ const AboutCopy = () => {
               <AboutCopyParagraphLeft>
                 {data.datoCmsAboout.greenLead}
               </AboutCopyParagraphLeft>
-              <Link to="/skontaktuj-sie">
+              <Link to="/skontaktuj-sie/">
                 <ButtonLight>{data.datoCmsAboout.greenCta}</ButtonLight>
               </Link>
             </AboutCopyHalf>

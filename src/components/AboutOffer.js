@@ -159,14 +159,14 @@ const AboutOffer = () => {
                 {data.datoCmsSummaryAbout.aboutSummaryDesc}
               </OfferAboutPragraph>
               <HeaderDiv>
-                <Link to="o-mnie">
+                <Link to="/o-mnie/">
                   <Button>
                     {data.datoCmsSummaryAbout.aboutSummaryMainbutton}
                   </Button>
                 </Link>
 
                 <OfferLink>
-                  <Link to="/skontaktuj-sie">
+                  <Link to="/skontaktuj-sie/">
                     {data.datoCmsSummaryAbout.aboutSummarySecondbutton}
                   </Link>
                 </OfferLink>

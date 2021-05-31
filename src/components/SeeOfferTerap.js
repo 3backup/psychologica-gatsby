@@ -119,13 +119,13 @@ const SeeOfferTerap = ({ props }) => {
               {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertParagraf}
             </HeaderParagraph>
             <HeaderDiv>
-              <Link to="/oferta-edukacyjna">
+              <Link to="/oferta-edukacyjna/">
                 <Button>
                   {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertPrzyciskglowny}
                 </Button>
               </Link>
               <OfferLink>
-                <Link to="/superwizja">
+                <Link to="/superwizja/">
                   {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertPrzyciskdrugi}
                 </Link>
               </OfferLink>

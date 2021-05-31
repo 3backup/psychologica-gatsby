@@ -61,7 +61,7 @@ const Footer = () => {
           <ContainerFooter>
             <StyledFooterLogo height="90" width="211" />
             <TermsAndCondition>
-              <TermsAndConditionLink to="/polityka-prywatnosci">
+              <TermsAndConditionLink to="/polityka-prywatnosci/">
                 {data.datoCmsFooter.privacyPolicy}
               </TermsAndConditionLink>
               {` | ${data.datoCmsFooter.rightsReserverd}`} &copy;

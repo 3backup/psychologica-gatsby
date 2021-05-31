@@ -191,7 +191,7 @@ const Offer = () => {
                     {data.datoCmsIndex.myofferFirsttile}
                   </SingleOfferHeader>
 
-                  <AboutLink to="/oferta-terapeutyczna">
+                  <AboutLink to="/oferta-terapeutyczna/">
                     {data.datoCmsIndex.myofferFirsttileTxt}
                     <ArrowRight />
                   </AboutLink>
@@ -205,7 +205,7 @@ const Offer = () => {
                   <SingleOfferHeader>
                     {data.datoCmsIndex.myofferSecondtile}{" "}
                   </SingleOfferHeader>
-                  <AboutLink to="/oferta-edukacyjna">
+                  <AboutLink to="/oferta-edukacyjna/">
                     {data.datoCmsIndex.myofferSecondtitleTxt}
                     <ArrowRight />
                   </AboutLink>
@@ -220,7 +220,7 @@ const Offer = () => {
                     {data.datoCmsIndex.myofferThirdtile}{" "}
                   </SingleOfferHeader>
 
-                  <AboutLink to="/superwizja">
+                  <AboutLink to="/superwizja/">
                     {data.datoCmsIndex.myofferThirdtileTxt}
                     <ArrowRight />
                   </AboutLink>

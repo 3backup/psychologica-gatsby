@@ -109,7 +109,7 @@ const Covid = () => {
             {data.datoCmsCovi.spotkaniaOsobisteLubSesjeZdalne}
           </CovidHeader>
           <CovidParagraph>{data.datoCmsCovi.paragraph}</CovidParagraph>
-          <LinkElement to="/skontaktuj-sie">
+          <LinkElement to="/skontaktuj-sie/">
             <LightGreen>{data.datoCmsCovi.buttonCta}</LightGreen>
           </LinkElement>
           <CovidPostionTop />
