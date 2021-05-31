@@ -223,7 +223,7 @@ class Problems extends Component {
               <ProblemBg>
                 <StaticImage
                   src="../images/background-problem.png"
-                  alt="bg-testimonial"
+                  alt="Tło dla sekcji nad czym mozemy pracowac psychologica"
                   layout="fullWidth"
                   placeholder="blurred"
                 />

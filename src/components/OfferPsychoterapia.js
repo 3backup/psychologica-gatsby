@@ -102,7 +102,7 @@ export const OfferPsychoterapia = () => {
             <LeftContent>
               <StaticImage
                 src="../images/psychoterapia.jpg"
-                alt="Roslina psychologica"
+                alt="Psychoterapia Rzeszów Renata Zuba"
                 layout="fullWidth"
                 placeholder="blurred"
               />

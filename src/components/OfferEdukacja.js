@@ -111,8 +111,8 @@ export const OfferEdukacja = () => {
             </RightContent>
             <LeftContent>
               <StaticImage
-                src="../images/Edukacja.jpg"
-                alt="Roslina psychologica"
+                src="../images/edukacja-zdjecie.jpg"
+                alt="Psychoedukacja - Renata Zuba wystąpienie konferencja UJ}"
                 layout="fullWidth"
                 placeholder="blurred"
               />

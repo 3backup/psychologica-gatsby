@@ -148,7 +148,7 @@ const HowToGet = ({ props }) => {
           <TestimonialBg>
             <StaticImage
               src="../images/testimonial-bg.jpg"
-              alt="bg-testimonial"
+              alt="Tło na sekcji dojazd do psychologica rzeszów"
               layout="fullWidth"
               placeholder="blurred"
             />

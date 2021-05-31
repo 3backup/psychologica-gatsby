@@ -161,7 +161,7 @@ const TopLocation = ({ props }) => {
           <HalfBackground>
             <StaticImage
               src="../images/gabinet-psychologica.jpg"
-              alt="Roslina psychologica"
+              alt="Gabinet psychologiczny w Rzeszowie"
               layout="fullWidth"
               placeholder="blurred"
             />

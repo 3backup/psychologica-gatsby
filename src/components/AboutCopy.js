@@ -128,7 +128,7 @@ const AboutCopy = () => {
           <ProblemBg>
             <StaticImage
               src="../images/background-problem.png"
-              alt="bg-testimonial"
+              alt="Tło na stronie Psychologica - główne tlo"
               layout="fullWidth"
               placeholder="blurred"
             />

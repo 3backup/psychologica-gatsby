@@ -169,7 +169,7 @@ const Header = ({ props }) => {
               <HeroImageFront>
                 <StaticImage
                   src="../images/rzuba-photo-top.jpg"
-                  alt="Roslina psychologica"
+                  alt="Psycholog Renata Zuba Rzeszów - Psychologica"
                   placeholder="blurred"
                   layout="fullWidth"
                 />

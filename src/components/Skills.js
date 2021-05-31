@@ -64,7 +64,7 @@ const Skills = () => {
             <SkillsPhoto>
               <StaticImage
                 src="../images/skills-image.jpg"
-                alt="bg-testimonial"
+                alt="Zdjęcie Renata Zuba w sekcji kompetencje"
                 layout="fullWidth"
                 placeholder="blurred"
               />

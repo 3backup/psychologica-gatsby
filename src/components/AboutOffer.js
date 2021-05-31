@@ -175,7 +175,7 @@ const AboutOffer = () => {
             <BgContainer>
               <StaticImage
                 src="../images/background-problem.png"
-                alt="bg-testimonial"
+                alt="Tło dla sekcji testimonial na stornie Psychologica w zakladce o ofercie"
                 layout="fullWidth"
                 placeholder="blurred"
               />

@@ -113,7 +113,7 @@ export const OfferSuperwizja = () => {
             <LeftContent>
               <StaticImage
                 src="../images/superwizja.jpg"
-                alt="Roslina psychologica"
+                alt="Superwizja Rzeszów od Renata Zuba"
                 layout="fullWidth"
                 placeholder="blurred"
               />

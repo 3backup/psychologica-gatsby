@@ -220,7 +220,7 @@ const Process = ({ siteTitle, menuLinks }) => {
             <ImageGrid>
               <StaticImage
                 src="../images/Process-image.jpg"
-                alt="Roslina psychologica"
+                alt="Zdjęcie przy opisie współpracy"
                 layout="fullWidth"
                 placeholder="blurred"
               />
