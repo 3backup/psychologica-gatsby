@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import { StaticQuery, graphql, Link } from "gatsby";
 import { styled } from "linaria/react";
 import PropTypes from "prop-types";
@@ -170,15 +170,15 @@ const MenuButton = styled.button`
   border: none;
 `;
 
-const Header = ({ siteTitle, menuLinks, visableHeader }) => {
+const Header = ({ menuLinks, visableHeader }) => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(false);
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     const currentScrollPos = window.pageYOffset;
     setVisible(currentScrollPos > 10);
     setPrevScrollPos(currentScrollPos);
-  };
+  }, [setPrevScrollPos]);
 
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
