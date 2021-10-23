@@ -27,7 +27,7 @@ const HeaderPrivacePolicy = styled.h1`
 
   color: #1f1f1f;
 `;
-const politykaPrywatnosci = ({}) => {
+const politykaPrywatnosci = () => {
   return (
     <Layout
       pageTitle="Polityka Prywatności  - PSYCHOLOGICA - Psychoterapia i psychoedukacja"
