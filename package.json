@@ -20,7 +20,7 @@
     "@linaria/webpack-loader": "^3.0.0-beta.1",
     "@sendgrid/mail": "^7.4.4",
     "core-js": "^2.6.12",
-    "gatsby": "^3.14.3",
+    "gatsby": "^3.14.4",
     "gatsby-image": "^3.3.0",
     "gatsby-plugin-canonical-urls": "^3.6.0",
     "gatsby-plugin-favicons": "^2.0.0",
