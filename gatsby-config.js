@@ -32,7 +32,14 @@ module.exports = {
     author: `Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba`,
   },
   plugins: [
-    "gatsby-plugin-linaria",
+    {
+      resolve: "gatsby-plugin-linaria",
+      options: {
+        loaderOptions: {
+          cacheDirectory: ".cache/.linaria-cache",
+        },
+      },
+    },
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
