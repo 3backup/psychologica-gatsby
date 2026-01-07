@@ -5,6 +5,20 @@ const SMSAPI_TOKEN = process.env.SMSAPI_TOKEN || 'vBkE7UPuZcaU9KtlAflv9qbBH7Hs6k
 const SMS_RECIPIENT = '0048881442883'; // +48 881 442 883
 const SMSAPI_URL = 'https://api.smsapi.pl/sms.do';
 
+// Convert Polish characters to ASCII to fit in 1 SMS (160 chars instead of 70)
+function removePolishChars(text) {
+  if (!text) return text;
+  
+  const polishChars = {
+    'ą': 'a', 'ć': 'c', 'ę': 'e', 'ł': 'l', 'ń': 'n',
+    'ó': 'o', 'ś': 's', 'ź': 'z', 'ż': 'z',
+    'Ą': 'A', 'Ć': 'C', 'Ę': 'E', 'Ł': 'L', 'Ń': 'N',
+    'Ó': 'O', 'Ś': 'S', 'Ź': 'Z', 'Ż': 'Z'
+  };
+  
+  return text.replace(/[ąćęłńóśźżĄĆĘŁŃÓŚŹŻ]/g, (char) => polishChars[char] || char);
+}
+
 module.exports = async (req, res) => {
   // Only allow POST requests
   if (req.method !== 'POST') {
@@ -16,10 +30,16 @@ module.exports = async (req, res) => {
     const formData = req.body;
     
     // Extract form fields
-    const email = formData.email || 'Nie podano';
-    const name = formData.name || 'Nie podano';
-    const phone = formData.phone || 'Nie podano';
-    const message = formData.message || 'Brak treści';
+    let email = formData.email || 'Nie podano';
+    let name = formData.name || 'Nie podano';
+    let phone = formData.phone || 'Nie podano';
+    let message = formData.message || 'Brak tresci';
+    
+    // Convert Polish characters to ASCII to fit in 1 SMS (160 chars limit)
+    email = removePolishChars(email);
+    name = removePolishChars(name);
+    phone = removePolishChars(phone);
+    message = removePolishChars(message);
     
     // Create compact SMS message (max 160 chars for 1 SMS)
     // Truncate message if too long
