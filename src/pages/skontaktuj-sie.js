@@ -320,7 +320,7 @@ const skontaktujSie = ({ data }) => {
                   type="phone"
                   placeholder="Nr Telefonu"
                 />
-                <TextForm placeholder="Treść Wiadomości"></TextForm>
+                <TextForm name="message" placeholder="Treść Wiadomości"></TextForm>
                 <div
                   class="g-recaptcha"
                   data-sitekey="6Leh48waAAAAANkkSLOSPLPC1Rfckkm9aw6DbcXp"></div>
