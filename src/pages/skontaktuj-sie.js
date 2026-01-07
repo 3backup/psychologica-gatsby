@@ -255,6 +255,48 @@ const BgLeaves = styled(BgImage)`
 `;
 
 const skontaktujSie = ({ data }) => {
+  const formRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const form = formRef.current;
+    if (!form) return;
+
+    const handleSubmit = async (e) => {
+      // Get form data
+      const formData = new FormData(form);
+      const email = formData.get("email") || "";
+      const name = formData.get("name") || "";
+      const phone = formData.get("phone") || "";
+      const message = formData.get("message") || "";
+
+      // Send SMS notification in parallel (don't block form submission)
+      // Use fetch with no await to fire and forget
+      fetch("/api/send-sms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          name,
+          phone,
+          message,
+        }),
+      }).catch((error) => {
+        // Silently fail - don't interrupt form submission
+        console.error("Failed to send SMS notification:", error);
+      });
+
+      // Form will continue with normal submission to Formkeep
+    };
+
+    form.addEventListener("submit", handleSubmit);
+
+    return () => {
+      form.removeEventListener("submit", handleSubmit);
+    };
+  }, []);
+
   return (
     <>
       <Helmet
@@ -263,7 +305,7 @@ const skontaktujSie = ({ data }) => {
           {
             name: "description",
             content:
-              "Skontaktuj się z Renata Zuba aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do kadego przypadku podchodzę indywidualnie",
+              "Skontaktuj się z Renata Zuba aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do kadego przypadku podchodzę indywidualnie",
           },
         ]}></Helmet>
       <ContactContainer>
@@ -303,6 +345,7 @@ const skontaktujSie = ({ data }) => {
               <FormHeader>Wyślij wiadomość</FormHeader>
 
               <ContactForm
+                ref={formRef}
                 action="https://formkeep.com/f/c856eba7e66e"
                 accept-charset="UTF-8"
                 enctype="multipart/form-data"
