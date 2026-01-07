@@ -1,12 +1,5 @@
 {
   "trailingSlash": true,
-  "buildCommand": "npm run build",
-  "devCommand": "npm run develop",
-  "installCommand": "npm install",
-  "framework": "gatsby",
-  "functions": {
-    "api/*.js": {
-      "runtime": "nodejs20.x"
-    }
-  }
+  "buildCommand": "npm install --legacy-peer-deps && npm run build",
+  "framework": "gatsby"
 }
