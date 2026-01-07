@@ -9,22 +9,30 @@
 
 ## 🚀 Quick start
 
-1.  **Create a Gatsby site.**
+### Prerequisites
+- Node.js 20.x or higher (22.x recommended)
+- npm
 
-    Use the Gatsby CLI to create a new site, specifying the minimal starter.
+### Installation
+
+1.  **Install dependencies.**
 
     ```shell
-    # create a new Gatsby site using the minimal starter
-    npm init gatsby
+    npm install --legacy-peer-deps
     ```
+
+    Note: `--legacy-peer-deps` is required due to some older dependencies that don't officially support React 18 but work correctly.
 
 2.  **Start developing.**
 
-    Navigate into your new site’s directory and start it up.
+    ```shell
+    npm run develop
+    ```
+
+3.  **Build for production.**
 
     ```shell
-    cd my-gatsby-site/
-    npm run develop
+    npm run build
     ```
 
 3.  **Open the code and start customizing!**
