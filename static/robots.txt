@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
 
+Sitemap: https://www.psychologica.pl/sitemap.xml
 Sitemap: https://www.psychologica.pl/sitemap-index.xml
