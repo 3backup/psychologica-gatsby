@@ -21,10 +21,8 @@ const HeaderPrivacePolicy = styled.h1`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
-  font-size: 48px;
+  font-size: 42px;
   line-height: 125%;
-  /* identical to box height, or 60px */
-
   color: #1f1f1f;
 `;
 const politykaPrywatnosci = () => {

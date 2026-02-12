@@ -193,10 +193,9 @@ class Problems extends Component {
           <>
             <SectionProblems>
               <ProblemContainer>
-                <ProblemsHeader
-                  dangerouslySetInnerHTML={{
-                    __html: data.datoCmsIndex.zielonaSekcjaTytu,
-                  }}></ProblemsHeader>
+                <ProblemsHeader>
+                  Nad czym pracujemy – <span>psycholog i psychoterapia Rzeszów</span>
+                </ProblemsHeader>
                 <ProblemsParagraph>
                   {data.datoCmsIndex.zielonaSekcjaDesc}
                 </ProblemsParagraph>

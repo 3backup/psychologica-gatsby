@@ -17,7 +17,7 @@ const oferta = ({ data }) => {
         pageTitle="Superwizja psychologa  - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
         pageDescription="Prowadzę superwizję indywidualną i grupową dla specjalistów psychoterapii uzależnień oraz dla innych profesjinalistów zajmujących się pomocą i wsparciem dla osób uzależnionych lub członków ich rodzin.">
         <TopOffer
-          headerElement={data.datoCmsSupervision.supervisionTitle}
+          headerElement="Superwizja – Psycholog Renata Zuba Rzeszów | Psychologica"
           subheaderText={data.datoCmsSupervision.supervisionSubheader}
         />
         <OfferSuperwizja />

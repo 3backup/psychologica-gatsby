@@ -34,12 +34,12 @@ const OfferHeader = styled.h1`
   font-family: Red Hat Display;
   font-style: regular;
   font-weight: 300;
-  font-size: 56px;
+  font-size: 48px;
   line-height: 125%;
   color: #1f1f1f;
   margin-bottom: 1.5rem;
   @media (max-width: 578px) {
-    font-size: 42px;
+    font-size: 38px;
   }
 `;
 const OfferSubheader = styled.p`

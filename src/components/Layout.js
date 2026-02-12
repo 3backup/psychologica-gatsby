@@ -1,9 +1,7 @@
 import React from "react";
 import { StaticQuery, graphql } from "gatsby";
-// import { siteMetadata } from "../../gatsby-config";
-import { Helmet } from "react-helmet";
-
 import Header from "./Header";
+import Seo from "./Seo";
 import "normalize.css";
 
 const Layout = ({ children, ...props }) => (
@@ -23,16 +21,7 @@ const Layout = ({ children, ...props }) => (
     `}
     render={(data) => (
       <React.Fragment>
-        <Helmet
-          title={props.pageTitle}
-          meta={[{ name: "description", content: `${props.pageDescription}` }]}>
-          <link
-            rel="icon"
-            type="image/png"
-            sizes="32x32"
-            href="src/images/favicon-32x32.png"
-          />
-        </Helmet>
+        <Seo title={props.pageTitle} description={props.pageDescription} />
         <Header
           menuLinks={data.site.siteMetadata.menuLinks}
           siteTitle={data.site.siteMetadata.title}

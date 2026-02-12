@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba`,
-    siteUrl: "http://www.psychologica.pl/",
+    siteUrl: "https://www.psychologica.pl",
     menuLinks: [
       {
         name: "Oferta terapeutyczna",
@@ -30,6 +30,12 @@ module.exports = {
     ],
     description: `Oferuje pomoc psychologiczną, psychoterapie i psychoedukacje w Rzeszowie. Nazywam się Renata Zuba i jestem psychologiem z wieloletnim doświadczeniem.`,
     author: `Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba`,
+    businessAddress: {
+      streetAddress: "Mikołaja Reja 12/320",
+      addressLocality: "Rzeszów",
+      postalCode: "35-211",
+      addressCountry: "PL",
+    },
   },
   plugins: [
     {
@@ -43,14 +49,14 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: "GatsbyJS",
-        short_name: "GatsbyJS",
+        name: "Psychologica - Psychoterapia i psychoedukacja Rzeszów",
+        short_name: "Psychologica",
         start_url: "/",
-        background_color: "#6b37bf",
-        theme_color: "#6b37bf",
+        background_color: "#005650",
+        theme_color: "#005650",
 
         display: "standalone",
-        icon: "src/images/gatsby-icon.png", // This path is relative to the root of the site.
+        icon: "src/images/psychologica-favicon.png", // This path is relative to the root of the site.
         // An optional attribute which provides support for CORS check.
         // If you do not provide a crossOrigin option, it will skip CORS for manifest.
         // Any invalid keyword or empty string defaults to `anonymous`
@@ -63,13 +69,6 @@ module.exports = {
         apiToken: "35d2a2c19a7e6e94a0e19385ede573",
         preview: false,
         disableLiveReload: false,
-      },
-    },
-    {
-      resolve: `gatsby-plugin-google-fonts`,
-      options: {
-        fonts: [`Manrope\:400,700`, `Red Hat Display\:400,500,600,700`],
-        display: "swap",
       },
     },
     {
@@ -103,8 +102,8 @@ module.exports = {
         },
         // This object is used for configuration specific to this plugin
         pluginConfig: {
-          // Puts tracking script in the head instead of the body
-          head: true,
+          // Inject in body to avoid blocking initial render
+          head: false,
         },
       },
     },
@@ -122,5 +121,7 @@ module.exports = {
     "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
     `gatsby-plugin-react-helmet`,
-  ],
+    process.env.ANALYZE_BUNDLE === "true" &&
+      "gatsby-plugin-webpack-bundle-analyser-v2",
+  ].filter(Boolean),
 };

@@ -45,16 +45,16 @@ const TextContainer = styled.div`
     margin: 4rem 0;
   }
 `;
-const HeaderTitle = styled.h2`
+const HeroTitle = styled.h1`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
-  font-size: 3.5rem;
+  font-size: 2.75rem;
   line-height: 125%;
   margin: 0;
   color: #1f1f1f;
   @media (max-width: 1024px) {
-    font-size: 48px;
+    font-size: 42px;
   }
 `;
 const ParagraphText = styled.p`
@@ -95,6 +95,14 @@ const Adress = styled.p`
   font-size: 22px;
   line-height: 150%;
   color: #3e7672;
+`;
+const AddressLink = styled.a`
+  color: inherit;
+  text-decoration: none;
+  transition: 0.3s;
+  &:hover {
+    color: rgba(74, 189, 127, 1);
+  }
 `;
 const SantBox = styled.div`
   position: absolute;
@@ -150,11 +158,18 @@ const TopLocation = ({ props }) => {
           <Top>
             <HeroContainer>
               <TextContainer>
-                <HeaderTitle>{data.datoCmsLocation.title}</HeaderTitle>
+                <HeroTitle>Gabinet psychologiczny Mikołaja Reja 12 Rzeszów – Psychologica</HeroTitle>
 
                 <ParagraphText>{data.datoCmsLocation.paragraf}</ParagraphText>
                 <TitleGabinet>{data.datoCmsLocation.subheader}</TitleGabinet>
-                <Adress>{data.datoCmsGlobal.adress}</Adress>
+                <Adress>
+                <AddressLink
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.datoCmsGlobal.adress || "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer">
+                  {data.datoCmsGlobal.adress}
+                </AddressLink>
+              </Adress>
               </TextContainer>
             </HeroContainer>
           </Top>

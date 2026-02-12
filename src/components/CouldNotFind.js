@@ -20,11 +20,11 @@ const ErrorContainer = styled(Container)`
   padding: 7rem 0;
   background: #f4f5f7;
 `;
-const MainTitle = styled.h2`
+const MainTitle = styled.h1`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
-  font-size: 56px;
+  font-size: 48px;
   line-height: 125%;
   color: #1f1f1f;
   margin: 0;
@@ -55,7 +55,7 @@ export const CouldNotFind = () => {
   return (
     <ErrorSection>
       <ErrorContainer>
-        <MainTitle>Ooppps...</MainTitle>
+        <MainTitle>Strona nie znaleziona – Psychologica Rzeszów</MainTitle>
         <MainParagraph>
           Wygląda na to, że ta strona nie istnieje. <br />
           Wróc do strony głównej

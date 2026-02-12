@@ -48,7 +48,7 @@ const TitleContact = styled.h1`
   font-style: normal;
   font-weight: 500;
   width: 70%;
-  font-size: 56px;
+  font-size: 48px;
   line-height: 125%;
   color: #1f1f1f;
   & span {
@@ -56,7 +56,7 @@ const TitleContact = styled.h1`
     font-weight: 700;
   }
   @media (max-width: 768px) {
-    font-size: 36px;
+    font-size: 32px;
   }
 `;
 const InfoContent = styled.div`
@@ -236,6 +236,14 @@ const SingleContactInformation = styled.div`
     margin-right: 1.6rem;
   }
 `;
+const ContactLink = styled.a`
+  color: inherit;
+  text-decoration: none;
+  transition: 0.3s;
+  &:hover {
+    color: rgba(74, 189, 127, 1);
+  }
+`;
 const FormHeader = styled.h5`
   font-family: Red Hat Display;
   font-style: normal;
@@ -254,7 +262,7 @@ const BgLeaves = styled(BgImage)`
   bottom: 25%;
 `;
 
-const skontaktujSie = ({ data }) => {
+const SkontaktujSie = ({ data }) => {
   const formRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -305,9 +313,21 @@ const skontaktujSie = ({ data }) => {
           {
             name: "description",
             content:
-              "Skontaktuj się z Renata Zuba aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do kadego przypadku podchodzę indywidualnie",
+              "Skontaktuj się z Renatą Zubą, aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do każdego przypadku podchodzę indywidualnie",
           },
-        ]}></Helmet>
+          { property: "og:title", content: "Skontaktuj się - Uzyskaj pomoc psychologa w Rzeszowie" },
+          { property: "og:description", content: "Skontaktuj się z Renatą Zubą, aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do każdego przypadku podchodzę indywidualnie" },
+          { property: "og:url", content: "https://www.psychologica.pl/skontaktuj-sie/" },
+          { property: "og:type", content: "website" },
+          { property: "og:image", content: "https://www.psychologica.pl/og-image.jpg" },
+          { property: "og:locale", content: "pl_PL" },
+          { name: "twitter:card", content: "summary_large_image" },
+          { name: "twitter:title", content: "Skontaktuj się - Uzyskaj pomoc psychologa w Rzeszowie" },
+          { name: "twitter:description", content: "Skontaktuj się z Renatą Zubą, aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do każdego przypadku podchodzę indywidualnie" },
+          { name: "twitter:image", content: "https://www.psychologica.pl/og-image.jpg" },
+        ]}>
+        <link rel="canonical" href="https://www.psychologica.pl/skontaktuj-sie/" />
+      </Helmet>
       <ContactContainer>
         <HeaderContact>
           <Link to="/">
@@ -320,8 +340,7 @@ const skontaktujSie = ({ data }) => {
         </HeaderContact>
         <ContactContent>
           <TitleContact>
-            {data.datoCmsContact.title}
-            <span>{data.datoCmsContact.titleGreen}</span>
+            Kontakt – Psycholog <span>Renata Zuba</span> Rzeszów | Psychologica
           </TitleContact>
           <InfoContent>
             <LeftContact>
@@ -329,13 +348,26 @@ const skontaktujSie = ({ data }) => {
                 {data.datoCmsContact.desc}
                 <AdditionalInformation>
                   <SingleContactInformation>
-                    <PhoneIcon /> {data.datoCmsGlobal.phonenumber}
+                    <PhoneIcon />{" "}
+                    <ContactLink
+                      href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
+                      {data.datoCmsGlobal.phonenumber}
+                    </ContactLink>
                   </SingleContactInformation>
                   <SingleContactInformation>
-                    <MailIcon /> {data.datoCmsGlobal.email}
+                    <MailIcon />{" "}
+                    <ContactLink href={`mailto:${data.datoCmsGlobal.email || ""}`}>
+                      {data.datoCmsGlobal.email}
+                    </ContactLink>
                   </SingleContactInformation>
                   <SingleContactInformation>
-                    <PinIcon /> {data.datoCmsGlobal.adress}
+                    <PinIcon />{" "}
+                    <ContactLink
+                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.datoCmsGlobal.adress || "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer">
+                      {data.datoCmsGlobal.adress}
+                    </ContactLink>
                   </SingleContactInformation>
                 </AdditionalInformation>
               </DescParagraph>
@@ -403,4 +435,4 @@ export const query = graphql`
   }
 `;
 
-export default skontaktujSie;
+export default SkontaktujSie;

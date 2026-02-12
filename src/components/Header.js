@@ -133,6 +133,14 @@ const PhoneNumberText = styled.p`
   color: #005650;
   margin-left: 10px;
 `;
+const PhoneLink = styled.a`
+  color: inherit;
+  text-decoration: none;
+  transition: 0.3s;
+  &:hover {
+    color: rgba(40, 174, 102, 1);
+  }
+`;
 const HeaderMobile = styled.div`
   position: fixed;
   z-index: 9999;
@@ -212,7 +220,10 @@ const Header = ({ menuLinks, visableHeader }) => {
               <PhoneNumber>
                 <Phone width="18" height="18" />
                 <PhoneNumberText>
-                  {data.datoCmsGlobal.phonenumber}
+                  <PhoneLink
+                    href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
+                    {data.datoCmsGlobal.phonenumber}
+                  </PhoneLink>
                 </PhoneNumberText>
               </PhoneNumber>
               <nav>

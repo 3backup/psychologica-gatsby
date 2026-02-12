@@ -45,11 +45,11 @@ const TextContainer = styled.div`
     margin: 4rem 0;
   }
 `;
-const HeaderTitle = styled.h2`
+const HeroTitle = styled.h1`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
-  font-size: 3.5rem;
+  font-size: 2.75rem;
   line-height: 125%;
   margin: 0;
   color: #1f1f1f;
@@ -58,7 +58,7 @@ const HeaderTitle = styled.h2`
     font-weight: medium;
   }
   @media (max-width: 1024px) {
-    font-size: 48px;
+    font-size: 42px;
   }
 `;
 const ParagraphText = styled.p`
@@ -113,10 +113,9 @@ const TopAbout = () => {
           <Top>
             <HeroContainer>
               <TextContainer>
-                <HeaderTitle
-                  dangerouslySetInnerHTML={{
-                    __html: data.datoCmsAboout.renataZuba,
-                  }}></HeaderTitle>
+                <HeroTitle>
+                  Psycholog kliniczny Rzeszów – <span>Renata Zuba</span> | Psychologica
+                </HeroTitle>
                 {/* DUZY SPACING TO DO  */}
                 <ParagraphText>{data.datoCmsAboout.lead}</ParagraphText>
                 <SmallerParagraph>

@@ -110,7 +110,7 @@ export const OfferPomoc = () => {
             <RightContent>
               <StaticImage
                 src="../images/offerterapeutyczna.jpg"
-                alt="Oferta Terapeutyczna Renata Zua"
+                alt="Oferta Terapeutyczna Renata Zuba"
                 layout="fullWidth"
                 placeholder="blurred"
               />

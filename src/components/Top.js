@@ -34,24 +34,24 @@ const TextContainer = styled.div`
     margin: 4rem 0;
   }
 `;
-const HeaderTitle = styled.h2`
+const HeroTitle = styled.h1`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
-  font-size: 68px;
+  font-size: 56px;
   line-height: 125%;
   margin: 0;
   color: #1f1f1f;
   @media (max-width: 1024px) {
-    font-size: 48px;
+    font-size: 42px;
   }
   & span {
     font-weight: 500;
-    font-size: 68px;
+    font-size: 56px;
     line-height: 125%;
     color: #4abd7f;
     @media (max-width: 1024px) {
-      font-size: 48px;
+      font-size: 42px;
     }
   }
 `;
@@ -156,10 +156,9 @@ const Header = ({ props }) => {
           <Top>
             <HeroContainer>
               <TextContainer>
-                <HeaderTitle
-                  dangerouslySetInnerHTML={{
-                    __html: data.datoCmsIndex.sgtytuGlowny,
-                  }}></HeaderTitle>
+                <HeroTitle>
+                  Psycholog Rzeszów – <span>Renata Zuba</span> · Psychologica
+                </HeroTitle>
                 {/* DUZY SPACING TO DO  */}
                 <ParagraphText>{data.datoCmsIndex.opis}</ParagraphText>
                 <Link to="/skontaktuj-sie/">
@@ -172,6 +171,8 @@ const Header = ({ props }) => {
                   alt="Psycholog Renata Zuba Rzeszów - Psychologica"
                   placeholder="blurred"
                   layout="fullWidth"
+                  loading="eager"
+                  fetchPriority="high"
                 />
               </HeroImageFront>
             </HeroContainer>
