@@ -1,0 +1,19 @@
+{
+  "$schema": "https://schemas.agentskills.io/discovery/0.2.0/schema.json",
+  "skills": [
+    {
+      "name": "site-overview",
+      "type": "skill-md",
+      "description": "Use this skill to understand Psychologica's public services, pages, location, and agent-discovery resources without submitting forms or calling private endpoints.",
+      "url": "/.well-known/agent-skills/site-overview/SKILL.md",
+      "digest": "sha256:c5e7d2eda70d6ea3fd311d2c7c5935cc3d70b3c1cd9e280339af7ad605baf2de"
+    },
+    {
+      "name": "contact-options",
+      "type": "skill-md",
+      "description": "Use this skill to find public contact and appointment-request paths for Psychologica without submitting contact forms on a user's behalf.",
+      "url": "/.well-known/agent-skills/contact-options/SKILL.md",
+      "digest": "sha256:33effc2247a1e6dd76fb654b84587f966af7ba793d3a8dd02c2b603d30962936"
+    }
+  ]
+}

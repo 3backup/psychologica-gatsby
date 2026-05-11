@@ -8,3 +8,6 @@ import "@fontsource/red-hat-display/400.css";
 import "@fontsource/red-hat-display/500.css";
 import "@fontsource/red-hat-display/600.css";
 import "@fontsource/red-hat-display/700.css";
+import { registerWebMcpTools } from "./src/utils/webmcp";
+
+registerWebMcpTools();
