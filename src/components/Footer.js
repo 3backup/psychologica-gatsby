@@ -33,6 +33,39 @@ const ContainerFooter = styled(Container)`
     justify-content: center;
   }
 `;
+const FooterNavigation = styled.nav`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.75rem 1.5rem;
+  max-width: 42rem;
+
+  @media (max-width: 768px) {
+    justify-content: center;
+    margin: 2rem 0;
+  }
+`;
+const FooterLink = styled(Link)`
+  color: rgba(255, 255, 255, 0.88);
+  font-family: "Red Hat Display", sans-serif;
+  font-size: 0.875rem;
+  text-decoration: none;
+
+  &:hover {
+    color: #ffffff;
+    text-decoration: underline;
+    text-underline-offset: 0.3rem;
+  }
+`;
+const FooterMeta = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+
+  @media (max-width: 768px) {
+    align-items: center;
+  }
+`;
 const TermsAndConditionLink = styled(Link)`
   text-decoration: none;
   color: #ffffff;
@@ -60,13 +93,28 @@ const Footer = () => {
         <FooterStyle>
           <ContainerFooter>
             <StyledFooterLogo height="90" width="211" />
-            <TermsAndCondition>
-              <TermsAndConditionLink to="/polityka-prywatnosci/">
-                {data.datoCmsFooter.privacyPolicy}
-              </TermsAndConditionLink>
-              {` | ${data.datoCmsFooter.rightsReserverd}`} &copy;
-              {`${currentYear}`}
-            </TermsAndCondition>
+            <FooterMeta>
+              <FooterNavigation aria-label="Usługi Psychologica">
+                <FooterLink to="/oferta-terapeutyczna/">
+                  Psychoterapia dorosłych
+                </FooterLink>
+                <FooterLink to="/pomoc-psychologiczna-rzeszow/">
+                  Pomoc psychologiczna
+                </FooterLink>
+                <FooterLink to="/psychoterapia-uzaleznien-rzeszow/">
+                  Psychoterapia uzależnień
+                </FooterLink>
+                <FooterLink to="/lokalizacja/">Gabinet w Rzeszowie</FooterLink>
+                <FooterLink to="/skontaktuj-sie/">Kontakt</FooterLink>
+              </FooterNavigation>
+              <TermsAndCondition>
+                <TermsAndConditionLink to="/polityka-prywatnosci/">
+                  {data.datoCmsFooter.privacyPolicy}
+                </TermsAndConditionLink>
+                {` | ${data.datoCmsFooter.rightsReserverd}`} &copy;
+                {`${currentYear}`}
+              </TermsAndCondition>
+            </FooterMeta>
           </ContainerFooter>
         </FooterStyle>
       )}

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
-import { StaticQuery, graphql } from "gatsby";
+import { StaticQuery, graphql, Link } from "gatsby";
 import { styled } from "linaria/react";
 import Slider from "react-slick";
 import ArrowLeft from "../images/arrow-left.svg";
@@ -87,6 +87,26 @@ const ButtonsContainer = styled.div`
   margin-top: 2.5rem;
   flex-direction: row;
   justify-content: space-between;
+`;
+const ServiceLinks = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.5rem;
+  margin-top: 4rem;
+`;
+const ServiceLink = styled(Link)`
+  color: #ffffff;
+  font-family: "Red Hat Display", sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration-color: #4abd7f;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.4rem;
+
+  &:focus-visible {
+    outline: 3px solid #4abd7f;
+    outline-offset: 4px;
+  }
 `;
 
 const ProblemBg = styled.div`
@@ -210,20 +230,38 @@ class Problems extends Component {
                     )}
                   </SliderDesign>
                   <ButtonsContainer>
-                    <ButtonClick className="button" onClick={this.previous}>
+                    <ButtonClick
+                      className="button"
+                      aria-label="Poprzedni obszar pracy"
+                      onClick={this.previous}>
                       <ArrowLeft />
                     </ButtonClick>
-                    <ButtonClick className="button" onClick={this.next}>
+                    <ButtonClick
+                      className="button"
+                      aria-label="Następny obszar pracy"
+                      onClick={this.next}>
                       <ArrowRight />
                     </ButtonClick>
                   </ButtonsContainer>
+                  <ServiceLinks aria-label="Formy pomocy">
+                    <ServiceLink to="/oferta-terapeutyczna/">
+                      Psychoterapia dorosłych
+                    </ServiceLink>
+                    <ServiceLink to="/pomoc-psychologiczna-rzeszow/">
+                      Pomoc psychologiczna
+                    </ServiceLink>
+                    <ServiceLink to="/psychoterapia-uzaleznien-rzeszow/">
+                      Psychoterapia uzależnień
+                    </ServiceLink>
+                  </ServiceLinks>
                 </div>
               </ProblemContainer>
               <ProblemBg>
                 <StaticImage
                   src="../images/background-problem.png"
-                  alt="Tło dla sekcji nad czym mozemy pracowac psychologica"
+                  alt=""
                   layout="fullWidth"
+                  quality={65}
                   placeholder="blurred"
                 />
               </ProblemBg>

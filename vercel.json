@@ -5,6 +5,13 @@
   "framework": "gatsby",
   "routes": [
     {
+      "src": "^/index\\.html$",
+      "status": 308,
+      "headers": {
+        "Location": "/"
+      }
+    },
+    {
       "src": "^/$",
       "has": [
         {

@@ -15,8 +15,14 @@ const oMnie = ({ data }) => {
     <>
       <Layout
         visableHeader
-        pageTitle="Psycholog Rzeszów - Renata Zuba - PSYCHOLOGICA - Psychoterapia i psychoedukacja"
-        pageDescription="Jestem psychologiem klinicznym i psychoterapeutą z wieloletnim doświadczeniem w prowadzeniu psychoterapii i pomocy psychologicznej na terenie Rzeszowa.">
+        pageTitle="Renata Zuba – psycholog kliniczny w Rzeszowie"
+        pageDescription="Poznaj Renatę Zubę – psychologa klinicznego, psychoterapeutę i certyfikowanego specjalistę psychoterapii uzależnień w Rzeszowie. Sprawdź kwalifikacje."
+        pageImageAlt="Renata Zuba – psycholog kliniczny i psychoterapeuta"
+        pageType="AboutPage"
+        breadcrumbs={[
+          { name: "Strona główna", path: "/" },
+          { name: "O mnie", path: "/o-mnie/" },
+        ]}>
         <TopAbout />
         <AboutCopy />
         <Skills />

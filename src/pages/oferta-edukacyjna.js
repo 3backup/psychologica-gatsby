@@ -15,10 +15,23 @@ const oferta = ({ data }) => {
   return (
     <>
       <Layout
-        pageTitle="Oferta edukacyjna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
-        pageDescription="Opierając się na swoich doświadczeniach jako psychologa klinicznego prowadzę specjalistyczne szkolenia dla osób zajmujących się psychoterapią lub pomocą psychologiczną, a także warsztaty i treningi kompetencji skierowane do różnych grup zawodowych i społecznych.">
+        pageTitle="Szkolenia psychologiczne Rzeszów | Renata Zuba"
+        pageDescription="Specjalistyczne szkolenia, warsztaty i psychoedukacja prowadzone przez psychologa klinicznego Renatę Zubę w Rzeszowie oraz dla grup zawodowych."
+        pageImageAlt="Szkolenia i psychoedukacja – Renata Zuba"
+        pageType="WebPage"
+        service={{
+          name: "Szkolenia psychologiczne i psychoedukacja",
+          serviceType: "Szkolenia, warsztaty i psychoedukacja",
+          description:
+            "Specjalistyczne szkolenia i warsztaty prowadzone przez psychologa klinicznego.",
+          audience: "grupy zawodowe i społeczne",
+        }}
+        breadcrumbs={[
+          { name: "Strona główna", path: "/" },
+          { name: "Oferta edukacyjna", path: "/oferta-edukacyjna/" },
+        ]}>
         <TopOffer
-          headerElement="Oferta edukacyjna – Psycholog Rzeszów Renata Zuba | Psychologica"
+          headerElement="Szkolenia psychologiczne i psychoedukacja"
           subheaderText={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTopCopy1}
         />
         <OfferEdukacja />

@@ -33,7 +33,7 @@ const OfferHeader = styled.h1`
   margin: 3rem auto 1.5rem auto;
   font-family: Red Hat Display;
   font-style: regular;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 48px;
   line-height: 125%;
   color: #1f1f1f;

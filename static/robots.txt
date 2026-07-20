@@ -2,5 +2,4 @@ User-agent: *
 Allow: /
 Content-Signal: ai-train=yes, search=yes, ai-input=yes
 
-Sitemap: https://www.psychologica.pl/sitemap.xml
 Sitemap: https://www.psychologica.pl/sitemap-index.xml

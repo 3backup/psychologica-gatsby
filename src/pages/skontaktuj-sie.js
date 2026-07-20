@@ -4,12 +4,13 @@ import Container from "../components/styles/Container";
 import { graphql, Link } from "gatsby";
 import Button from "../components/styles/Button";
 import GoBackIcon from "../images/goback.svg";
-import { Helmet } from "react-helmet";
 import LogoHeader from "../images/logo-psychologica-black.svg";
 import MailIcon from "../images/contact__mail.svg";
 import PhoneIcon from "../images/contact__phone.svg";
 import BgImage from "../images/contact-element.svg";
 import PinIcon from "../images/contact__pin.svg";
+import Seo from "../components/Seo";
+import { trackContactClick, trackEvent } from "../utils/analytics";
 
 import "normalize.css";
 
@@ -266,10 +267,21 @@ const SkontaktujSie = ({ data }) => {
   const formRef = React.useRef(null);
 
   React.useEffect(() => {
+    trackEvent("view_contact", { page_location: "/skontaktuj-sie/" });
+
     const form = formRef.current;
     if (!form) return;
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = () => {
+      try {
+        window.sessionStorage.setItem(
+          "psychologica_contact_submitted",
+          Date.now().toString(),
+        );
+      } catch (error) {
+        // The form redirect still works when storage is unavailable.
+      }
+
       // Get form data
       const formData = new FormData(form);
       const email = formData.get("email") || "";
@@ -307,27 +319,16 @@ const SkontaktujSie = ({ data }) => {
 
   return (
     <>
-      <Helmet
-        title="Skontaktuj się - Uzyskaj pomoc psychologa w Rzeszowie"
-        meta={[
-          {
-            name: "description",
-            content:
-              "Skontaktuj się z Renatą Zubą, aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do każdego przypadku podchodzę indywidualnie",
-          },
-          { property: "og:title", content: "Skontaktuj się - Uzyskaj pomoc psychologa w Rzeszowie" },
-          { property: "og:description", content: "Skontaktuj się z Renatą Zubą, aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do każdego przypadku podchodzę indywidualnie" },
-          { property: "og:url", content: "https://www.psychologica.pl/skontaktuj-sie/" },
-          { property: "og:type", content: "website" },
-          { property: "og:image", content: "https://www.psychologica.pl/og-image.jpg" },
-          { property: "og:locale", content: "pl_PL" },
-          { name: "twitter:card", content: "summary_large_image" },
-          { name: "twitter:title", content: "Skontaktuj się - Uzyskaj pomoc psychologa w Rzeszowie" },
-          { name: "twitter:description", content: "Skontaktuj się z Renatą Zubą, aby uzyskać pomoc psychologa w Rzeszowie. Kontakt jest bezpłatny, a do każdego przypadku podchodzę indywidualnie" },
-          { name: "twitter:image", content: "https://www.psychologica.pl/og-image.jpg" },
-        ]}>
-        <link rel="canonical" href="https://www.psychologica.pl/skontaktuj-sie/" />
-      </Helmet>
+      <Seo
+        title="Kontakt z psychologiem w Rzeszowie | Psychologica"
+        description="Skontaktuj się z psychologiem Renatą Zubą. Umów konsultację w gabinecie w Rzeszowie lub online telefonicznie, mailowo albo przez formularz."
+        imageAlt="Kontakt z psychologiem Renatą Zubą"
+        pageType="ContactPage"
+        breadcrumbs={[
+          { name: "Strona główna", path: "/" },
+          { name: "Kontakt", path: "/skontaktuj-sie/" },
+        ]}
+      />
       <ContactContainer>
         <HeaderContact>
           <Link to="/">
@@ -350,13 +351,16 @@ const SkontaktujSie = ({ data }) => {
                   <SingleContactInformation>
                     <PhoneIcon />{" "}
                     <ContactLink
+                      onClick={() => trackContactClick("phone", "contact_page")}
                       href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
                       {data.datoCmsGlobal.phonenumber}
                     </ContactLink>
                   </SingleContactInformation>
                   <SingleContactInformation>
                     <MailIcon />{" "}
-                    <ContactLink href={`mailto:${data.datoCmsGlobal.email || ""}`}>
+                    <ContactLink
+                      onClick={() => trackContactClick("email", "contact_page")}
+                      href={`mailto:${data.datoCmsGlobal.email || ""}`}>
                       {data.datoCmsGlobal.email}
                     </ContactLink>
                   </SingleContactInformation>
@@ -379,25 +383,45 @@ const SkontaktujSie = ({ data }) => {
               <ContactForm
                 ref={formRef}
                 action="https://formkeep.com/f/c856eba7e66e"
-                accept-charset="UTF-8"
-                enctype="multipart/form-data"
+                acceptCharset="UTF-8"
+                encType="multipart/form-data"
                 method="POST">
                 <input type="hidden" name="utf8" value="✓" />
+                <input
+                  type="hidden"
+                  name="_redirect_url"
+                  value="https://www.psychologica.pl/dziekujemy/"
+                />
 
-                <InputForm name="email" type="email" placeholder="Email*" />
+                <InputForm
+                  name="email"
+                  type="email"
+                  placeholder="Email*"
+                  aria-label="Adres e-mail"
+                  autoComplete="email"
+                  required
+                />
                 <InputForm
                   name="name"
                   type="text"
                   placeholder="Imię i nazwisko"
+                  aria-label="Imię i nazwisko"
+                  autoComplete="name"
                 />
                 <InputForm
                   name="phone"
-                  type="phone"
+                  type="tel"
                   placeholder="Nr Telefonu"
+                  aria-label="Numer telefonu"
+                  autoComplete="tel"
                 />
-                <TextForm name="message" placeholder="Treść Wiadomości"></TextForm>
+                <TextForm
+                  name="message"
+                  placeholder="Treść Wiadomości*"
+                  aria-label="Treść wiadomości"
+                  required></TextForm>
                 <div
-                  class="g-recaptcha"
+                  className="g-recaptcha"
                   data-sitekey="6Leh48waAAAAANkkSLOSPLPC1Rfckkm9aw6DbcXp"></div>
 
                 <FormButton type="submit" value="Submit">

@@ -21,7 +21,17 @@ const Layout = ({ children, ...props }) => (
     `}
     render={(data) => (
       <React.Fragment>
-        <Seo title={props.pageTitle} description={props.pageDescription} />
+        <Seo
+          title={props.pageTitle}
+          description={props.pageDescription}
+          image={props.pageImage}
+          imageAlt={props.pageImageAlt}
+          noIndex={props.noIndex}
+          pageType={props.pageType}
+          service={props.service}
+          breadcrumbs={props.breadcrumbs}
+          faq={props.faq}
+        />
         <Header
           menuLinks={data.site.siteMetadata.menuLinks}
           siteTitle={data.site.siteMetadata.title}

@@ -8,6 +8,7 @@ import Phone from "../images/phone.svg";
 import MenuMobile from "../images/menu.svg";
 import Close from "../images/close.svg";
 import "normalize.css";
+import { trackContactClick } from "../utils/analytics";
 
 const MenuLink = styled(Link)`
   text-decoration: none;
@@ -211,7 +212,7 @@ const Header = ({ menuLinks, visableHeader }) => {
               backdropFilter: visible || visableHeader ? "blur(10px)" : "",
             }}>
             <ContainerHeader>
-              <Link to="/">
+              <Link to="/" aria-label="Psychologica – strona główna">
                 <StyledFooterLogo
                   height={visible ? "60" : "80"}
                   width={visible ? "200" : "220"}
@@ -221,6 +222,7 @@ const Header = ({ menuLinks, visableHeader }) => {
                 <Phone width="18" height="18" />
                 <PhoneNumberText>
                   <PhoneLink
+                    onClick={() => trackContactClick("phone", "header")}
                     href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
                     {data.datoCmsGlobal.phonenumber}
                   </PhoneLink>
@@ -246,10 +248,12 @@ const Header = ({ menuLinks, visableHeader }) => {
               backdropFilter: visible ? "blur(10px)" : "",
               border: visible ? "1px solid #dadada" : "",
             }}>
-            <Link to="/">
+            <Link to="/" aria-label="Psychologica – strona główna">
               <StyledFooterLogo height="60" width="200" />
             </Link>
             <MenuButton
+              aria-label={isMenuOpen ? "Zamknij menu" : "Otwórz menu"}
+              aria-expanded={isMenuOpen}
               onClick={() => {
                 setMenuOpen(!isMenuOpen);
               }}>

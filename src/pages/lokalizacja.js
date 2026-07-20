@@ -15,8 +15,14 @@ const lokalizacja = ({ data }) => {
     <>
       <Layout
         visableHeader
-        pageTitle="Gabinet Psychologiczny Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
-        pageDescription="Gabinet psychologiczny, w którym świadcze usługi pomocy psychologicznej na terenie Rzeszowa znajduję się na Mikołaja Reja 12/320, 35-211 Rzeszów">
+        pageTitle="Gabinet psychologiczny Rzeszów | Psychologica"
+        pageDescription="Gabinet psychologiczny Renaty Zuby przy ul. Mikołaja Reja 12/320 w Rzeszowie. Sprawdź lokalizację, dojazd oraz możliwości spotkań online i w gabinecie."
+        pageImageAlt="Gabinet psychologiczny Psychologica w Rzeszowie"
+        pageType="WebPage"
+        breadcrumbs={[
+          { name: "Strona główna", path: "/" },
+          { name: "Lokalizacja", path: "/lokalizacja/" },
+        ]}>
         <TopLocation />
         <React.Suspense fallback={<div style={{ minHeight: "31.25rem", background: "#f2f2f2" }} aria-hidden="true" />}>
           <Maps />

@@ -18,6 +18,8 @@ Use this skill when an agent needs a concise understanding of the public Psychol
 
 - Homepage: /
 - Therapeutic offer: /oferta-terapeutyczna/
+- Psychological support: /pomoc-psychologiczna-rzeszow/
+- Addiction psychotherapy: /psychoterapia-uzaleznien-rzeszow/
 - Educational offer: /oferta-edukacyjna/
 - Supervision: /superwizja/
 - About: /o-mnie/

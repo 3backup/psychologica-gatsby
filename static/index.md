@@ -5,6 +5,8 @@ Psychologica is the public website for Renata Zuba, a psychologist and psychothe
 ## Main Services
 
 - Psychotherapy and psychological support in Rzeszow.
+- Psychological support for adults experiencing crisis, anxiety, stress, or difficult life changes.
+- Addiction psychotherapy and support for family members affected by addiction.
 - Educational and psychoeducational offer.
 - Supervision for professionals.
 - Information about Renata Zuba's practice and professional profile.
@@ -13,6 +15,8 @@ Psychologica is the public website for Renata Zuba, a psychologist and psychothe
 
 - Homepage: https://www.psychologica.pl/
 - Therapeutic offer: https://www.psychologica.pl/oferta-terapeutyczna/
+- Psychological support: https://www.psychologica.pl/pomoc-psychologiczna-rzeszow/
+- Addiction psychotherapy: https://www.psychologica.pl/psychoterapia-uzaleznien-rzeszow/
 - Educational offer: https://www.psychologica.pl/oferta-edukacyjna/
 - Supervision: https://www.psychologica.pl/superwizja/
 - About: https://www.psychologica.pl/o-mnie/

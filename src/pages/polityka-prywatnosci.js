@@ -9,12 +9,12 @@ const ContainerNew = styled(Container)`
   margin: 0 auto;
   font-family: Manrope;
   font-style: normal;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 20px;
   line-height: 150%;
   color: #3e7672;
   li {
-    font-weight: 300;
+    font-weight: 400;
   }
 `;
 const HeaderPrivacePolicy = styled.h1`
@@ -28,8 +28,10 @@ const HeaderPrivacePolicy = styled.h1`
 const politykaPrywatnosci = () => {
   return (
     <Layout
-      pageTitle="Polityka Prywatności  - PSYCHOLOGICA - Psychoterapia i psychoedukacja"
-      pageDescription="Polityka prywatności dla PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba">
+      pageTitle="Polityka prywatności | Psychologica"
+      pageDescription="Polityka prywatności i plików cookies serwisu Psychologica.pl."
+      pageType="WebPage"
+      noIndex>
       <ContainerNew>
         <HeaderPrivacePolicy>
           Polityka prywatności i Cookies dla Psychologica.pl

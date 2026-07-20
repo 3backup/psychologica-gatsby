@@ -82,12 +82,6 @@ module.exports = {
     "gatsby-plugin-sass",
     "gatsby-plugin-image",
     {
-      resolve: `gatsby-plugin-canonical-urls`,
-      options: {
-        siteUrl: `https://www.psychologica.pl`,
-      },
-    },
-    {
       resolve: `gatsby-plugin-google-gtag`,
       options: {
         // You can add multiple tracking ids and a pageview event will be fired for all of them.
@@ -96,7 +90,6 @@ module.exports = {
         ],
 
         gtagConfig: {
-          optimize_id: "GTM-PPW897F",
           anonymize_ip: true,
           cookie_expires: 0,
         },
@@ -108,7 +101,18 @@ module.exports = {
       },
     },
 
-    "gatsby-plugin-sitemap",
+    {
+      resolve: "gatsby-plugin-sitemap",
+      options: {
+        excludes: [
+          "/404/",
+          "/404.html",
+          "/dev-404-page/",
+          "/dziekujemy/",
+          "/polityka-prywatnosci/",
+        ],
+      },
+    },
     {
       resolve: "gatsby-source-filesystem",
       options: {

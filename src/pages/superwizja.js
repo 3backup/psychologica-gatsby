@@ -14,10 +14,23 @@ const oferta = ({ data }) => {
   return (
     <>
       <Layout
-        pageTitle="Superwizja psychologa  - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
-        pageDescription="Prowadzę superwizję indywidualną i grupową dla specjalistów psychoterapii uzależnień oraz dla innych profesjinalistów zajmujących się pomocą i wsparciem dla osób uzależnionych lub członków ich rodzin.">
+        pageTitle="Superwizja psychoterapii uzależnień | Renata Zuba"
+        pageDescription="Superwizja indywidualna i grupowa dla specjalistów psychoterapii uzależnień. Certyfikowany superwizor Renata Zuba – spotkania w Rzeszowie i online."
+        pageImageAlt="Superwizja psychoterapii uzależnień – Renata Zuba"
+        pageType="WebPage"
+        service={{
+          name: "Superwizja psychoterapii uzależnień",
+          serviceType: "Superwizja indywidualna i grupowa",
+          description:
+            "Superwizja dla specjalistów psychoterapii uzależnień w Rzeszowie i online.",
+          audience: "specjaliści psychoterapii uzależnień",
+        }}
+        breadcrumbs={[
+          { name: "Strona główna", path: "/" },
+          { name: "Superwizja", path: "/superwizja/" },
+        ]}>
         <TopOffer
-          headerElement="Superwizja – Psycholog Renata Zuba Rzeszów | Psychologica"
+          headerElement="Superwizja psychoterapii uzależnień"
           subheaderText={data.datoCmsSupervision.supervisionSubheader}
         />
         <OfferSuperwizja />

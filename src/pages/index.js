@@ -16,18 +16,22 @@ const IndexPage = ({ data, props }) => {
     <>
       <Layout
         visableBackground
-        pageTitle="Pomoc psychologiczna Rzeszów - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
-        pageDescription="Oferuje pomoc psychologiczną, psychoterapie i psychoedukacje w Rzeszowie. Nazywam się Renata Zuba i jestem psychologiem z wieloletnim doświadczeniem.">
-        <Top />
-        <Problem />
-        <Offer />
-        <Testimonial
-          quote={data.datoCmsIndex.cytat}
-          author={data.datoCmsIndex.author}
-        />
-        <AboutSection />
-        <Covid />
-        <Process />
+        pageTitle="Psycholog Rzeszów – Renata Zuba | Psychologica"
+        pageDescription="Psycholog kliniczny Renata Zuba. Psychoterapia i pomoc psychologiczna dla dorosłych w Rzeszowie oraz online. Sprawdź ofertę i umów konsultację."
+        pageImageAlt="Psycholog kliniczny Renata Zuba w Rzeszowie"
+        pageType="WebPage">
+        <main>
+          <Top />
+          <Problem />
+          <Offer />
+          <Testimonial
+            quote={data.datoCmsIndex.cytat}
+            author={data.datoCmsIndex.author}
+          />
+          <AboutSection />
+          <Covid />
+          <Process />
+        </main>
         <Footer />
       </Layout>
     </>

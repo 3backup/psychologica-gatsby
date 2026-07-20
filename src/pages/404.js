@@ -8,8 +8,10 @@ const NotFoundPage = () => {
     <>
       <Layout
         visableHeader
-        pageTitle="Brak strony - PSYCHOLOGICA - Psychoterapia i psychoedukacja Renata Zuba"
-        pageDescription="Nie znaleźliśmy takiej strony - wróć do Psychologica Rzeszów">
+        pageTitle="Nie znaleziono strony | Psychologica"
+        pageDescription="Nie znaleźliśmy tej strony. Wróć do strony głównej Psychologica."
+        pageType="WebPage"
+        noIndex>
         <CouldNotFind></CouldNotFind>
         <Footer />
       </Layout>
