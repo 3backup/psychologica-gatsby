@@ -267,7 +267,7 @@ const SkontaktujSie = ({ data }) => {
   const formRef = React.useRef(null);
 
   React.useEffect(() => {
-    trackEvent("view_contact", { page_location: "/skontaktuj-sie/" });
+    trackEvent("view_contact");
 
     const form = formRef.current;
     if (!form) return;
