@@ -24,8 +24,7 @@
         "Link": "</.well-known/api-catalog>; rel=\"api-catalog\"; type=\"application/linkset+json\", </.well-known/agent-skills/index.json>; rel=\"describedby\"; type=\"application/json\", </.well-known/mcp/server-card.json>; rel=\"describedby\"; type=\"application/json\", </index.md>; rel=\"alternate\"; type=\"text/markdown\"",
         "Vary": "Accept",
         "Content-Signal": "ai-train=yes, search=yes, ai-input=yes",
-        "Content-Type": "text/markdown; charset=utf-8",
-        "x-markdown-tokens": "414"
+        "Content-Type": "text/markdown; charset=utf-8"
       },
       "dest": "/index.md"
     }
@@ -58,10 +57,6 @@
         {
           "key": "Vary",
           "value": "Accept"
-        },
-        {
-          "key": "x-markdown-tokens",
-          "value": "414"
         }
       ]
     },

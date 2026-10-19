@@ -64,7 +64,8 @@ const Testimonial = ({ quote, author }) => {
       <TestimonialBg>
         <StaticImage
           src="../images/testimonial-bg.jpg"
-          alt="bg-testimonial"
+          alt=""
+          aria-hidden="true"
           layout="fullWidth"
           placeholder="blurred"
         />

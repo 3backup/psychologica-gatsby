@@ -18,7 +18,7 @@ const CovidContainer = styled(Container)`
   position: relative;
   text-align: cetner;
 `;
-const CovidHeader = styled.h3`
+const CovidHeader = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   margin: 0;
@@ -103,7 +103,7 @@ const Covid = () => {
       render={(data) => (
         <CovidContainer>
           <CovidImage>
-            <CovidSvg />
+            <CovidSvg aria-hidden="true" focusable="false" />
           </CovidImage>
           <CovidHeader>
             {data.datoCmsCovi.spotkaniaOsobisteLubSesjeZdalne}
@@ -112,8 +112,8 @@ const Covid = () => {
           <LinkElement to="/skontaktuj-sie/">
             <LightGreen>{data.datoCmsCovi.buttonCta}</LightGreen>
           </LinkElement>
-          <CovidPostionTop />
-          <CovidPostionBottom />
+          <CovidPostionTop aria-hidden="true" focusable="false" />
+          <CovidPostionBottom aria-hidden="true" focusable="false" />
         </CovidContainer>
       )}
     />

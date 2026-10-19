@@ -1,0 +1,25 @@
+name: Verify production release
+
+on:
+  deployment_status:
+
+permissions:
+  contents: read
+  deployments: read
+
+jobs:
+  verify:
+    if: github.event.deployment_status.state == 'success' && github.event.deployment.environment == 'Production'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.deployment.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify GitHub, production app and CMS
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_SHA: ${{ github.event.deployment.sha }}
+        run: node scripts/verify-production.cjs "$RELEASE_SHA"

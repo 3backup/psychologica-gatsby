@@ -25,7 +25,7 @@ const HalfGrid = styled.div`
 const Section = styled.section`
   margin: 7.5rem 0 0 0;
 `;
-const TitleSection = styled.h3`
+const TitleSection = styled.h2`
   font-family: Red Hat Display;
   margin: 0;
   font-style: normal;
@@ -53,7 +53,6 @@ const ParagraphIntro = styled.p`
   opacity: 0.8;
 `;
 const HowProcessLookLike = styled(Container)`
-  max-height: 22rem;
   display: flex;
   padding-right: 0;
   flex-direction: row;
@@ -133,7 +132,7 @@ const SingleStepImage = styled.div`
   justify-content: center;
   margin: 0;
 `;
-const SingleStepHeader = styled.h4`
+const SingleStepHeader = styled.h3`
   margin: 1.75rem 0 1.25rem 0;
   font-family: Red Hat Display;
   font-style: normal;
@@ -177,7 +176,7 @@ const ImageGrid = styled(HalfGrid)`
   }
 `;
 
-const Process = ({ siteTitle, menuLinks }) => {
+const Process = ({ title }) => {
   return (
     <StaticQuery
       query={graphql`
@@ -201,26 +200,30 @@ const Process = ({ siteTitle, menuLinks }) => {
         <Section id="cooperation">
           <HowProcessLookLike>
             <HalfGrid>
-              <TitleSection
-                dangerouslySetInnerHTML={{
-                  __html: data.datoCmsHowitlookslike.wspPracaTytu,
-                }}></TitleSection>
+              {title ? (
+                <TitleSection>{title}</TitleSection>
+              ) : (
+                <TitleSection
+                  dangerouslySetInnerHTML={{
+                    __html: data.datoCmsHowitlookslike.wspPracaTytu,
+                  }} />
+              )}
               <ParagraphIntro>
                 {data.datoCmsHowitlookslike.wspPracaOpis}
               </ParagraphIntro>
               <HowMuchItCost>
-                <ClockSign />
+                <ClockSign aria-hidden="true" focusable="false" />
                 {data.datoCmsHowitlookslike.processTime}
               </HowMuchItCost>
               <HowMuchItCost>
-                <MoneyDollarSign />
+                <MoneyDollarSign aria-hidden="true" focusable="false" />
                 {data.datoCmsHowitlookslike.wspPracaCena}
               </HowMuchItCost>
             </HalfGrid>
             <ImageGrid>
               <StaticImage
                 src="../images/Process-image.jpg"
-                alt="Zdjęcie przy opisie współpracy"
+                alt="Renata Zuba podczas spotkania online przy komputerze"
                 layout="fullWidth"
                 placeholder="blurred"
               />
@@ -231,7 +234,7 @@ const Process = ({ siteTitle, menuLinks }) => {
               <ContentGreen>
                 <SingleStep>
                   <SingleStepImage>
-                    <Contact />
+                    <Contact aria-hidden="true" focusable="false" />
                   </SingleStepImage>
                   <SingleStepHeader>
                     {data.datoCmsHowitlookslike.processFirststepTitle}
@@ -247,7 +250,7 @@ const Process = ({ siteTitle, menuLinks }) => {
                 </SingleStep>
                 <SingleStep>
                   <SingleStepImage>
-                    <Plan />
+                    <Plan aria-hidden="true" focusable="false" />
                   </SingleStepImage>
                   <SingleStepHeader>
                     {data.datoCmsHowitlookslike.processSecondstepTitle}
@@ -258,7 +261,7 @@ const Process = ({ siteTitle, menuLinks }) => {
                 </SingleStep>
                 <SingleStep>
                   <SingleStepImage>
-                    <EveryTiime />
+                    <EveryTiime aria-hidden="true" focusable="false" />
                   </SingleStepImage>
                   <SingleStepHeader>
                     {data.datoCmsHowitlookslike.processThirddstepTitle}
@@ -272,12 +275,13 @@ const Process = ({ siteTitle, menuLinks }) => {
             <GreenProcessImage>
               <StaticImage
                 src="../images/process-bg.jpg"
-                alt="background-proces"
+                alt=""
+                aria-hidden="true"
                 placeholder="blurred"
                 layout="fullWidth"
               />
             </GreenProcessImage>
-            <LeavesBg />
+            <LeavesBg aria-hidden="true" focusable="false" />
           </GreenProcessElement>
         </Section>
       )}

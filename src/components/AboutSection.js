@@ -47,7 +47,7 @@ const AboutContainer = styled.section`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 `;
-const AboutTitle = styled.h3`
+const AboutTitle = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -153,13 +153,13 @@ const AboutSection = () => {
             <HalfGridRight>
               <StaticImage
                 src="../images/about-renata-zuba.jpg"
-                alt="about Renata Zuba"
+                alt="Renata Zuba, psycholog kliniczny"
                 layout="fullWidth"
                 placeholder="blurred"
               />
             </HalfGridRight>
           </AboutMaxContainer>
-          <LeavesBg />
+          <LeavesBg aria-hidden="true" focusable="false" />
         </AboutContainer>
       )}
     />

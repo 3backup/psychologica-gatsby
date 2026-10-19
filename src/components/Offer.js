@@ -46,7 +46,7 @@ const OfferContainer = styled(Container)`
     flex-direction: column;
   }
 `;
-const OfferTitle = styled.h3`
+const OfferTitle = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -135,7 +135,7 @@ const AboutLink = styled(Link)`
     }
   }
 `;
-const SingleOfferHeader = styled.h5`
+const SingleOfferHeader = styled.h3`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
@@ -168,7 +168,7 @@ const Offer = () => {
             <GridImage>
               <StaticImage
                 src="../images/offer-image.jpg"
-                alt="Renata Zuba oferta psycholog Rzeszów"
+                alt="Renata Zuba w gabinecie psychologicznym w Rzeszowie"
                 layout="fullWidth"
                 placeholder="blurred"
               />
@@ -184,7 +184,7 @@ const Offer = () => {
                 }}></OfferParagraph>
               <SingleOffer>
                 <SingleOfferImage>
-                  <Psychology />
+                  <Psychology aria-hidden="true" focusable="false" />
                 </SingleOfferImage>
                 <SingleOfferText>
                   <SingleOfferHeader>
@@ -193,13 +193,13 @@ const Offer = () => {
 
                   <AboutLink to="/oferta-terapeutyczna/">
                     {data.datoCmsIndex.myofferFirsttileTxt}
-                    <ArrowRight />
+                    <ArrowRight aria-hidden="true" focusable="false" />
                   </AboutLink>
                 </SingleOfferText>
               </SingleOffer>
               <SingleOffer>
                 <SingleOfferImage>
-                  <Psychoeducation />
+                  <Psychoeducation aria-hidden="true" focusable="false" />
                 </SingleOfferImage>
                 <SingleOfferText>
                   <SingleOfferHeader>
@@ -207,13 +207,13 @@ const Offer = () => {
                   </SingleOfferHeader>
                   <AboutLink to="/oferta-edukacyjna/">
                     {data.datoCmsIndex.myofferSecondtitleTxt}
-                    <ArrowRight />
+                    <ArrowRight aria-hidden="true" focusable="false" />
                   </AboutLink>
                 </SingleOfferText>
               </SingleOffer>
               <SingleOffer>
                 <SingleOfferImage>
-                  <Supervision />
+                  <Supervision aria-hidden="true" focusable="false" />
                 </SingleOfferImage>
                 <SingleOfferText>
                   <SingleOfferHeader>
@@ -222,7 +222,7 @@ const Offer = () => {
 
                   <AboutLink to="/superwizja/">
                     {data.datoCmsIndex.myofferThirdtileTxt}
-                    <ArrowRight />
+                    <ArrowRight aria-hidden="true" focusable="false" />
                   </AboutLink>
                 </SingleOfferText>
               </SingleOffer>

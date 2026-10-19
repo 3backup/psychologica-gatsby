@@ -214,12 +214,14 @@ const Header = ({ menuLinks, visableHeader }) => {
             <ContainerHeader>
               <Link to="/" aria-label="Psychologica – strona główna">
                 <StyledFooterLogo
+                  aria-hidden="true"
+                  focusable="false"
                   height={visible ? "60" : "80"}
                   width={visible ? "200" : "220"}
                 />
               </Link>
               <PhoneNumber>
-                <Phone width="18" height="18" />
+                <Phone width="18" height="18" aria-hidden="true" focusable="false" />
                 <PhoneNumberText>
                   <PhoneLink
                     onClick={() => trackContactClick("phone", "header")}
@@ -249,7 +251,7 @@ const Header = ({ menuLinks, visableHeader }) => {
               border: visible ? "1px solid #dadada" : "",
             }}>
             <Link to="/" aria-label="Psychologica – strona główna">
-              <StyledFooterLogo height="60" width="200" />
+              <StyledFooterLogo height="60" width="200" aria-hidden="true" focusable="false" />
             </Link>
             <MenuButton
               aria-label={isMenuOpen ? "Zamknij menu" : "Otwórz menu"}
@@ -257,7 +259,11 @@ const Header = ({ menuLinks, visableHeader }) => {
               onClick={() => {
                 setMenuOpen(!isMenuOpen);
               }}>
-              {isMenuOpen ? <Close /> : <MenuMobile />}
+              {isMenuOpen ? (
+                <Close aria-hidden="true" focusable="false" />
+              ) : (
+                <MenuMobile aria-hidden="true" focusable="false" />
+              )}
             </MenuButton>
           </HeaderMobile>
           {isMenuOpen ? (

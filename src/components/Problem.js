@@ -234,13 +234,13 @@ class Problems extends Component {
                       className="button"
                       aria-label="Poprzedni obszar pracy"
                       onClick={this.previous}>
-                      <ArrowLeft />
+                      <ArrowLeft aria-hidden="true" focusable="false" />
                     </ButtonClick>
                     <ButtonClick
                       className="button"
                       aria-label="Następny obszar pracy"
                       onClick={this.next}>
-                      <ArrowRight />
+                      <ArrowRight aria-hidden="true" focusable="false" />
                     </ButtonClick>
                   </ButtonsContainer>
                   <ServiceLinks aria-label="Formy pomocy">
@@ -260,13 +260,14 @@ class Problems extends Component {
                 <StaticImage
                   src="../images/background-problem.png"
                   alt=""
+                  aria-hidden="true"
                   layout="fullWidth"
                   quality={65}
                   placeholder="blurred"
                 />
               </ProblemBg>
-              <BgTopRight />
-              <BgTopLeft />
+              <BgTopRight aria-hidden="true" focusable="false" />
+              <BgTopLeft aria-hidden="true" focusable="false" />
             </SectionProblems>
           </>
         )}

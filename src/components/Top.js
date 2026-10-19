@@ -12,6 +12,8 @@ const Top = styled.div`
   align-items: center;
   position: relative;
   min-height: 47.5rem;
+  padding-top: 110px;
+  box-sizing: border-box;
   @media (max-width: 768px) {
     padding-top: 80px;
   }
@@ -88,10 +90,10 @@ const HeroImageFront = styled.div`
   width: 45%;
   position: Absolute;
   z-index: 5;
-  left: 45%
+  left: 45%;
   top: 5%;
   @media (max-width: 1230px) {
-  left: 50%
+  left: 50%;
   }
   @media (max-width: 768px) {
     position: static;
@@ -157,7 +159,7 @@ const Header = ({ props }) => {
             <HeroContainer>
               <TextContainer>
                 <HeroTitle>
-                  Psycholog Rzeszów – <span>Renata Zuba</span> · Psychologica
+                  Psycholog i psychoterapeuta w Rzeszowie – <span>Renata Zuba</span>
                 </HeroTitle>
                 {/* DUZY SPACING TO DO  */}
                 <ParagraphText>{data.datoCmsIndex.opis}</ParagraphText>
@@ -168,7 +170,7 @@ const Header = ({ props }) => {
               <HeroImageFront>
                 <StaticImage
                   src="../images/rzuba-photo-top.jpg"
-                  alt="Psycholog Renata Zuba Rzeszów - Psychologica"
+                  alt="Renata Zuba, psycholog kliniczny i psychoterapeuta"
                   placeholder="blurred"
                   layout="fullWidth"
                   loading="eager"
@@ -180,15 +182,16 @@ const Header = ({ props }) => {
             <CusomtImage>
               <StaticImage
                 src="../images/top-image-plant.jpg"
-                alt="Roslina psychologica"
+                alt=""
+                aria-hidden="true"
                 layout="fullWidth"
                 placeholder="blurred"
               />
             </CusomtImage>
             <Leaves
               src="../images/leaves.svg"
-              alt="background pattern"
-              placeholder="blurred"
+              aria-hidden="true"
+              focusable="false"
             />
           </Top>
           <Container>

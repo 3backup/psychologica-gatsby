@@ -92,7 +92,7 @@ const Footer = () => {
       render={(data) => (
         <FooterStyle>
           <ContainerFooter>
-            <StyledFooterLogo height="90" width="211" />
+            <StyledFooterLogo height="90" width="211" role="img" aria-label="Psychologica" />
             <FooterMeta>
               <FooterNavigation aria-label="Usługi Psychologica">
                 <FooterLink to="/oferta-terapeutyczna/">

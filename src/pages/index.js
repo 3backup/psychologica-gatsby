@@ -9,6 +9,8 @@ import AboutSection from "../components/AboutSection";
 import Testimonial from "../components/Testimonial";
 import Offer from "../components/Offer";
 import Problem from "../components/Problem";
+import HomeHelp from "../components/HomeHelp";
+import HomeQuestions from "../components/HomeQuestions";
 import "normalize.css";
 
 const IndexPage = ({ data, props }) => {
@@ -16,12 +18,13 @@ const IndexPage = ({ data, props }) => {
     <>
       <Layout
         visableBackground
-        pageTitle="Psycholog Rzeszów – Renata Zuba | Psychologica"
+        pageTitle="Psycholog i psychoterapeuta w Rzeszowie – Renata Zuba | Psychologica"
         pageDescription="Psycholog kliniczny Renata Zuba. Psychoterapia i pomoc psychologiczna dla dorosłych w Rzeszowie oraz online. Sprawdź ofertę i umów konsultację."
         pageImageAlt="Psycholog kliniczny Renata Zuba w Rzeszowie"
         pageType="WebPage">
         <main>
           <Top />
+          <HomeHelp />
           <Problem />
           <Offer />
           <Testimonial
@@ -30,7 +33,8 @@ const IndexPage = ({ data, props }) => {
           />
           <AboutSection />
           <Covid />
-          <Process />
+          <Process title="Współpraca krok po kroku" />
+          <HomeQuestions />
         </main>
         <Footer />
       </Layout>

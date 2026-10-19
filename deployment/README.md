@@ -1,0 +1,14 @@
+# Publikacja i niezależna weryfikacja
+
+Potwierdzono 19.10.2026: GitHub `3backup/psychologica-gatsby`, `refs/heads/main`, wdrożenie Vercel Production ID `5525051011`, SHA `c9ecaed5e18f4bebc4eb815ee4783dd9954f5afd`; domena `https://www.psychologica.pl/`. Informacje wymagają ponownego sprawdzenia przed kolejną pracą.
+
+Treść pochodzi z DatoCMS Psychologica, ID `43634`, główne środowisko `main`, API `https://site-api.datocms.com`. Nie ma lokalnej aplikacyjnej bazy ani plików migracji. Cache Gatsby nie jest bazą referencyjną. Kod i konfiguracja źródła CMS zostały porównane z produkcyjnym SHA; metadane CMS odczytano bez zapisów. `cms-baseline.json` zawiera tylko identyfikatory i skróty schematu oraz konfiguracji; nie zawiera danych biznesowych ani sekretów. Nie potwierdza to aktualności wszystkich treści biznesowych.
+
+1. Potwierdź repozytorium, ref, wdrożony SHA i docelowy projekt; wykonaj fetch i zgłoś SHA, ahead/behind oraz staged/unstaged/untracked. Zachowaj pracę użytkownika.
+2. Porównaj wydanie z produkcją pod kątem schematu, migracji, wymaganych obiektów, uprawnień, indeksów, danych referencyjnych i konfiguracji. W tym wydaniu zmienia się statyczna strona, bez zmian schematu ani zapisów CMS. Przed kolejnymi wydaniami sprawdź to ponownie. Nie zmieniaj `databaseChangesRequired` ani baseline bez odpowiedniej aktualizacji procedury.
+3. Uruchom `node scripts/cms-release-check.cjs`. Brak dostępu lub drift blokuje dalszą ingerencję. Następnie `npm run build`. Build sprawdza CMS przed i po kompilacji i przerywa się przy błędzie. Nie wysyłaj formularzy kontaktowych w ramach testu.
+4. Sprawdź wygenerowaną stronę na komputerze i telefonie, title, pojedynczy H1, sekcje, ceny z CMS, odnośniki oraz obrazy. Commit wydania musi obejmować sprawdzony kod. Opublikuj zatwierdzony commit do potwierdzonego refa; Vercel Git Integration uruchamia wdrożenie. Nie stosuj force push.
+5. Po wdrożeniu uruchom `node scripts/verify-production.cjs <pełny-SHA>`. Skrypt ponownie odczytuje ref GitHub, metadane wdrożenia, SHA na rzeczywistej domenie oraz rzeczywistą tożsamość i schemat CMS. Sprawdza też treść HTML. Każdy błąd kończy proces statusem niezerowym. Ten sam test obowiązkowo uruchamia GitHub Actions po udanym statusie Production; sama publikacja nie oznacza zweryfikowanego wydania. Kontrola po publikacji nie cofa automatycznie ruchu ani zmian danych.
+6. Raportuj osobno GITHUB / APLIKACJA / BAZA. Dla obecnego wydania po pozytywnych testach: „Baza zweryfikowana; brak wymaganych zmian”. Jakikolwiek brak dowodu oznacza NIEKOMPLETNE/ZABLOKOWANE.
+
+Odzyskanie: poprzednie wydanie aplikacji pozostaje w historii Vercel/Git. Jeśli potrzebna jest naprawa, przygotuj zmianę lub powrót aplikacji do zatwierdzonego SHA i ponownie zweryfikuj CMS. Nie przywracaj ani nie nadpisuj danych CMS automatycznie. W tym wydaniu nie zmieniamy CMS, więc jego odtwarzanie nie jest wymagane. Operacja destrukcyjna wymaga osobnej zgody i planu odzyskania.

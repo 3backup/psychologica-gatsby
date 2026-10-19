@@ -8,7 +8,7 @@ const AboutSkillList = styled.div`
   flex-direction: column;
   margin-top: 4rem;
 `;
-const AboutSkillListTitle = styled.h4`
+const AboutSkillListTitle = styled.h3`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -64,8 +64,8 @@ const SkillList = (props) => {
           </AboutSkillListTitle>
           <AboutSkillListUL>
             {data.datoCmsSkillList.listaKompetencji.map((singleSkill) => (
-              <AboutSkillListLi>
-                <Dot />
+              <AboutSkillListLi key={singleSkill.skillsElement}>
+                <Dot aria-hidden="true" focusable="false" />
                 {singleSkill.skillsElement}
               </AboutSkillListLi>
             ))}
