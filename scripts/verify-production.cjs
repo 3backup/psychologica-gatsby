@@ -38,7 +38,8 @@ async function main() {
   assert.equal(statuses[0]?.state, "success", "APLIKACJA: brak udanego wdrożenia");
 
   const html = await read(`${domain}/?verify=${commit}`);
-  assert(html.includes("<title>Psycholog i psychoterapeuta w Rzeszowie – Renata Zuba | Psychologica</title>"), "Nieprawidłowy title");
+  const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1];
+  assert.equal(title, "Psycholog i psychoterapeuta w Rzeszowie – Renata Zuba | Psychologica", "Nieprawidłowy title");
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, "Strona musi zawierać jeden H1");
   for (const text of ["W czym mogę pomóc", "Dla kogo jest ta pomoc", "Jak zacząć współpracę", "Ile kosztują usługi psychologa w Rzeszowie?", "Jak wygląda współpraca krok po kroku?", "Dla kogo jest ta usługa?", "Gdzie odbywają się spotkania?"]) {
     assert(html.includes(text), `Brak treści: ${text}`);
