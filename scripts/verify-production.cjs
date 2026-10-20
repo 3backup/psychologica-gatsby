@@ -245,6 +245,66 @@ function verifySupportPage(html, facts) {
   assert(/<a\b[^>]*\bhref=["']\/o-mnie\/["']/i.test(html), "Brak odnośnika do kwalifikacji");
 }
 
+function verifyTherapyPage(html, facts) {
+  assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
+    "Psychoterapia dorosłych Rzeszów | Psychologica");
+  assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
+    ["Psychoterapia dorosłych w Rzeszowie"]);
+  const description = html.match(/<meta\b(?=[^>]*\bname="description")[^>]*>/i)?.[0]
+    .match(/\bcontent="([^"]*)"/i)?.[1] || "";
+  assert(htmlText(description).includes(`Sesja ${facts.duration}, koszt ${facts.price}.`),
+    "Oferta: opis Google nie odpowiada cennikowi CMS");
+  const body = htmlText(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""));
+  for (const content of [
+    "Psychoterapia dorosłych jest formą pomocy dla osób, które chcą lepiej zrozumieć swoje trudności",
+    "Dla kogo jest psychoterapia", "Lęk, fobie i utrzymujące się napięcie",
+    "Obniżony nastrój i doświadczenie depresji", "Przewlekły stres i przeciążenie zawodowe",
+    "Niska samoocena i nadmierny samokrytycyzm", "Trudności w relacjach i przeżywaniu emocji",
+    "Strata, kryzys, choroba lub trudna zmiana życiowa", "Jak wygląda współpraca",
+    "Jak wygląda proces", "1. Pierwszy kontakt", "2. Ustalenie celu i zasad pracy",
+    "3. Regularne spotkania", "Czas i koszt spotkań", `Czas sesji: ${facts.duration}`,
+    `${facts.priceLabel}: ${facts.price}`,
+    `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`,
+    "Jestem psychologiem klinicznym i absolwentką psychologii Uniwersytetu Jagiellońskiego.",
+  ]) assert(body.includes(content), `Oferta: brak informacji: ${content}`);
+  const visibleFaq = [...html.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)].map((m) => ({
+    question: htmlText(m[1].match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i)?.[1] || ""),
+    answer: htmlText(m[1].match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || ""),
+  }));
+  assert.deepEqual(visibleFaq.map((item) => item.question), [
+    "Jak wygląda pierwsze spotkanie z psychoterapeutą?", "Jak często odbywają się sesje psychoterapii?",
+    "Czy prowadzona jest psychoterapia online?", "W jakim nurcie prowadzona jest psychoterapia?",
+    "Czego nie mówić na psychoterapii?", "Czy terapia raz na 2 tygodnie ma sens?",
+    "Co jest lepsze psychoterapia czy psycholog?",
+  ], "Oferta: wymagane cztery dotychczasowe i trzy nowe pytania FAQ");
+  assert(visibleFaq[2].answer.includes(`Spotkania zdalne trwają ${facts.duration}`), "Oferta: czas w FAQ niezgodny z CMS");
+  for (const item of visibleFaq.slice(4)) {
+    const sentences = item.answer.match(/[^.!?]+[.!?]/g) || [];
+    assert(sentences.length >= 2 && sentences.length <= 4, `Oferta: FAQ musi mieć 2–4 zdania: ${item.question}`);
+  }
+  assert(visibleFaq[5].answer.includes("Częstotliwość ustalamy indywidualnie podczas konsultacji"),
+    "Oferta: brak indywidualnego ustalania rytmu terapii");
+  const faqNodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; })
+    .filter((node) => node["@type"] === "FAQPage");
+  assert.equal(faqNodes.length, 1, "Oferta: wymagany jeden FAQPage");
+  assert.deepEqual(faqNodes[0].mainEntity.map((item) => ({
+    question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text),
+  })), visibleFaq, "Oferta: FAQ w HTML i JSON-LD różni się");
+  assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "Oferta: obraz bez alt");
+  for (const match of html.matchAll(/<img\b[^>]*>/gi)) {
+    const alt = match[0].match(/\balt="([^"]*)"/i)?.[1];
+    assert(alt === "" || !/Zdjęcie z realizacji|bg-testimonial|Tło dla sekcji|2Q==/i.test(alt),
+      "Oferta: szablonowy lub techniczny tekst alternatywny");
+  }
+  for (const match of html.matchAll(/<svg\b[^>]*>/gi)) {
+    assert(/aria-hidden="true"|aria-label="[^"]+"/.test(match[0]), "Oferta: SVG bez określonej roli dostępności");
+  }
+  for (const route of ["/lokalizacja/", "/o-mnie/", "/pomoc-psychologiczna-rzeszow/", "/skontaktuj-sie/"]) {
+    assert(html.includes(`href="${route}"`), `Oferta: brak odnośnika ${route}`);
+  }
+}
+
 async function main() {
   const commit = process.argv[2];
   assert(/^[a-f0-9]{40}$/.test(commit || ""), "Podaj pełny SHA zatwierdzonego wydania");
@@ -280,6 +340,7 @@ async function main() {
     if (!pages[route]) pages[route] = await read(`${domain}${route}?verify=${commit}`);
   }
   verifyInternalLinks(pages);
+  verifyTherapyPage(pages["/oferta-terapeutyczna/"], facts);
   verifyLocationPage(pages["/lokalizacja/"], facts);
   if (!pages["/skontaktuj-sie/"]) pages["/skontaktuj-sie/"] = await read(`${domain}/skontaktuj-sie/?verify=${commit}`);
   assert(pages["/skontaktuj-sie/"].includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
@@ -301,6 +362,7 @@ async function main() {
   for (const url of llmsLinks.filter((url) => !pageUrls.includes(url))) await read(url);
   console.log(`APLIKACJA: OK ${domain} — SHA, title, H1, treści i alt potwierdzone`);
   console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
+  console.log("OFERTA TERAPEUTYCZNA: OK — opis Google, zakres, proces, cennik CMS, 7 zgodnych FAQ/JSON-LD, obrazy i linki");
   console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
@@ -309,7 +371,7 @@ async function main() {
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage };
 
 if (require.main === module) {
   main().catch((error) => {

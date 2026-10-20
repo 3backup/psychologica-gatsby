@@ -88,7 +88,7 @@ const OfferPrice = () => {
               </ButtonLightGreenCenter>
             </Link>
           </OfferContainer>
-          <ImageCenter />
+          <ImageCenter aria-hidden="true" focusable="false" />
         </AboutCopySection>
       )}
     />

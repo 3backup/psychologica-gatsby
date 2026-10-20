@@ -2,7 +2,6 @@ import React from "react";
 import { Link } from "gatsby";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
-import FaqSection from "./FaqSection";
 
 const Section = styled.section`
   padding: 6rem 0;
@@ -125,26 +124,23 @@ const Pathway = styled.article`
   }
 `;
 
-const TherapyDetails = ({ faq }) => (
+const TherapyDetails = () => (
   <>
     <Section>
       <Content>
         <Intro>
           <div>
             <Eyebrow>Psychoterapia dorosłych</Eyebrow>
-            <Title>Kiedy warto rozważyć psychoterapię?</Title>
+            <Title>Dla kogo jest psychoterapia</Title>
           </div>
           <Lead>
             <p>
-              Psychoterapia może pomóc, gdy trudności powracają, utrzymują się
+              Psychoterapia może być odpowiednią formą pomocy wtedy, gdy trudności powracają, utrzymują się
               mimo podejmowanych prób albo zaczynają wpływać na relacje, pracę i
               codzienne funkcjonowanie.
             </p>
             <p>
-              Pracuję w podejściu integracyjnym. Korzystam między innymi z
-              dialogu terapeutycznego, psychodramy, podejścia poznawczego,
-              psychodynamicznego i systemowego. Sposób pracy dobieram do osoby,
-              problemu oraz wspólnie ustalonego celu.
+              Wsparcie może dotyczyć między innymi takich obszarów jak:
             </p>
           </Lead>
         </Intro>
@@ -180,7 +176,6 @@ const TherapyDetails = ({ faq }) => (
         </Pathways>
       </Content>
     </Section>
-    <FaqSection items={faq} title="Psychoterapia – najczęstsze pytania" />
   </>
 );
 

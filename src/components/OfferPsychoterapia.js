@@ -1,7 +1,6 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
-import { StaticQuery, graphql } from "gatsby";
 
 import { StaticImage } from "gatsby-plugin-image";
 import Whatisimportant from "../images/whatisimportant-bg.svg";
@@ -84,44 +83,34 @@ const BgElement = styled(Whatisimportant)`
   right: 0;
 `;
 
-export const OfferPsychoterapia = () => {
-  return (
-    <StaticQuery
-      query={graphql`
-        query PsychoterapiaQuery {
-          datoCmsOfertaTerapeutyczna {
-            psychoterapiaOpis
-            psychoterapiaOpisMniejszy
-            psychoterapiaTytu
-          }
-        }
-      `}
-      render={(data) => (
-        <PsychoterapiaSection>
-          <PsychoterapiaContainer>
-            <LeftContent>
-              <StaticImage
-                src="../images/psychoterapia.jpg"
-                alt="Psychoterapia Rzeszów Renata Zuba"
-                layout="fullWidth"
-                placeholder="blurred"
-              />
-            </LeftContent>
-            <RightContent>
-              <HeaderPsychoterapia>
-                {data.datoCmsOfertaTerapeutyczna.psychoterapiaTytu}
-              </HeaderPsychoterapia>
-              <LeadPsychoterapia>
-                {data.datoCmsOfertaTerapeutyczna.psychoterapiaOpis}
-              </LeadPsychoterapia>
-              <ParagraphPsychoterapia>
-                {data.datoCmsOfertaTerapeutyczna.psychoterapiaOpisMniejszy}
-              </ParagraphPsychoterapia>
-            </RightContent>
-          </PsychoterapiaContainer>
-          <BgElement />
-        </PsychoterapiaSection>
-      )}
-    />
-  );
-};
+export const OfferPsychoterapia = () => (
+  <PsychoterapiaSection>
+    <PsychoterapiaContainer>
+      <LeftContent>
+        <StaticImage
+          src="../images/psychoterapia.jpg"
+          alt="Górski krajobraz ze ścieżką na grzbiecie i widokiem na dolinę"
+          layout="fullWidth"
+          placeholder="blurred"
+        />
+      </LeftContent>
+      <RightContent>
+        <HeaderPsychoterapia>Psychoterapia</HeaderPsychoterapia>
+        <LeadPsychoterapia>
+          Psychoterapia dorosłych jest formą pomocy dla osób, które chcą lepiej
+          zrozumieć swoje trudności i wprowadzić trwałą zmianę w sposobie
+          przeżywania, myślenia i funkcjonowania. Prowadzę psychoterapię w Rzeszowie
+          oraz online, dostosowując sposób pracy do osoby, problemu i wspólnie
+          ustalonego celu.
+        </LeadPsychoterapia>
+        <ParagraphPsychoterapia>
+          Pracuję w podejściu integracyjnym. Korzystam między innymi z dialogu
+          terapeutycznego, psychodramy, podejścia poznawczego, psychodynamicznego
+          i systemowego. W procesie ważne są wzajemne zaufanie, odpowiedzialność
+          i zaangażowanie.
+        </ParagraphPsychoterapia>
+      </RightContent>
+    </PsychoterapiaContainer>
+    <BgElement aria-hidden="true" focusable="false" />
+  </PsychoterapiaSection>
+);

@@ -18,3 +18,23 @@ Kontrola `/lokalizacja/`: weryfikator sprawdza adres w title, pojedynczym H1 i p
 Mapa: oficjalne osadzenie OpenStreetMap zastępuje integrację Google z błędem `BillingNotEnabledMapError`. Jedno źródło współrzędnych i linków znajduje się w `src/config/location-map.cjs`. Współrzędne `50.0477919, 21.9924575` potwierdzono 20.10.2026 w wizytówce Psychologica (Google Maps CID `8242497138313807045`, adres Reja 12/320, telefon zgodny z CMS) oraz porównano z budynkiem Reja 12 w [OpenStreetMap](https://www.openstreetmap.org/way/338073987). Poprzedni kod miał długość `21.9902635`, przesuniętą o około 160 m na zachód. Weryfikator sprawdza statycznie wyrenderowany iframe, opis, opóźnione ładowanie, zakres mapy oraz zgodność odnośników na lokalizacji i kontakcie. Nie pobiera kafelków w tle ani nie omija cache. W przeglądarce sprawdź faktyczne wyrenderowanie mapy, widoczność oznaczenia autorstwa OpenStreetMap, pinezkę, sterowanie i widok mobilny. Adres i link do większej mapy pozostają dostępne poza osadzeniem. Wydanie nie wymaga zmian CMS.
 
 Odzyskanie: poprzednie wydanie aplikacji pozostaje w historii Vercel/Git. Jeśli potrzebna jest naprawa, przygotuj zmianę lub powrót aplikacji do zatwierdzonego SHA i ponownie zweryfikuj CMS. Nie przywracaj ani nie nadpisuj danych CMS automatycznie. W tym wydaniu nie zmieniamy CMS, więc jego odtwarzanie nie jest wymagane. Operacja destrukcyjna wymaga osobnej zgody i planu odzyskania.
+
+## Oferta terapeutyczna — zalecenia z 20.10.2026
+
+Siedem zaleceń dla `/oferta-terapeutyczna/` ma osobne rozstrzygnięcia:
+
+| Zalecenie | Realizacja w kodzie |
+| --- | --- |
+| Meta description | Zrobione: zatwierdzony opis, cena i czas sesji z opublikowanych pól CMS. |
+| Opis psychoterapii i odbiorców | Zrobione: konkretny opis pomocy i podejścia integracyjnego, sekcja „Dla kogo jest psychoterapia” i sześć obszarów. |
+| Współpraca, proces, cena i czas | Zrobione: trzy opisane etapy, osobne nagłówki, cennik z tego samego pola CMS co główny blok ceny. |
+| Obrazy | Zrobione: opisy rzeczywistej zawartości fotografii; dekoracyjne tła i SVG ukryte dla czytników, bez sztucznych opisów szablonowych. |
+| Porównanie trzech wskazanych stron | Zrobione: wnioski poniżej; pozycje z raportu użytkownika, bez nowego pomiaru Google. |
+| Brakujące informacje potwierdzone w ofercie | Zrobione: kwalifikacje z odnośnikiem do profilu, adres i odnośnik do dojazdu, zasady wyboru formy pomocy. |
+| Trzy pytania FAQ | Zrobione: po trzy zdania, zachowane cztery istniejące pytania; wspólna tablica siedmiu odpowiedzi w HTML i FAQPage. |
+
+Porównanie: [Rać / obecnie Healio](https://rac-psychoterapia.pl/rzeszow/) wyraźnie przedstawia lokalizację, kwalifikacje i praktyczne FAQ. [Medyk](https://psychologia-medyk.pl/psychoterapia-doroslych/) opisuje odbiorców, trudności oraz pracę przez rozmowę; pierwszy odczyt był dostępny, kolejne próby niestabilne. [MyWay](https://www.mywayclinic.online/specjalizacje/psycholog-dla-doroslych/rzeszow) eksponuje formę online, cennik, czas spotkań, kontakt i profile specjalistów. Wniosek: uporządkować własną ofertę i ułatwić przejście do kwalifikacji, lokalizacji i kontaktu. Nie przenosimy ich cen, usług ani deklaracji skuteczności.
+
+Fakty dotyczące Psychologica potwierdza [profil Renaty Zuby](https://www.psychologica.pl/o-mnie/), lokalizacja i opublikowane pola cennika CMS. FAQ o rytmie spotkań pozostawia decyzję do indywidualnego ustalenia podczas konsultacji; nie ogłasza nowego wariantu usługi co dwa tygodnie. Informacje o rozmowie na sesji i indywidualnym uzgadnianiu częstotliwości są również zgodne z [informacją dla klientów BACP](https://www.bacp.co.uk/about-therapy/what-is-counselling/).
+
+`verify-production.cjs` dodatkowo sprawdza tę podstronę: zachowany title i pojedynczy H1, cenę i czas w opisie oraz treści względem CMS, zakres i etapy, siedem zgodnych FAQ HTML/JSON-LD, opisy obrazów, dostępność SVG i linki. Przed publikacją obowiązuje test mobilny i klawiaturowy. Brak zmian schematu, migracji, danych referencyjnych i konfiguracji CMS; brak lokalnej bazy aplikacyjnej. Po publikacji trzeba oddzielnie potwierdzić GitHub, rzeczywistą wersję aplikacji i CMS oraz zgłosić URL do indeksowania; samo zgłoszenie nie potwierdza indeksacji ani rozpoczęcia pomiaru w zewnętrznym narzędziu SEO.

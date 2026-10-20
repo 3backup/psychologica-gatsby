@@ -87,7 +87,7 @@ const HeaderDiv = styled.div`
     width: 80%;
   }
 `;
-const OfferLink = styled(Link)`
+const OfferLink = styled.div`
   margin-left: 4rem;
   cursor: pointer;
   font-family: Red Hat Display;
@@ -125,7 +125,7 @@ const BgContainer = styled.div`
   right: 0;
 `;
 
-const AboutOffer = () => {
+const AboutOffer = ({ description }) => {
   return (
     <StaticQuery
       query={graphql`
@@ -144,7 +144,7 @@ const AboutOffer = () => {
             <OfferImage>
               <StaticImage
                 src="../images/about-renata-zuba.jpg"
-                alt="Renata Zuba - o mnie"
+                alt="Renata Zuba – psycholog kliniczny"
                 layout="fullWidth"
                 quality="100"
                 placeholder="blurred"
@@ -156,7 +156,7 @@ const AboutOffer = () => {
                   __html: data.datoCmsSummaryAbout.aboutSummaryTitle,
                 }}></OfferAboutHeader>
               <OfferAboutPragraph>
-                {data.datoCmsSummaryAbout.aboutSummaryDesc}
+                {description || data.datoCmsSummaryAbout.aboutSummaryDesc}
               </OfferAboutPragraph>
               <HeaderDiv>
                 <Link to="/o-mnie/">
@@ -175,7 +175,8 @@ const AboutOffer = () => {
             <BgContainer>
               <StaticImage
                 src="../images/background-problem.png"
-                alt="Tło dla sekcji testimonial na stornie Psychologica w zakladce o ofercie"
+                alt=""
+                aria-hidden="true"
                 layout="fullWidth"
                 placeholder="blurred"
               />

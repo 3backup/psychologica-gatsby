@@ -176,7 +176,7 @@ const ImageGrid = styled(HalfGrid)`
   }
 `;
 
-const Process = ({ title }) => {
+const Process = ({ title, introduction, steps, sessionFacts }) => {
   return (
     <StaticQuery
       query={graphql`
@@ -209,16 +209,24 @@ const Process = ({ title }) => {
                   }} />
               )}
               <ParagraphIntro>
-                {data.datoCmsHowitlookslike.wspPracaOpis}
+                {introduction || data.datoCmsHowitlookslike.wspPracaOpis}
               </ParagraphIntro>
+              {sessionFacts && <SingleStepHeader as="h2">Czas i koszt spotkań</SingleStepHeader>}
               <HowMuchItCost>
                 <ClockSign aria-hidden="true" focusable="false" />
-                {data.datoCmsHowitlookslike.processTime}
+                {sessionFacts ? `Czas sesji: ${sessionFacts.duration}` : data.datoCmsHowitlookslike.processTime}
               </HowMuchItCost>
               <HowMuchItCost>
                 <MoneyDollarSign aria-hidden="true" focusable="false" />
-                {data.datoCmsHowitlookslike.wspPracaCena}
+                {sessionFacts ? `${sessionFacts.priceLabel}: ${sessionFacts.price}` : data.datoCmsHowitlookslike.wspPracaCena}
               </HowMuchItCost>
+              {sessionFacts && (
+                <ParagraphIntro>
+                  Sesje mogą odbywać się w gabinecie w Rzeszowie albo online.
+                  Gabinet znajduje się przy ul. {sessionFacts.address.streetAddress}, {sessionFacts.address.postalCode} {sessionFacts.address.addressLocality}.{" "}
+                  <Link to="/lokalizacja/">Sprawdź dojazd do gabinetu</Link>.
+                </ParagraphIntro>
+              )}
             </HalfGrid>
             <ImageGrid>
               <StaticImage
@@ -231,16 +239,17 @@ const Process = ({ title }) => {
           </HowProcessLookLike>
           <GreenProcessElement>
             <Container>
+              {steps && <TitleSection style={{ paddingTop: "4rem" }}>Jak wygląda proces</TitleSection>}
               <ContentGreen>
                 <SingleStep>
                   <SingleStepImage>
                     <Contact aria-hidden="true" focusable="false" />
                   </SingleStepImage>
                   <SingleStepHeader>
-                    {data.datoCmsHowitlookslike.processFirststepTitle}
+                    {steps ? steps[0].title : data.datoCmsHowitlookslike.processFirststepTitle}
                   </SingleStepHeader>
                   <SingleStepParagraph>
-                    {data.datoCmsHowitlookslike.processFirststepDesc}
+                    {steps ? steps[0].description : data.datoCmsHowitlookslike.processFirststepDesc}
                   </SingleStepParagraph>
                   <Link to="/skontaktuj-sie/">
                     <Button>
@@ -253,10 +262,10 @@ const Process = ({ title }) => {
                     <Plan aria-hidden="true" focusable="false" />
                   </SingleStepImage>
                   <SingleStepHeader>
-                    {data.datoCmsHowitlookslike.processSecondstepTitle}
+                    {steps ? steps[1].title : data.datoCmsHowitlookslike.processSecondstepTitle}
                   </SingleStepHeader>
                   <SingleStepParagraph>
-                    {data.datoCmsHowitlookslike.processSecondststepDesc}
+                    {steps ? steps[1].description : data.datoCmsHowitlookslike.processSecondststepDesc}
                   </SingleStepParagraph>
                 </SingleStep>
                 <SingleStep>
@@ -264,10 +273,10 @@ const Process = ({ title }) => {
                     <EveryTiime aria-hidden="true" focusable="false" />
                   </SingleStepImage>
                   <SingleStepHeader>
-                    {data.datoCmsHowitlookslike.processThirddstepTitle}
+                    {steps ? steps[2].title : data.datoCmsHowitlookslike.processThirddstepTitle}
                   </SingleStepHeader>
                   <SingleStepParagraph>
-                    {data.datoCmsHowitlookslike.processThirdsstepDesc}
+                    {steps ? steps[2].description : data.datoCmsHowitlookslike.processThirdsstepDesc}
                   </SingleStepParagraph>
                 </SingleStep>
               </ContentGreen>

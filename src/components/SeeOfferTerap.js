@@ -53,7 +53,7 @@ const HeaderDiv = styled.div`
   }
 `;
 
-const OfferLink = styled(Link)`
+const OfferLink = styled.div`
   margin-left: 4rem;
   cursor: pointer;
   font-family: Red Hat Display;
@@ -65,7 +65,7 @@ const OfferLink = styled(Link)`
   align-items: center;
   text-align: center;
   color: #005650;
-  transition: 0.3s
+  transition: 0.3s;
   border-bottom: 2px solid rgba(40, 174, 102, 0);
   a{
     text-decoration: none;
@@ -126,13 +126,13 @@ const SeeOfferTerap = ({ props }) => {
               </Link>
               <OfferLink>
                 <Link to="/superwizja/">
-                  {data.datoCmsOfertaTerapeutyczna.sprawdMojOfertPrzyciskdrugi}
+                  Superwizja
                 </Link>
               </OfferLink>
             </HeaderDiv>
           </Container>
-          <OfferLeftPosition></OfferLeftPosition>
-          <OfferRightPosition></OfferRightPosition>
+          <OfferLeftPosition aria-hidden="true" focusable="false" />
+          <OfferRightPosition aria-hidden="true" focusable="false" />
         </MainContainer>
       )}
     />

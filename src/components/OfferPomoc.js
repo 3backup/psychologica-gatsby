@@ -114,13 +114,13 @@ export const OfferPomoc = () => {
             <RightContent>
               <StaticImage
                 src="../images/offerterapeutyczna.jpg"
-                alt="Oferta Terapeutyczna Renata Zuba"
+                alt="Widok z wnętrza skalnej groty na morze i oświetlone klify"
                 layout="fullWidth"
                 placeholder="blurred"
               />
             </RightContent>
           </PomocContainer>
-          <BgElement />
+          <BgElement aria-hidden="true" focusable="false" />
         </PomocSection>
       )}
     />
