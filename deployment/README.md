@@ -1,5 +1,23 @@
 # Publikacja i niezależna weryfikacja
 
+## Pomoc przy problemie alkoholowym — wydanie z 20.10.2026
+
+Nowa strona `/psycholog-od-uzaleznien-alkoholowych-rzeszow/` korzysta z istniejących `ServiceLanding`, `OfferPrice`, `FaqSection`, `Seo`, `TextLink` oraz portretu Renaty Zuby. Wspólny układ rozszerzono wyłącznie o opcjonalne `additionalSections` (id, title, paragraphs), renderowane istniejącymi elementami układu przed cennikiem. Widoczne okruszki pochodzą z tej samej tablicy `seo.breadcrumbs` co BreadcrumbList. Strony bez dodatkowych sekcji zachowują dotychczasowy układ. Brak nowych bibliotek i publicznych API.
+
+| Zalecenie | Realizacja |
+| --- | --- |
+| Porównanie konkurencji | Zrobione na etapie planu: Pro-Self — odbiorcy, cele i zasady; Galmedic — przebieg i rozróżnienie psychoterapii i leczenia medycznego; Nowe Życie — warunki i pomoc bliskim, na podstawie indeksu, ponieważ bezpośredni odczyt zwracał 403. |
+| Treść nowej strony | Przygotowana: pomoc dorosłym, kwalifikacje nr 123 i 34, sześć sytuacji zgłoszenia, trzy etapy, pomoc bliskim, dwa przykłady modelowe, granice pomocy i informacje praktyczne. Zrobione po pozytywnej kontroli produkcji wydania. |
+| Pięć FAQ | Przygotowane: wspólna tablica dla widocznego FAQ i JSON-LD, po 2–4 zdania; cena i czas z CMS. Zrobione po pozytywnej kontroli produkcji wydania. |
+| Linkowanie i odkrywanie strony | Przygotowane: kontekstowy link ze strony uzależnień, linki do pięciu powiązanych podstron, własny canonical i okruszki, sitemap i wpis llms.txt. Zrobione po pozytywnej kontroli produkcji wydania. |
+| Zgłoszenie Google i wydajność | Po publikacji: zgłoszenie nowego adresu w Search Console i świeży pomiar Google PageSpeed desktop co najmniej 90. Pomiar w zewnętrznym narzędziu SEO wymaga odrębnego potwierdzenia. |
+
+Własna oferta i kwalifikacje pochodzą z opublikowanych stron Psychologica i CMS. Cena jest pobierana z `offerpricePrice`, czas z `processTime`, a adres z istniejącej konfiguracji porównywanej z CMS. Brak wymaganych danych przerywa SSR/kompilację. Przykłady są jawnie modelowe; nie przedstawiają historii klientów ani wyników leczenia. Informacje o nagłym odstawieniu alkoholu i objawach odstawiennych zweryfikowano 20.10.2026 w [NHS](https://www.nhs.uk/conditions/alcohol-use-disorder/) i powiązano odnośnikiem w treści. Nie dodano usług medycznych, detoksu ani pobytów ośrodkowych do oferty gabinetu.
+
+`verifyAlcoholPage` w obowiązkowym weryfikatorze wydania sprawdza title, pojedynczy H1, opis, canonical i indeksowalność, sekcje, kwalifikacje, cenę i czas względem opublikowanego CMS, adres, pięć zgodnych FAQ HTML/JSON-LD, Service, wspólne okruszki, obrazy i linki. `verifyInternalLinks` sprawdza nowy odnośnik w akapicie strony uzależnień. Kontrola odkrywania obejmuje wszystkie dziesięć stron i jedenaście opisanych linków w llms.txt. Przed publikacją obowiązują testy klawiatury i szerokości 390/320 px oraz regresja pozostałych stron usługowych.
+
+Punkt wyjścia zweryfikowany przed pracą: GitHub `3backup/psychologica-gatsby`, `refs/heads/main`, lokalny i wdrożony SHA `e7a70590cdcb1c304d45eec536fc2d54c062e08c`, czysty katalog i 0/0 ahead/behind. CMS 43634/main, schemat i konfiguracja zgodne z baseline. Brak lokalnej aplikacyjnej bazy, migracji i wersjonowanych danych referencyjnych. Wydanie zmienia statyczne strony i kontrolę wydania; nie zmienia schematu, konfiguracji źródła ani danych CMS i nie wymaga zapisów do bazy. Ponowić kontrolę przed publikacją; po niej niezależnie potwierdzić GITHUB / APLIKACJA / BAZA. Sposób odzyskania aplikacji pozostaje zgodny z ogólną procedurą poniżej, bez odtwarzania lub nadpisywania CMS.
+
 Potwierdzono 19.10.2026: GitHub `3backup/psychologica-gatsby`, `refs/heads/main`, wdrożenie Vercel Production ID `5525051011`, SHA `c9ecaed5e18f4bebc4eb815ee4783dd9954f5afd`; domena `https://www.psychologica.pl/`. Informacje wymagają ponownego sprawdzenia przed kolejną pracą.
 
 Treść pochodzi z DatoCMS Psychologica, ID `43634`, główne środowisko `main`, API `https://site-api.datocms.com`. Nie ma lokalnej aplikacyjnej bazy ani plików migracji. Cache Gatsby nie jest bazą referencyjną. Kod i konfiguracja źródła CMS zostały porównane z produkcyjnym SHA; metadane CMS odczytano bez zapisów. `cms-baseline.json` zawiera tylko identyfikatory i skróty schematu oraz konfiguracji; nie zawiera danych biznesowych ani sekretów. Nie potwierdza to aktualności wszystkich treści biznesowych.

@@ -58,7 +58,7 @@ const Breadcrumbs = styled.nav`
     text-decoration: none;
   }
 
-  span {
+  span[aria-hidden="true"] {
     margin: 0 0.5rem;
     color: #87a5a0;
   }
@@ -384,6 +384,7 @@ const ServiceLanding = ({
   steps,
   distinctionTitle,
   distinctionParagraphs,
+  additionalSections = [],
   faq,
   closingTitle,
   closingText,
@@ -411,11 +412,14 @@ const ServiceLanding = ({
       <Hero>
         <HeroContent>
           <Breadcrumbs aria-label="Okruszki nawigacyjne">
-            <Link to="/">Strona główna</Link>
-            <span aria-hidden="true">/</span>
-            <Link to="/oferta-terapeutyczna/">Oferta terapeutyczna</Link>
-            <span aria-hidden="true">/</span>
-            {eyebrow}
+            {seo.breadcrumbs.map((item, index) => (
+              <React.Fragment key={item.path}>
+                {index > 0 && <span aria-hidden="true">/</span>}
+                {index === seo.breadcrumbs.length - 1
+                  ? <span aria-current="page">{item.name}</span>
+                  : <Link to={item.path}>{item.name}</Link>}
+              </React.Fragment>
+            ))}
           </Breadcrumbs>
           {heroImage ? (
             <HeroColumns>
@@ -486,6 +490,15 @@ const ServiceLanding = ({
           </Body>
         </Split>
       </SoftSection>
+
+      {additionalSections.map((section) => (
+        <Section key={section.id} id={section.id} aria-labelledby={`${section.id}-title`}>
+          <Split>
+            <SectionTitle id={`${section.id}-title`}>{section.title}</SectionTitle>
+            <Body>{section.paragraphs.map(renderParagraph)}</Body>
+          </Split>
+        </Section>
+      ))}
 
       <OfferPrice />
       <FaqSection items={faq} />

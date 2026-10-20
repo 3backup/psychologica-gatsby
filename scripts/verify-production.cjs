@@ -12,8 +12,12 @@ const remote = `https://github.com/${repository}.git`;
 const ref = "refs/heads/main";
 const domain = "https://www.psychologica.pl";
 const supportPath = "/pomoc-psychologiczna-rzeszow/";
+const alcoholPath = "/psycholog-od-uzaleznien-alkoholowych-rzeszow/";
 
 const internalLinks = [
+  { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji", destination: alcoholPath,
+    anchor: "pomoc przy problemie alkoholowym w Rzeszowie",
+    paragraph: "Jeśli niepokoi Cię własne picie lub picie bliskiej osoby, poznaj, jak wygląda pomoc przy problemie alkoholowym w Rzeszowie." },
   { source: "/oferta-terapeutyczna/", section: "Pomoc psychologiczna", destination: supportPath,
     anchor: "pomocy psychologicznej dla dorosłych w Rzeszowie",
     paragraph: "Poznaj zakres pomocy psychologicznej dla dorosłych w Rzeszowie i przebieg konsultacji." },
@@ -366,6 +370,74 @@ function verifyAddictionPage(html, facts) {
   }
 }
 
+function verifyAlcoholPage(html, facts) {
+  assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
+    "Psycholog od uzależnień alkoholowych Rzeszów | Psychologica");
+  assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
+    ["Psycholog od uzależnień alkoholowych w Rzeszowie"]);
+  const description = html.match(/<meta\b(?=[^>]*\bname="description")[^>]*>/i)?.[0]
+    .match(/\bcontent="([^"]*)"/i)?.[1];
+  assert.equal(htmlText(description || ""), "Szukasz wsparcia u psychologa od uzależnień alkoholowych w Rzeszowie? Dowiedz się, na czym polega taka pomoc, ile trwa i jak wygląda pierwszy kontakt.");
+  const canonical = `${domain}${alcoholPath}`;
+  assert(html.match(/<link\b(?=[^>]*\brel="canonical")[^>]*>/i)?.[0].includes(`href="${canonical}"`));
+  assert(!/<meta\b(?=[^>]*name="robots")(?=[^>]*content="[^"]*noindex)/i.test(html));
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert(main, "Alkohol: brak głównego obszaru treści");
+  const headings = [...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1]));
+  for (const heading of ["Co obejmuje pomoc przy problemie alkoholowym?", "Kwalifikacje i doświadczenie",
+    "Kiedy warto zgłosić się na konsultację?", "Jak wygląda współpraca?", "Pomoc dla osoby pijącej i dla bliskich",
+    "Przykładowe sytuacje, z którymi można zgłosić się po pomoc", "Psychoterapia a pomoc lekarska", "Cena, czas i miejsce spotkań"]) {
+    assert.equal(headings.filter((value) => value === heading).length, 1, `Alkohol: brak lub powtórzony H2 ${heading}`);
+  }
+  const text = htmlText(main);
+  for (const content of ["Nie musisz mieć gotowej diagnozy", "certyfikat specjalisty psychoterapii uzależnień nr 123",
+    "certyfikat superwizora psychoterapii uzależnień nr 34", "Możesz rozpocząć je niezależnie od tego, czy ta osoba korzysta z terapii.",
+    "Poniższe sytuacje są modelowe", "nagłe odstawienie alkoholu może być niebezpieczne",
+    `Indywidualna sesja kosztuje ${facts.price} i trwa ${facts.duration}.`,
+    `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`,
+    "Możliwe są również spotkania online"]) assert(text.includes(content), `Alkohol: brak informacji ${content}`);
+  assert(!/\[cena\]|\[czas|\[adres|Przykłady realizacji/i.test(text), "Alkohol: placeholder lub niepotwierdzone realizacje");
+  const visibleFaq = [...main.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)].map((m) => ({
+    question: htmlText(m[1].match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i)?.[1] || ""),
+    answer: htmlText(m[1].match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || ""),
+  }));
+  assert.deepEqual(visibleFaq.map((item) => item.question), ["Ile kosztuje terapia od uzależnień?",
+    "Na czym polega psychoterapia uzależnień?", "Ile może trwać terapia uzależnień?",
+    "Kiedy iść do psychiatry, a kiedy do psychologa?", "W czym psycholog pomaga osobie uzależnionej od alkoholu?"]);
+  for (const item of visibleFaq) {
+    const sentences = item.answer.match(/[^.!?]+[.!?]/g) || [];
+    assert(sentences.length >= 2 && sentences.length <= 4, "Alkohol: FAQ musi mieć 2–4 zdania");
+  }
+  assert.equal(visibleFaq[0].answer, `Indywidualna sesja psychoterapii uzależnień kosztuje ${facts.price} i trwa ${facts.duration}. Aby ustalić termin konsultacji w Rzeszowie lub online, skontaktuj się z gabinetem.`);
+  assert(visibleFaq[2].answer.startsWith(`Pojedyncza sesja trwa ${facts.duration}.`));
+  const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; });
+  const faqNodes = nodes.filter((node) => node["@type"] === "FAQPage");
+  assert.equal(faqNodes.length, 1);
+  assert.deepEqual(faqNodes[0].mainEntity.map((item) => ({ question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text) })), visibleFaq);
+  const services = nodes.filter((node) => node["@type"] === "Service");
+  assert.equal(services.length, 1);
+  assert.equal(services[0].url, canonical);
+  assert.equal(services[0].provider["@id"], `${domain}/#business`);
+  const breadcrumbs = nodes.filter((node) => node["@type"] === "BreadcrumbList");
+  assert.equal(breadcrumbs.length, 1);
+  const trail = breadcrumbs[0].itemListElement;
+  assert.deepEqual(trail.map((item) => item.item), [`${domain}/`, `${domain}/psychoterapia-uzaleznien-rzeszow/`, canonical]);
+  const nav = main.match(/<nav\b(?=[^>]*aria-label="Okruszki nawigacyjne")[^>]*>([\s\S]*?)<\/nav>/i)?.[1];
+  assert(nav, "Alkohol: brak widocznych okruszków");
+  for (const item of trail) assert(htmlText(nav).includes(item.name), "Alkohol: okruszki HTML i JSON-LD różnią się");
+  assert(nav.includes('href="/psychoterapia-uzaleznien-rzeszow/"'));
+  assert(nav.includes('aria-current="page"'));
+  const body = main.replace(/<nav\b[^>]*>[\s\S]*?<\/nav>/gi, "");
+  for (const route of ["/psychoterapia-uzaleznien-rzeszow/", supportPath, "/o-mnie/", "/lokalizacja/", "/skontaktuj-sie/"]) {
+    assert(body.includes(`href="${route}"`), `Alkohol: brak linku w treści ${route}`);
+  }
+  assert(body.includes('href="https://www.nhs.uk/conditions/alcohol-use-disorder/"'));
+  assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html));
+  assert(html.includes('alt="Renata Zuba – psycholog kliniczny i specjalista psychoterapii uzależnień"'));
+  assert(/image\/avif/.test(html) && /image\/webp/.test(html), "Alkohol: brak zoptymalizowanych formatów zdjęcia");
+}
+
 function verifySupervisionPage(html, facts) {
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
     "Superwizja psychoterapii uzależnień | Renata Zuba");
@@ -549,6 +621,7 @@ async function main() {
   verifyInternalLinks(pages);
   verifyTherapyPage(pages["/oferta-terapeutyczna/"], facts);
   verifyAddictionPage(pages["/psychoterapia-uzaleznien-rzeszow/"], facts);
+  verifyAlcoholPage(pages[alcoholPath], facts);
   verifyLocationPage(pages["/lokalizacja/"], facts);
   if (!pages["/skontaktuj-sie/"]) pages["/skontaktuj-sie/"] = await read(`${domain}/skontaktuj-sie/?verify=${commit}`);
   assert(pages["/skontaktuj-sie/"].includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
@@ -557,6 +630,7 @@ async function main() {
     pageUrls.push(...sitemapUrls(await read(`${sitemap}?verify=${commit}`)));
   }
   assert(pageUrls.length >= 9, "Brak oczekiwanych podstron w mapie witryny");
+  assert(pageUrls.includes(`${domain}${alcoholPath}`), "Brak nowej strony o problemie alkoholowym w mapie witryny");
   for (const url of pageUrls) {
     const route = new URL(url).pathname;
     if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
@@ -577,10 +651,11 @@ async function main() {
   console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
   console.log("OFERTA TERAPEUTYCZNA: OK — opis Google, zakres, proces, cennik CMS, 7 zgodnych FAQ/JSON-LD, obrazy i linki");
   console.log("PSYCHOTERAPIA UZALEŻNIEŃ: OK — treści, kwalifikacje, adres, cennik CMS, 6 zgodnych FAQ/JSON-LD i 5 celów linkowania w treści");
+  console.log("POMOC PRZY PROBLEMIE ALKOHOLOWYM: OK — title/H1, canonical, sekcje, CMS, 5 FAQ HTML/JSON-LD, Service, okruszki i linki");
   console.log("SUPERWIZJA: OK — odbiorcy i formy, proces, warunki, kwalifikacje, adres, 4 FAQ/JSON-LD i dostępne obrazy");
   console.log("OFERTA EDUKACYJNA: OK — title/H1, 6 H2, odbiorcy, kwalifikacje, 3 kroki kontaktu, warunki, obrazy i linki");
   console.log("O MNIE: OK — title/H1, opis Google, 7 H2, kwalifikacje zgodne z CMS, doświadczenie, dorobek, obrazy i 7 celów linkowania");
-  console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
+  console.log("LINKOWANIE: OK — 4 linki do pomocy, 3 z pomocy i nowy link do pomocy przy problemie alkoholowym, we właściwym kontekście; strony dostępne");
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
   console.log("LOKALIZACJA: OK — title, H1, adres we wstępie, opis Google, 3 sekcje, linki i dostępność obrazów");
@@ -588,7 +663,7 @@ async function main() {
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifySupervisionPage, verifyEducationPage, verifyAboutPage };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifyAlcoholPage, verifySupervisionPage, verifyEducationPage, verifyAboutPage };
 
 if (require.main === module) {
   main().catch((error) => {
