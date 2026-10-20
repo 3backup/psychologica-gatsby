@@ -154,9 +154,9 @@ const SupervisionDetails = ({ faq, address }) => (
             <h2>Superwizja w Rzeszowie i online</h2>
             <p>
               Spotkania mogą odbywać się w Rzeszowie lub online. Gabinet znajduje się przy ul.{" "}
-              {address.streetAddress}, {address.postalCode} {address.addressLocality}.
+              {address.streetAddress}, {address.postalCode} {address.addressLocality}.{" "}
+              <TextLink to="/lokalizacja/">Sprawdź lokalizację gabinetu</TextLink>.
             </p>
-            <TextLink to="/lokalizacja/">Sprawdź lokalizację gabinetu</TextLink>
           </div>
         </Columns>
       </Container>

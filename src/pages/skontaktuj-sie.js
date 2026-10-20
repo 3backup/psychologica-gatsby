@@ -7,9 +7,9 @@ import GoBackIcon from "../images/goback.svg";
 import LogoHeader from "../images/logo-psychologica-black.svg";
 import MailIcon from "../images/contact__mail.svg";
 import PhoneIcon from "../images/contact__phone.svg";
-import BgImage from "../images/contact-element.svg";
 import PinIcon from "../images/contact__pin.svg";
 import Seo from "../components/Seo";
+import TextLink from "../components/styles/TextLink";
 import { trackContactClick, trackEvent } from "../utils/analytics";
 import { mapUrl } from "../config/location-map.cjs";
 
@@ -26,11 +26,18 @@ const ContactContainer = styled(Container)`
   box-sizing: border-box;
   padding-top: 3.25rem;
   padding-bottom: 3.25rem;
-  height: 95vh;
+  min-height: 95vh;
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid #4abd7f;
+    outline-offset: 4px;
+  }
+  @media (max-width: 768px) {
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
 `;
-const ContactContent = styled.div`
+const ContactContent = styled.main`
   display: flex;
-  height: 100%;
   flex-direction: column;
 `;
 const BgHalf = styled.div`
@@ -59,21 +66,23 @@ const TitleContact = styled.h1`
   }
   @media (max-width: 768px) {
     font-size: 32px;
+    width: 100%;
   }
 `;
 const InfoContent = styled.div`
   width: 100%;
-  height: 100%;
   display: flex;
-  padding-bottom: 6.5rem;
+  align-items: flex-start;
+  gap: 3rem;
   justify-content: space-between;
   @media (max-width: 768px) {
     flex-direction: column;
-    margin-bottom: 2rem;
-    height: max-content;
+    gap: 2rem;
   }
 `;
 const LeftContact = styled.div`
+  flex: 1;
+  min-width: 0;
   max-width: 28rem;
   flex-direction: column;
   display: flex;
@@ -91,7 +100,10 @@ const DescParagraph = styled.p`
   color: #005650;
 `;
 const RightContact = styled.div`
-  width: 28rem;
+  flex: 1;
+  min-width: 0;
+  max-width: 28rem;
+  width: 100%;
   box-sizing: border-box;
 
   justify-content: space-between;
@@ -102,6 +114,7 @@ const RightContact = styled.div`
     padding: 2rem;
     width: 100%;
     position: relative;
+    max-width: 100%;
   }
   @media (max-width: 578px) {
     padding: 1rem;
@@ -208,7 +221,7 @@ const GoBack = styled(Link)`
   line-height: 21px;
   text-align: center;
   color: #3e7672;
-  transition: 0.3s
+  transition: 0.3s;
   &:hover {
     color: #4abd7f;
     & svg {
@@ -236,17 +249,19 @@ const SingleContactInformation = styled.div`
   color: #3e7672;
   & svg {
     margin-right: 1.6rem;
+    flex-shrink: 0;
   }
 `;
 const ContactLink = styled.a`
   color: inherit;
   text-decoration: none;
+  overflow-wrap: anywhere;
   transition: 0.3s;
   &:hover {
     color: rgba(74, 189, 127, 1);
   }
 `;
-const FormHeader = styled.h5`
+const FormHeader = styled.p`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
@@ -257,14 +272,37 @@ const FormHeader = styled.h5`
     display: none;
   }
 `;
-const BgLeaves = styled(BgImage)`
-  position: absolute;
-  left: 0;
-  height: 20.8125rem;
-  bottom: 25%;
+const ContactDetails = styled.div`
+  margin-top: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid #dbdbdb;
+  max-width: 52rem;
+  & section + section { margin-top: 2.5rem; }
+  & h2 {
+    font-family: "Red Hat Display", sans-serif;
+    font-size: 26px;
+    line-height: 1.25;
+    font-weight: 500;
+    color: #1f1f1f;
+    margin: 0 0 1rem;
+  }
+  & p {
+    font-family: "Red Hat Display", sans-serif;
+    font-size: 18px;
+    line-height: 1.65;
+    color: #005650;
+    margin: 0;
+  }
 `;
 
 const SkontaktujSie = ({ data }) => {
+  const price = data.datoCmsOfferprice?.offerpricePrice?.trim();
+  const duration = data.datoCmsHowitlookslike?.processTime?.replace(/^Czas sesji:\s*/i, "").trim();
+  const address = data.site?.siteMetadata?.businessAddress;
+  if (![price, duration, address?.streetAddress, address?.postalCode, address?.addressLocality]
+    .every((value) => typeof value === "string" && value.trim())) {
+    throw new Error("Kontakt: brak ceny, czasu sesji lub adresu z potwierdzonych źródeł");
+  }
   const formRef = React.useRef(null);
 
   React.useEffect(() => {
@@ -332,11 +370,11 @@ const SkontaktujSie = ({ data }) => {
       />
       <ContactContainer>
         <HeaderContact>
-          <Link to="/">
-            <LogoHeader height="60" width="185" />
+          <Link to="/" aria-label="Psychologica – strona główna">
+            <LogoHeader height="60" width="185" aria-hidden="true" focusable="false" />
           </Link>
           <GoBack to="/">
-            <GoBackIcon />
+            <GoBackIcon aria-hidden="true" focusable="false" />
             {data.datoCmsContact.back}
           </GoBack>
         </HeaderContact>
@@ -347,35 +385,37 @@ const SkontaktujSie = ({ data }) => {
           <InfoContent>
             <LeftContact>
               <DescParagraph>
-                {data.datoCmsContact.desc}
-                <AdditionalInformation>
-                  <SingleContactInformation>
-                    <PhoneIcon />{" "}
-                    <ContactLink
-                      onClick={() => trackContactClick("phone", "contact_page")}
-                      href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
-                      {data.datoCmsGlobal.phonenumber}
-                    </ContactLink>
-                  </SingleContactInformation>
-                  <SingleContactInformation>
-                    <MailIcon />{" "}
-                    <ContactLink
-                      onClick={() => trackContactClick("email", "contact_page")}
-                      href={`mailto:${data.datoCmsGlobal.email || ""}`}>
-                      {data.datoCmsGlobal.email}
-                    </ContactLink>
-                  </SingleContactInformation>
-                  <SingleContactInformation>
-                    <PinIcon />{" "}
-                    <ContactLink
-                      href={mapUrl}
-                      target="_blank"
-                      rel="noopener noreferrer">
-                      {data.datoCmsGlobal.adress}
-                    </ContactLink>
-                  </SingleContactInformation>
-                </AdditionalInformation>
+                Aby umówić pierwszą sesję, zadzwoń do mnie. Możesz też napisać e-mail
+                lub skorzystać z formularza. Wybierz dogodny sposób kontaktu i zaznacz,
+                czy interesuje Cię spotkanie w gabinecie, czy zdalne.
               </DescParagraph>
+              <AdditionalInformation>
+                <SingleContactInformation>
+                  <PhoneIcon aria-hidden="true" focusable="false" />{" "}
+                  <ContactLink
+                    onClick={() => trackContactClick("phone", "contact_page")}
+                    href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
+                    {data.datoCmsGlobal.phonenumber}
+                  </ContactLink>
+                </SingleContactInformation>
+                <SingleContactInformation>
+                  <MailIcon aria-hidden="true" focusable="false" />{" "}
+                  <ContactLink
+                    onClick={() => trackContactClick("email", "contact_page")}
+                    href={`mailto:${data.datoCmsGlobal.email || ""}`}>
+                    {data.datoCmsGlobal.email}
+                  </ContactLink>
+                </SingleContactInformation>
+                <SingleContactInformation>
+                  <PinIcon aria-hidden="true" focusable="false" />{" "}
+                  <ContactLink
+                    href={mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {data.datoCmsGlobal.adress}
+                  </ContactLink>
+                </SingleContactInformation>
+              </AdditionalInformation>
               <Footnotes>{data.datoCmsContact.companyDetails}</Footnotes>
             </LeftContact>
             <RightContact>
@@ -436,15 +476,60 @@ const SkontaktujSie = ({ data }) => {
               </Footnotes>
             </RightContact>
           </InfoContent>
+          <ContactDetails>
+            <section aria-labelledby="contact-scope">
+              <h2 id="contact-scope">W jakich sprawach możesz się skontaktować?</h2>
+              <p>
+                Oferuję pomoc psychologiczną i psychoterapię osobom dorosłym, które
+                doświadczają trudności emocjonalnych, lęku, obniżonego nastroju,
+                stresu lub kryzysu życiowego. Pracuję również z osobami uzależnionymi
+                oraz ich bliskimi. Jeśli chcesz sprawdzić, czy zakres pomocy odpowiada
+                Twojej sytuacji, poznaj <TextLink to="/oferta-terapeutyczna/">ofertę
+                psychoterapii dorosłych</TextLink> lub opis <TextLink to="/psychoterapia-uzaleznien-rzeszow/">psychoterapii
+                uzależnień i wsparcia bliskich</TextLink>. Pierwsze spotkanie pozwala
+                wspólnie omówić potrzeby i możliwości dalszej pracy.
+              </p>
+            </section>
+            <section aria-labelledby="contact-process">
+              <h2 id="contact-process">Jak rozpoczyna się współpraca?</h2>
+              <p>
+                Pierwszy kontakt służy umówieniu terminu spotkania. Podczas konsultacji
+                rozmawiamy o aktualnych trudnościach, potrzebach i oczekiwaniach.
+                Następnie wspólnie ustalamy cel oraz zasady pomocy psychologicznej
+                lub psychoterapii. Sposób pracy dopasowuję do Twojej sytuacji;
+                dalsze spotkania służą realizacji uzgodnionych celów. Czas sesji
+                indywidualnej: {duration}. Koszt sesji indywidualnej: {price}.
+                Informacje te dotyczą psychoterapii i pomocy psychologicznej,
+                zarówno w gabinecie, jak i zdalnie.
+              </p>
+            </section>
+            <section aria-labelledby="contact-location">
+              <h2 id="contact-location">Gdzie odbywają się spotkania?</h2>
+              <p>
+                Spotkania osobiste prowadzę w gabinecie przy ul. {address.streetAddress}, {address.postalCode}{" "}
+                {address.addressLocality}. Dostępne są także sesje zdalne dla osób
+                przebywających w Polsce i za granicą. Jeśli planujesz wizytę osobistą,
+                zapoznaj się z informacjami o adresie i możliwościach dotarcia na
+                miejsce. <TextLink to="/lokalizacja/">Sprawdź dojazd do gabinetu</TextLink>.
+                Formę spotkania możesz omówić przy ustalaniu terminu pierwszej sesji.
+              </p>
+            </section>
+          </ContactDetails>
         </ContactContent>
       </ContactContainer>
-      <BgLeaves />
       <BgHalf />
     </>
   );
 };
 export const query = graphql`
   query ContactQuery {
+    datoCmsOfferprice { offerpricePrice }
+    datoCmsHowitlookslike { processTime }
+    site {
+      siteMetadata {
+        businessAddress { streetAddress postalCode addressLocality }
+      }
+    }
     datoCmsGlobal {
       adress
       email
@@ -454,7 +539,6 @@ export const query = graphql`
       title
       titleGreen
       companyDetails
-      desc
       back
     }
   }

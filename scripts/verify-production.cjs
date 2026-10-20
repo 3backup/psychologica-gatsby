@@ -14,6 +14,12 @@ const supportPath = "/pomoc-psychologiczna-rzeszow/";
 const alcoholPath = "/psycholog-od-uzaleznien-alkoholowych-rzeszow/";
 
 const internalLinks = [
+  { source: "/", section: "Gdzie odbywają się spotkania?", destination: "/lokalizacja/",
+    anchor: "Sprawdź lokalizację gabinetu", paragraph: "Sprawdź lokalizację gabinetu." },
+  { source: "/oferta-terapeutyczna/", section: "Czas i koszt spotkań", destination: "/lokalizacja/",
+    anchor: "Sprawdź dojazd do gabinetu", paragraph: "Sprawdź dojazd do gabinetu." },
+  { source: "/superwizja/", section: "Superwizja w Rzeszowie i online", destination: "/lokalizacja/",
+    anchor: "Sprawdź lokalizację gabinetu", paragraph: "Sprawdź lokalizację gabinetu." },
   { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji", destination: alcoholPath,
     anchor: "pomoc przy problemie alkoholowym w Rzeszowie",
     paragraph: "Jeśli niepokoi Cię własne picie lub picie bliskiej osoby, poznaj, jak wygląda pomoc przy problemie alkoholowym w Rzeszowie." },
@@ -125,6 +131,53 @@ async function readSupportFacts() {
     telephone,
     credentials: result.data?.skillList?.listaKompetencji?.map((item) => normalizeText(item.skillsElement)),
   };
+}
+
+function verifyContactPage(html, facts) {
+  assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
+    "Kontakt z psychologiem w Rzeszowie | Psychologica");
+  assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
+    ["Kontakt – Psycholog Renata Zuba Rzeszów | Psychologica"]);
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert(main, "Kontakt: brak obszaru main");
+  const sections = [...main.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((m) => m[1]);
+  assert.deepEqual(sections.map((section) => htmlText(section.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/i)?.[1] || "")), [
+    "W jakich sprawach możesz się skontaktować?", "Jak rozpoczyna się współpraca?", "Gdzie odbywają się spotkania?",
+  ]);
+  const paragraphs = sections.map((section) => {
+    const matches = [...section.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)];
+    assert.equal(matches.length, 1, "Kontakt: każda sekcja powinna zawierać jeden akapit");
+    return htmlText(matches[0][1]).replace(/\s+([.,;:!?])/g, "$1");
+  });
+  const introduction = main.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || "";
+  const words = htmlText([introduction, ...paragraphs].join(" ")).split(/\s+/).length;
+  assert(words >= 150, `Kontakt: tylko ${words} słów treści informacyjnej`);
+  assert(paragraphs[0].includes("osobom dorosłym") && paragraphs[0].includes("ich bliskimi"), "Kontakt: brak odbiorców pomocy");
+  assert(paragraphs[1].includes(`Czas sesji indywidualnej: ${facts.duration}.`), "Kontakt: czas sesji różni się od CMS");
+  assert(paragraphs[1].includes(`Koszt sesji indywidualnej: ${facts.price}.`), "Kontakt: cena różni się od CMS");
+  assert(!/\d+\s*zł/.test(htmlText(introduction)), "Kontakt: cena powtórzona we wstępie");
+  assert(paragraphs[2].includes(`przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`),
+    "Kontakt: adres niezgodny z CMS");
+  assert(paragraphs[2].includes("sesje zdalne"), "Kontakt: brak informacji o spotkaniach zdalnych");
+  for (const [index, route, anchor] of [
+    [0, "/oferta-terapeutyczna/", "ofertę psychoterapii dorosłych"],
+    [0, "/psychoterapia-uzaleznien-rzeszow/", "psychoterapii uzależnień i wsparcia bliskich"],
+    [2, "/lokalizacja/", "Sprawdź dojazd do gabinetu"],
+  ]) {
+    assert([...sections[index].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+      .some((m) => m[1].includes(`href="${route}"`) && htmlText(m[2]) === anchor), `Kontakt: brak linku ${anchor}`);
+  }
+  const form = main.match(/<form\b([^>]*)>([\s\S]*?)<\/form>/i);
+  assert(form && /method="POST"/i.test(form[1]) && form[1].includes('action="https://formkeep.com/f/c856eba7e66e"'), "Kontakt: zmieniony formularz");
+  for (const name of ["email", "name", "phone", "message", "_redirect_url"]) assert(form[2].includes(`name="${name}"`), `Kontakt: brak pola ${name}`);
+  assert(form[2].includes('value="https://www.psychologica.pl/dziekujemy/"'), "Kontakt: zmienione przekierowanie formularza");
+  assert(main.indexOf(form[0]) < main.indexOf('<section'), "Kontakt: nowa treść powinna być pod formularzem");
+  assert(main.includes(`href="tel:${facts.telephone.replace(/\s/g, "")}"`) && main.includes(`href="mailto:${facts.email}"`), "Kontakt: niezgodne linki telefonu lub e-maila");
+  assert(main.includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
+  const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; });
+  assert.equal(nodes.filter((node) => node["@type"] === "ContactPage").length, 1, "Kontakt: brak lub powtórzony ContactPage");
+  return words;
 }
 
 function verifyLocationPage(html, facts) {
@@ -623,7 +676,9 @@ async function main() {
   verifyAlcoholPage(pages[alcoholPath], facts);
   verifyLocationPage(pages["/lokalizacja/"], facts);
   if (!pages["/skontaktuj-sie/"]) pages["/skontaktuj-sie/"] = await read(`${domain}/skontaktuj-sie/?verify=${commit}`);
-  assert(pages["/skontaktuj-sie/"].includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
+  const contactWords = verifyContactPage(pages["/skontaktuj-sie/"], facts);
+  const footer = html.match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/i)?.[1];
+  assert(footer && htmlText(footer).includes("Gabinet w Rzeszowie"), "Stopka: brak miasta gabinetu");
   const pageUrls = [];
   for (const sitemap of sitemapUrls(await read(`${domain}/sitemap-index.xml?verify=${commit}`))) {
     pageUrls.push(...sitemapUrls(await read(`${sitemap}?verify=${commit}`)));
@@ -652,7 +707,8 @@ async function main() {
   console.log("SUPERWIZJA: OK — odbiorcy i formy, proces, warunki, kwalifikacje, adres, 4 FAQ/JSON-LD i dostępne obrazy");
   console.log("OFERTA EDUKACYJNA: OK — title/H1, 6 H2, odbiorcy, kwalifikacje, 3 kroki kontaktu, warunki, obrazy i linki");
   console.log("O MNIE: OK — title/H1, opis Google, 7 H2, kwalifikacje zgodne z CMS, doświadczenie, dorobek, obrazy i 7 celów linkowania");
-  console.log("LINKOWANIE: OK — 4 linki do pomocy, 3 z pomocy i nowy link do pomocy przy problemie alkoholowym, we właściwym kontekście; strony dostępne");
+  console.log("LINKOWANIE: OK — linki do pomocy i strony o problemie alkoholowym oraz 3 kontekstowe linki do lokalizacji; strony dostępne");
+  console.log(`KONTAKT: OK — ${contactWords} słów, 3 sekcje, cennik CMS, adres, linki i zachowany formularz`);
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
   console.log("LOKALIZACJA: OK — title, H1, adres we wstępie, opis Google, 3 sekcje, linki i dostępność obrazów");
@@ -660,7 +716,7 @@ async function main() {
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifyAlcoholPage, verifySupervisionPage, verifyEducationPage, verifyAboutPage };
+module.exports = { verifyContactPage, readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifyAlcoholPage, verifySupervisionPage, verifyEducationPage, verifyAboutPage };
 
 if (require.main === module) {
   main().catch((error) => {
