@@ -10,6 +10,10 @@ import Footer from "./Footer";
 const Hero = styled.section`
   padding: 10rem 0 6rem;
   background: linear-gradient(135deg, #f4f5f7 0%, #edf6f1 100%);
+
+  @media (max-width: 1024px) {
+    padding: 7.5rem 0 3.5rem;
+  }
 `;
 
 const HeroContent = styled(Container)`
@@ -25,6 +29,10 @@ const HeroColumns = styled.div`
   @media (max-width: 900px) {
     grid-template-columns: minmax(0, 1fr);
     gap: 2.5rem;
+  }
+
+  @media (max-width: 768px) {
+    gap: 1.75rem;
   }
 `;
 
@@ -76,6 +84,10 @@ const Breadcrumbs = styled.nav`
     color: #8c9e97;
     font-size: 0.875rem;
   }
+
+  @media (max-width: 768px) {
+    margin-bottom: 1.25rem;
+  }
 `;
 
 const Eyebrow = styled.p`
@@ -86,6 +98,10 @@ const Eyebrow = styled.p`
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+
+  @media (max-width: 768px) {
+    margin-bottom: 0.75rem;
+  }
 `;
 
 const HeroTitle = styled.h1`
@@ -105,6 +121,11 @@ const HeroLead = styled.p`
   font-family: Manrope, sans-serif;
   font-size: 1.25rem;
   line-height: 1.65;
+
+  @media (max-width: 768px) {
+    margin-top: 1rem;
+    font-size: 1.125rem;
+  }
 `;
 
 const Actions = styled.div`
@@ -113,6 +134,10 @@ const Actions = styled.div`
   align-items: center;
   gap: 1rem 2rem;
   margin-top: 2rem;
+
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
+  }
 `;
 
 const PrimaryAction = styled(Link)`
@@ -165,10 +190,24 @@ const Facts = styled.ul`
     font-family: Manrope, sans-serif;
     font-size: 0.9375rem;
   }
+
+  @media (max-width: 768px) {
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+
+    li {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+    }
+  }
 `;
 
 const Section = styled.section`
   padding: 6rem 0;
+
+  @media (max-width: 768px) {
+    padding: 3.5rem 0;
+  }
 `;
 
 const SoftSection = styled(Section)`
@@ -183,7 +222,7 @@ const Split = styled(Container)`
 
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
-    gap: 2.5rem;
+    gap: 1.75rem;
   }
 `;
 

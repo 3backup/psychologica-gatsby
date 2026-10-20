@@ -1,5 +1,6 @@
 import * as React from "react";
 import { graphql, useStaticQuery } from "gatsby";
+import { StaticImage } from "gatsby-plugin-image";
 import ServiceLanding from "../components/ServiceLanding";
 import TextLink from "../components/styles/TextLink";
 
@@ -92,6 +93,19 @@ const PomocPsychologicznaPage = () => {
       eyebrow="Pomoc psychologiczna"
       title="Pomoc psychologiczna dla dorosłych w Rzeszowie"
       lead="Gdy trudno samodzielnie uporządkować emocje, podjąć decyzję albo przejść przez kryzys, rozmowa z psychologiem pomaga zobaczyć sytuację z szerszej perspektywy i znaleźć możliwe kroki."
+      heroImage={
+        <StaticImage
+          src="../images/TopAbout.jpg"
+          alt="Renata Zuba – psycholog kliniczny w Rzeszowie"
+          layout="constrained"
+          width={480}
+          height={600}
+          quality={85}
+          placeholder="blurred"
+          loading="eager"
+          formats={["auto", "avif", "webp"]}
+        />
+      }
       facts={["Gabinet w Rzeszowie", "Spotkania online", `Sesja ${duration}`]}
       introTitle="Wsparcie dopasowane do aktualnej sytuacji"
       introParagraphs={[
