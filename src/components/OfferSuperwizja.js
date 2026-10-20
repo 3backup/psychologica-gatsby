@@ -104,7 +104,7 @@ export const OfferSuperwizja = () => {
                 {data.datoCmsSupervision.superwizjaSekcjaGRnaTytu}
               </HeaderPsychoterapia>
               <LeadPsychoterapia>
-                {data.datoCmsSupervision.supervisionGrayLead}
+                {data.datoCmsSupervision.supervisionGrayLead.replace("profesjinalistów", "profesjonalistów")}
               </LeadPsychoterapia>
               <ParagraphPsychoterapia>
                 {data.datoCmsSupervision.supervisionGrayParagraph}
@@ -113,13 +113,19 @@ export const OfferSuperwizja = () => {
             <LeftContent>
               <StaticImage
                 src="../images/superwizja.jpg"
-                alt="Superwizja Rzeszów od Renata Zuba"
-                layout="fullWidth"
+                alt="Dłonie trzymające ziemię z młodą zieloną rośliną"
+                layout="constrained"
+                width={525}
+                height={734}
+                sizes="(max-width: 768px) 80vw, (max-width: 1230px) 34vw, 525px"
+                quality={80}
+                formats={["auto", "avif", "webp"]}
+                loading="eager"
                 placeholder="blurred"
               />
             </LeftContent>
           </PsychoterapiaContainer>
-          <BgElement />
+          <BgElement aria-hidden="true" focusable="false" />
         </PsychoterapiaSection>
       )}
     />

@@ -364,6 +364,60 @@ function verifyAddictionPage(html, facts) {
   }
 }
 
+function verifySupervisionPage(html, facts) {
+  assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
+    "Superwizja psychoterapii uzależnień | Renata Zuba");
+  assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
+    ["Superwizja psychoterapii uzależnień"]);
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert(main, "Superwizja: brak głównego obszaru treści");
+  const headings = [...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1]));
+  for (const heading of ["Superwizja", "Dla kogo jest superwizja?", "Superwizja indywidualna i grupowa",
+    "Jak rozpocząć współpracę?", "Czas i koszt superwizji", "Superwizja w Rzeszowie i online",
+    "Kto prowadzi superwizję?", "Superwizja – najczęstsze pytania",
+    "Szukasz terapii dla siebie lub bliskiej osoby?", "Sprawdź moją ofertę"]) {
+    assert(headings.includes(heading), `Superwizja: brak nagłówka ${heading}`);
+  }
+  const text = htmlText(main);
+  for (const content of ["certyfikat superwizora psychoterapii uzależnień nr 34",
+    "certyfikat specjalisty psychoterapii uzależnień nr 123",
+    "ich czas, częstotliwość i koszt", "innych profesjonalistów",
+    `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`]) {
+    assert(text.includes(content), `Superwizja: brak potwierdzonej informacji ${content}`);
+  }
+  assert(!text.includes(facts.price), "Superwizja nie może przejmować niepotwierdzonej ceny psychoterapii");
+  assert(!text.includes("Stworzenie planu terapii dla Ciebie"), "Superwizja: pozostał ogólny proces terapii dla pacjentów");
+  const visibleFaq = [...main.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)].map((m) => ({
+    question: htmlText(m[1].match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i)?.[1] || ""),
+    answer: htmlText(m[1].match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || ""),
+  }));
+  assert.deepEqual(visibleFaq.map((item) => item.question), [
+    "Na czym polega superwizja psychoterapii uzależnień?", "Jakie formy superwizji są dostępne?",
+    "Na czym polega terapia uzależnień?", "Ile może trwać terapia uzależnień?",
+  ]);
+  for (const item of visibleFaq) {
+    const sentences = item.answer.match(/[^.!?]+[.!?]/g) || [];
+    assert(sentences.length >= 2 && sentences.length <= 4, "Superwizja: FAQ musi mieć 2–4 zdania");
+  }
+  assert(visibleFaq[3].answer.includes(`Pojedyncza sesja psychoterapii trwa ${facts.duration}.`));
+  const faqNodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; })
+    .filter((node) => node["@type"] === "FAQPage");
+  assert.equal(faqNodes.length, 1);
+  assert.deepEqual(faqNodes[0].mainEntity.map((item) => ({
+    question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text),
+  })), visibleFaq, "Superwizja: rozbieżne FAQ HTML/JSON-LD");
+  assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "Superwizja: obraz bez alt");
+  assert(html.includes('alt="Dłonie trzymające ziemię z młodą zieloną rośliną"'));
+  assert(html.includes('alt="Renata Zuba – certyfikowany superwizor psychoterapii uzależnień"'));
+  assert(!html.includes('alt="bg-testimonial"'));
+  assert(!/<a\b[^>]*>\s*<a\b/i.test(html), "Superwizja: zagnieżdżone odnośniki");
+  for (const m of html.matchAll(/<svg\b[^>]*>/gi)) assert(/aria-hidden="true"|aria-label="[^"]+"/.test(m[0]));
+  for (const route of ["/skontaktuj-sie/", "/lokalizacja/", "/o-mnie/", "/psychoterapia-uzaleznien-rzeszow/", "/oferta-edukacyjna/"]) {
+    assert(main.includes(`href="${route}"`), `Superwizja: brak linku ${route}`);
+  }
+}
+
 async function main() {
   const commit = process.argv[2];
   assert(/^[a-f0-9]{40}$/.test(commit || ""), "Podaj pełny SHA zatwierdzonego wydania");
@@ -414,6 +468,7 @@ async function main() {
     if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
     verifyLocalBusiness(pages[route], facts);
   }
+  verifySupervisionPage(pages["/superwizja/"], facts);
   const llmsResponse = await fetch(`${domain}/llms.txt?verify=${commit}`, { signal: AbortSignal.timeout(30000) });
   assert.equal(llmsResponse.status, 200, "llms.txt musi być dostępny bez przekierowania i błędu");
   assert.equal(new URL(llmsResponse.url).pathname, "/llms.txt");
@@ -424,6 +479,7 @@ async function main() {
   console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
   console.log("OFERTA TERAPEUTYCZNA: OK — opis Google, zakres, proces, cennik CMS, 7 zgodnych FAQ/JSON-LD, obrazy i linki");
   console.log("PSYCHOTERAPIA UZALEŻNIEŃ: OK — treści, kwalifikacje, adres, cennik CMS, 6 zgodnych FAQ/JSON-LD i 5 celów linkowania w treści");
+  console.log("SUPERWIZJA: OK — odbiorcy i formy, proces, warunki, kwalifikacje, adres, 4 FAQ/JSON-LD i dostępne obrazy");
   console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
@@ -432,7 +488,7 @@ async function main() {
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifySupervisionPage };
 
 if (require.main === module) {
   main().catch((error) => {

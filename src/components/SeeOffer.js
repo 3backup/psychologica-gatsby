@@ -15,7 +15,7 @@ const MainContainer = styled.section`
     margin-top: -8.75rem;
   }
 `;
-const HeaderTitle = styled.h3`
+const HeaderTitle = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -53,7 +53,7 @@ const HeaderDiv = styled.div`
   }
 `;
 
-const OfferLink = styled(Link)`
+const OfferLink = styled.div`
   margin-left: 4rem;
   cursor: pointer;
   font-family: Red Hat Display;
@@ -65,12 +65,12 @@ const OfferLink = styled(Link)`
   align-items: center;
   text-align: center;
   color: #005650;
-  transition: 0.3s
+  transition: 0.3s;
   border-bottom: 2px solid rgba(40, 174, 102, 0);
   a{
     text-decoration: none;
     color: #005650;
-    transition: 0.3s
+    transition: 0.3s;
     &:hover{
       color: rgba(40, 174, 102, 1);
 
@@ -105,8 +105,9 @@ const SeeOffer = ({
   mainCta,
   secondCta,
   supervision,
+  noOverlap = false,
 }) => (
-  <MainContainer id="SeeOffer">
+  <MainContainer id="SeeOffer" style={noOverlap ? { marginTop: 0 } : undefined}>
     <Container>
       <HeaderTitle>{mainTitle ? mainTitle : "Sprawdź moją ofertę"}</HeaderTitle>
       <HeaderParagraph>
@@ -125,11 +126,12 @@ const SeeOffer = ({
         </OfferLink>
       </HeaderDiv>
     </Container>
-    <LogoBg />
+    <LogoBg aria-hidden="true" focusable="false" />
     <TestimonialBg>
       <StaticImage
         src="../images/testimonial-bg.jpg"
-        alt="bg-testimonial"
+        alt=""
+        aria-hidden="true"
         layout="fullWidth"
         placeholder="blurred"
       />
