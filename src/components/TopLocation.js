@@ -5,6 +5,7 @@ import TextLink from "./styles/TextLink";
 import Sanitization from "../images/satnitization.svg";
 import { StaticImage } from "gatsby-plugin-image";
 import { StaticQuery, graphql } from "gatsby";
+import { mapUrl } from "../config/location-map.cjs";
 
 const Top = styled.div`
   width: 100%;
@@ -167,7 +168,7 @@ const TopLocation = ({ address }) => {
                 <TitleGabinet>{data.datoCmsLocation.subheader}</TitleGabinet>
                 <Adress>
                 <AddressLink
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.datoCmsGlobal.adress || "")}`}
+                  href={mapUrl}
                   target="_blank"
                   rel="noopener noreferrer">
                   {data.datoCmsGlobal.adress}

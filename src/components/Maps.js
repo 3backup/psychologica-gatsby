@@ -1,166 +1,75 @@
-import React, { Component } from "react";
-import { Map, GoogleApiWrapper, Marker } from "google-maps-react";
+import React from "react";
 import { styled } from "linaria/react";
+import Container from "./styles/Container";
+import { embedUrl, mapUrl } from "../config/location-map.cjs";
 
-const MainContainer = styled.section`
-position: relative;
-  height: 31.25rem
-  width: 100%;
+const MapSection = styled.section`
+  background: #edf3ef;
+  scroll-margin-top: 6.875rem;
+
+  iframe {
+    display: block;
+    width: 100%;
+    height: 31.25rem;
+    border: 0;
+  }
+
   @media (max-width: 768px) {
-    padding: 0;
+    iframe { height: 24rem; }
   }
 `;
-const CustomMarker = styled(Marker)`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 18px;
-  height: 18px;
-  background-color: #000;
-  border: 2px solid #fff;
-  border-radius: 100%;
-  user-select: none;
-  transform: translate(-50%, -50%);
-  &:hover {
-    z-index: 1;
+
+const MapCaption = styled(Container)`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  font-family: Manrope, sans-serif;
+  color: #315f5b;
+
+  h2 {
+    margin: 0 0 0.5rem;
+    color: #1f1f1f;
+    font-family: "Red Hat Display", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+
+  p { margin: 0; line-height: 1.5; }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: #005650;
+    text-underline-offset: 0.2em;
+  }
+
+  a:focus-visible {
+    outline: 3px solid #4abd7f;
+    outline-offset: 4px;
   }
 `;
-const JsStyles = [
-  {
-    featureType: "administrative",
-    elementType: "labels.text.fill",
-    stylers: [
-      {
-        color: "#444444",
-      },
-    ],
-  },
-  {
-    featureType: "landscape",
-    elementType: "all",
-    stylers: [
-      {
-        color: "#f2f2f2",
-      },
-    ],
-  },
-  {
-    featureType: "poi",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "road",
-    elementType: "all",
-    stylers: [
-      {
-        saturation: -100,
-      },
-      {
-        lightness: 45,
-      },
-    ],
-  },
-  {
-    featureType: "road.highway",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "simplified",
-      },
-    ],
-  },
-  {
-    featureType: "road.arterial",
-    elementType: "labels.icon",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "transit",
-    elementType: "all",
-    stylers: [
-      {
-        visibility: "off",
-      },
-    ],
-  },
-  {
-    featureType: "water",
-    elementType: "all",
-    stylers: [
-      {
-        color: "#c3e2c8",
-      },
-      {
-        visibility: "on",
-      },
-    ],
-  },
-  {
-    featureType: "water",
-    elementType: "labels.text",
-    stylers: [
-      {
-        visibility: "on",
-      },
-      {
-        weight: "0.01",
-      },
-    ],
-  },
-];
-class Maps extends Component {
-  state = {
-    myMarkers: [{ latitude: 50.0477919, longitude: 21.9902635 }],
-    option: [
-      {
-        styles: JsStyles,
-      },
-    ],
-  };
-  displayMarkers = () => {
-    return this.state.myMarkers.map((mark, index) => {
-      return (
-        <CustomMarker
-          id={index}
-          icon={{
-            url:
-              "https://raw.githubusercontent.com/3backup/psychologica-gatsby/13b586cccccf6b30da7a6f566b5ae90e34247aa0/src/images/pin.svg",
-            anchor: new window.google.maps.Point(0, 48),
-            scaledSize: new window.google.maps.Size(48, 48),
-          }}
-          position={{ lat: mark.latitude, lng: mark.longitude }}
-          onClick={() => console.log("You clicked me!", { index })}
-        />
-      );
-    });
-  };
-  render() {
-    return (
-      <MainContainer className="map">
-        <Map
-          google={this.props.google}
-          zoom={15}
-          styles={JsStyles}
-          initialCenter={{ lat: 50.0477919, lng: 21.9902635 }}
-          disableDefaultUI={true}>
-          {this.displayMarkers()}
-        </Map>
-      </MainContainer>
-    );
-  }
-}
 
-export default GoogleApiWrapper({
-  apiKey: "AIzaSyCF21HzNDnu_Axa3UYWdhr-KCaOB5N-MZw",
-})(Maps);
+const Maps = ({ address }) => (
+  <MapSection aria-label="Mapa dojazdu do gabinetu" id="mapa">
+    <iframe
+      src={embedUrl}
+      title={`Mapa OpenStreetMap: gabinet Psychologica, ${address.streetAddress}, ${address.addressLocality}`}
+      loading="lazy"
+      referrerPolicy="strict-origin-when-cross-origin"
+    />
+    <MapCaption>
+      <div>
+        <h2>Mapa dojazdu do gabinetu</h2>
+        <p>ul. {address.streetAddress}, {address.addressLocality}</p>
+      </div>
+      <a href={mapUrl} target="_blank" rel="noopener noreferrer">Otwórz większą mapę w OpenStreetMap</a>
+    </MapCaption>
+  </MapSection>
+);
 
-//https://javascript.plainenglish.io/add-a-google-map-to-your-react-app-with-a-snazzy-maps-style-38781edcdc7a
+export default Maps;

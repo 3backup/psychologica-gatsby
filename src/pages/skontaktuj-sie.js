@@ -11,6 +11,7 @@ import BgImage from "../images/contact-element.svg";
 import PinIcon from "../images/contact__pin.svg";
 import Seo from "../components/Seo";
 import { trackContactClick, trackEvent } from "../utils/analytics";
+import { mapUrl } from "../config/location-map.cjs";
 
 import "normalize.css";
 
@@ -367,7 +368,7 @@ const SkontaktujSie = ({ data }) => {
                   <SingleContactInformation>
                     <PinIcon />{" "}
                     <ContactLink
-                      href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(data.datoCmsGlobal.adress || "")}`}
+                      href={mapUrl}
                       target="_blank"
                       rel="noopener noreferrer">
                       {data.datoCmsGlobal.adress}

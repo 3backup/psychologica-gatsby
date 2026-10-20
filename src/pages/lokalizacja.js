@@ -5,9 +5,8 @@ import { graphql } from "gatsby";
 import HowToGet from "../components/HowToGet";
 import LocationVisitDetails from "../components/LocationVisitDetails";
 import TopLocation from "../components/TopLocation";
+import Maps from "../components/Maps";
 import "normalize.css";
-
-const Maps = React.lazy(() => import("../components/Maps"));
 
 const lokalizacja = ({ data }) => {
   const address = data.site.siteMetadata.businessAddress;
@@ -24,9 +23,7 @@ const lokalizacja = ({ data }) => {
           { name: "Lokalizacja", path: "/lokalizacja/" },
         ]}>
         <TopLocation address={address} />
-        <React.Suspense fallback={<div style={{ minHeight: "31.25rem", background: "#f2f2f2" }} aria-hidden="true" />}>
-          <Maps />
-        </React.Suspense>
+        <Maps address={address} />
         <HowToGet />
         <LocationVisitDetails address={address} />
         <Footer />

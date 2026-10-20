@@ -3,6 +3,7 @@ const { execFileSync } = require("node:child_process");
 const path = require("node:path");
 const { verifyCms } = require("./cms-release-check.cjs");
 const { sitemapUrls, verifyLocalBusiness, verifyLlms } = require("./verify-discovery.cjs");
+const locationMap = require("../src/config/location-map.cjs");
 
 const root = path.join(__dirname, "..");
 const repository = "3backup/psychologica-gatsby";
@@ -159,6 +160,30 @@ function verifyLocationPage(html, facts) {
   for (const svg of svgs) assert(/\baria-hidden="true"|\baria-label="[^"]+"/.test(svg), "Nieopisany SVG na stronie lokalizacji");
   assert(/<a\b[^>]*\bhref="\/oferta-terapeutyczna\/"[^>]*>opisu usług<\/a>/.test(html));
   assert(/<a\b[^>]*\bhref="\/skontaktuj-sie\/"[^>]*>Umów konsultację<\/a>/.test(html));
+  verifyOpenStreetMap(html, facts);
+}
+
+function verifyOpenStreetMap(html, facts) {
+  const frames = [...html.matchAll(/<iframe\b[^>]*>/gi)].map((match) => match[0]);
+  assert.equal(frames.length, 1, "Wymagana jest jedna osadzona mapa");
+  const frame = frames[0];
+  const source = htmlText(frame.match(/\bsrc="([^"]+)"/)?.[1] || "");
+  assert.equal(source, locationMap.embedUrl, "Mapa nie odpowiada zatwierdzonej lokalizacji");
+  assert.equal(htmlText(frame.match(/\btitle="([^"]+)"/)?.[1] || ""),
+    `Mapa OpenStreetMap: gabinet Psychologica, ${facts.address.streetAddress}, ${facts.address.addressLocality}`);
+  assert(/\bloading="lazy"/.test(frame), "Mapa powinna ładować się dopiero w pobliżu widoku");
+  assert(/\breferrerPolicy="strict-origin-when-cross-origin"/i.test(frame), "Nieprawidłowa polityka referera mapy");
+  const url = new URL(source);
+  assert.equal(url.origin, "https://www.openstreetmap.org");
+  assert.equal(url.searchParams.get("marker"), "50.0477919,21.9924575", "Zmiana potwierdzonej pinezki gabinetu");
+  const [west, south, east, north] = url.searchParams.get("bbox").split(",").map(Number);
+  assert(west < locationMap.longitude && east > locationMap.longitude && south < locationMap.latitude && north > locationMap.latitude);
+  const links = [...html.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+    .filter((match) => htmlText(match[1].match(/\bhref="([^"]+)"/)?.[1] || "") === locationMap.mapUrl);
+  assert(links.length >= 2, "Adres i link większej mapy muszą prowadzić do tej samej pinezki");
+  assert(links.some((match) => htmlText(match[2]) === "Otwórz większą mapę w OpenStreetMap"), "Brak linku do większej mapy");
+  assert(!/maps\.googleapis\.com|google-maps-react|google\.com\/maps|GoogleApiWrapper/.test(html), "Pozostała stara integracja map Google");
+  assert(!require("../package.json").dependencies["google-maps-react"], "Nieusunięta biblioteka map Google");
 }
 
 function verifySupportPage(html, facts) {
@@ -256,6 +281,8 @@ async function main() {
   }
   verifyInternalLinks(pages);
   verifyLocationPage(pages["/lokalizacja/"], facts);
+  if (!pages["/skontaktuj-sie/"]) pages["/skontaktuj-sie/"] = await read(`${domain}/skontaktuj-sie/?verify=${commit}`);
+  assert(pages["/skontaktuj-sie/"].includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
   const pageUrls = [];
   for (const sitemap of sitemapUrls(await read(`${domain}/sitemap-index.xml?verify=${commit}`))) {
     pageUrls.push(...sitemapUrls(await read(`${sitemap}?verify=${commit}`)));
@@ -278,10 +305,11 @@ async function main() {
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
   console.log("LOKALIZACJA: OK — title, H1, adres we wstępie, opis Google, 3 sekcje, linki i dostępność obrazów");
+  console.log("MAPA: OK — OpenStreetMap z właściwą pinezką, dostępny opis, większy widok i zgodny link kontaktowy; integracja Google usunięta");
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap };
 
 if (require.main === module) {
   main().catch((error) => {
