@@ -4,9 +4,9 @@ import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
 
 import { StaticQuery, graphql, Link } from "gatsby";
-import Psychology from "../images/offer-psychology.svg";
-import Psychoeducation from "../images/psychology.svg";
-import Supervision from "../images/supervision.svg";
+import psychology from "../assets/offer-psychology.svg";
+import psychoeducation from "../assets/psychology.svg";
+import supervision from "../assets/supervision.svg";
 import ArrowRight from "../images/arrow-right.svg";
 
 const OfferSection = styled.section`
@@ -184,7 +184,7 @@ const Offer = () => {
                 }}></OfferParagraph>
               <SingleOffer>
                 <SingleOfferImage>
-                  <Psychology aria-hidden="true" focusable="false" />
+                  <img src={psychology} width="56" height="56" alt="" aria-hidden="true" loading="lazy" />
                 </SingleOfferImage>
                 <SingleOfferText>
                   <SingleOfferHeader>
@@ -199,7 +199,7 @@ const Offer = () => {
               </SingleOffer>
               <SingleOffer>
                 <SingleOfferImage>
-                  <Psychoeducation aria-hidden="true" focusable="false" />
+                  <img src={psychoeducation} width="52" height="52" alt="" aria-hidden="true" loading="lazy" />
                 </SingleOfferImage>
                 <SingleOfferText>
                   <SingleOfferHeader>
@@ -213,7 +213,7 @@ const Offer = () => {
               </SingleOffer>
               <SingleOffer>
                 <SingleOfferImage>
-                  <Supervision aria-hidden="true" focusable="false" />
+                  <img src={supervision} width="52" height="52" alt="" aria-hidden="true" loading="lazy" />
                 </SingleOfferImage>
                 <SingleOfferText>
                   <SingleOfferHeader>

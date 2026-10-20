@@ -6,9 +6,9 @@ import { StaticImage } from "gatsby-plugin-image";
 import Container from "./styles/Container";
 import Money from "../images/money.svg";
 import Clock from "../images/clock.svg";
-import Contact from "../images/Contact-us.svg";
-import Plan from "../images/Plan.svg";
-import EveryTiime from "../images/EveryTime.svg";
+import contact from "../assets/Contact-us.svg";
+import plan from "../assets/Plan.svg";
+import everyTime from "../assets/EveryTime.svg";
 import ProcessLeaves from "../images/process-leaves.svg";
 import Button from "./styles/Button";
 
@@ -243,7 +243,7 @@ const Process = ({ title, introduction, steps, sessionFacts }) => {
               <ContentGreen>
                 <SingleStep>
                   <SingleStepImage>
-                    <Contact aria-hidden="true" focusable="false" />
+                    <img src={contact} width="56" height="56" alt="" aria-hidden="true" loading="lazy" />
                   </SingleStepImage>
                   <SingleStepHeader>
                     {steps ? steps[0].title : data.datoCmsHowitlookslike.processFirststepTitle}
@@ -259,7 +259,7 @@ const Process = ({ title, introduction, steps, sessionFacts }) => {
                 </SingleStep>
                 <SingleStep>
                   <SingleStepImage>
-                    <Plan aria-hidden="true" focusable="false" />
+                    <img src={plan} width="56" height="56" alt="" aria-hidden="true" loading="lazy" />
                   </SingleStepImage>
                   <SingleStepHeader>
                     {steps ? steps[1].title : data.datoCmsHowitlookslike.processSecondstepTitle}
@@ -270,7 +270,7 @@ const Process = ({ title, introduction, steps, sessionFacts }) => {
                 </SingleStep>
                 <SingleStep>
                   <SingleStepImage>
-                    <EveryTiime aria-hidden="true" focusable="false" />
+                    <img src={everyTime} width="56" height="56" alt="" aria-hidden="true" loading="lazy" />
                   </SingleStepImage>
                   <SingleStepHeader>
                     {steps ? steps[2].title : data.datoCmsHowitlookslike.processThirddstepTitle}

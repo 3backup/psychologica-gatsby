@@ -4,6 +4,24 @@ const sharp = require("sharp");
 const { execFileSync } = require("node:child_process");
 const { verifyCms } = require("./scripts/cms-release-check.cjs");
 
+exports.onCreateWebpackConfig = ({ actions, getConfig, rules, loaders }) => {
+  const config = getConfig();
+  const fontRule = rules.fonts();
+  const imageRule = rules.images();
+  const externalSvgDirectory = path.join(__dirname, "src/assets");
+  // Even unused language subsets and fallback font formats were embedded in CSS.
+  // Keep the same fonts as hashed files; the browser only fetches the ones it uses.
+  config.module.rules = config.module.rules.map((rule) =>
+    rule.test?.toString() === fontRule.test.toString()
+      ? { ...rule, use: [loaders.file()] }
+      : rule.test?.toString() === imageRule.test.toString()
+        ? { ...rule, exclude: [rule.exclude, externalSvgDirectory].filter(Boolean) }
+        : rule,
+  );
+  config.module.rules.push({ test: /\.svg$/, include: externalSvgDirectory, use: [loaders.file()] });
+  actions.replaceWebpackConfig(config);
+};
+
 exports.onPreBuild = async ({ getNodes }) => {
   await verifyCms();
   require("./scripts/sitemap-lastmod.cjs").prepareMetadata(getNodes());

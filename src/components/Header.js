@@ -3,7 +3,7 @@ import { StaticQuery, graphql, Link } from "gatsby";
 import { styled } from "linaria/react";
 import PropTypes from "prop-types";
 import Container from "./styles/Container";
-import LogoHeader from "../images/logo-psychologica-black.svg";
+import logoHeader from "../assets/logo-psychologica-black.svg";
 import Phone from "../images/phone.svg";
 import MenuMobile from "../images/menu.svg";
 import Close from "../images/close.svg";
@@ -108,7 +108,7 @@ const ContainerHeader = styled(Container)`
   align-items: center;
   flex-direction: row;
 `;
-const StyledFooterLogo = styled(LogoHeader)`
+const StyledFooterLogo = styled.img`
   max-height: 5rem;
   transition: 0.3s;
   margin: 0;
@@ -214,8 +214,9 @@ const Header = ({ menuLinks, visableHeader }) => {
             <ContainerHeader>
               <Link to="/" aria-label="Psychologica – strona główna">
                 <StyledFooterLogo
+                  src={logoHeader}
+                  alt=""
                   aria-hidden="true"
-                  focusable="false"
                   height={visible ? "60" : "80"}
                   width={visible ? "200" : "220"}
                 />
@@ -251,7 +252,7 @@ const Header = ({ menuLinks, visableHeader }) => {
               border: visible ? "1px solid #dadada" : "",
             }}>
             <Link to="/" aria-label="Psychologica – strona główna">
-              <StyledFooterLogo height="60" width="200" aria-hidden="true" focusable="false" />
+              <StyledFooterLogo src={logoHeader} alt="" height="60" width="200" aria-hidden="true" />
             </Link>
             <MenuButton
               aria-label={isMenuOpen ? "Zamknij menu" : "Otwórz menu"}

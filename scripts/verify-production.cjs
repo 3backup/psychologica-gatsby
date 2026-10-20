@@ -56,7 +56,10 @@ async function read(url, format) {
   if (/text\/html/i.test(response.headers.get("content-type") || "")) {
     assert(!/noindex/i.test(response.headers.get("x-robots-tag") || ""), `Strona produkcyjna ma noindex: ${url}`);
   }
-  return format === "json" ? response.json() : response.text();
+  if (format === "json") return response.json();
+  const text = await response.text();
+  assert(!text.includes("\0"), `Nieprawidłowy znak NUL na ${url}`);
+  return text;
 }
 
 const normalizeText = (value) => value.replace(/\s+/g, " ").trim();
@@ -218,7 +221,9 @@ function verifyLocationPage(html, facts) {
   const photoAlt = `Wnętrze gabinetu psychologicznego Psychologica przy ul. ${street} w Rzeszowie`;
   assert(images.some((image) => image.includes(`alt="${photoAlt}"`)), "Brak opisu zdjęcia gabinetu");
   for (const image of images.filter((image) => /\balt=""/i.test(image))) {
-    assert(/\bdata-placeholder-image|testimonial-bg/.test(image), "Pusty alt jest przeznaczony wyłącznie dla dekoracji i placeholderów");
+    const decorativeLogo = /\baria-hidden="true"/.test(image) &&
+      /\/logo-psychologica-black-[a-f0-9]+\.svg/.test(image);
+    assert(decorativeLogo || /\bdata-placeholder-image|testimonial-bg/.test(image), "Pusty alt jest przeznaczony wyłącznie dla dekoracji i placeholderów");
   }
   const svgs = [...html.matchAll(/<svg\b[^>]*>/gi)].map((match) => match[0]);
   for (const svg of svgs) assert(/\baria-hidden="true"|\baria-label="[^"]+"/.test(svg), "Nieopisany SVG na stronie lokalizacji");
@@ -662,6 +667,7 @@ async function main() {
   assert.equal(statuses[0]?.state, "success", "APLIKACJA: brak udanego wdrożenia");
 
   const html = await read(`${domain}/?verify=${commit}`);
+  await require("./verify-home-html.cjs").remote(domain, html);
   const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1];
   assert.equal(title, "Psycholog i psychoterapeuta w Rzeszowie – Renata Zuba | Psychologica", "Nieprawidłowy title");
   assert.equal((html.match(/<h1[\s>]/g) || []).length, 1, "Strona musi zawierać jeden H1");

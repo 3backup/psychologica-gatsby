@@ -4,7 +4,7 @@ import Container from "../components/styles/Container";
 import { graphql, Link } from "gatsby";
 import Button from "../components/styles/Button";
 import GoBackIcon from "../images/goback.svg";
-import LogoHeader from "../images/logo-psychologica-black.svg";
+import logoHeader from "../assets/logo-psychologica-black.svg";
 import MailIcon from "../images/contact__mail.svg";
 import PhoneIcon from "../images/contact__phone.svg";
 import PinIcon from "../images/contact__pin.svg";
@@ -371,7 +371,7 @@ const SkontaktujSie = ({ data }) => {
       <ContactContainer>
         <HeaderContact>
           <Link to="/" aria-label="Psychologica – strona główna">
-            <LogoHeader height="60" width="185" aria-hidden="true" focusable="false" />
+            <img src={logoHeader} alt="" height="60" width="185" aria-hidden="true" />
           </Link>
           <GoBack to="/">
             <GoBackIcon aria-hidden="true" focusable="false" />

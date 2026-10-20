@@ -1,7 +1,7 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
-import BackgroundPattern from "../images/leaves.svg";
+import backgroundPattern from "../assets/leaves.svg";
 import { StaticImage } from "gatsby-plugin-image";
 import { StaticQuery, graphql, Link } from "gatsby";
 import Button from "./styles/Button";
@@ -131,7 +131,7 @@ const HalfGrid = styled.div`
   }
 `;
 
-const Leaves = styled(BackgroundPattern)`
+const Leaves = styled.img`
   position: absolute;
   left: 0;
   bottom: 0;
@@ -189,9 +189,11 @@ const Header = ({ props }) => {
               />
             </CusomtImage>
             <Leaves
-              src="../images/leaves.svg"
+              src={backgroundPattern}
+              width="129"
+              height="332"
+              alt=""
               aria-hidden="true"
-              focusable="false"
             />
           </Top>
           <Container>

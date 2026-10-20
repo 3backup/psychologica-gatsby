@@ -3,7 +3,7 @@ import Container from "./styles/Container";
 import { styled } from "linaria/react";
 import { ButtonLightGreen } from "./styles/ButtonLightGreen";
 import { Link } from "gatsby";
-import CovidSvg from "../images/covid.svg";
+import covid from "../assets/covid.svg";
 import CovidTopRight from "../images/covid-top-right.svg";
 import CovidBottomLeft from "../images/covid-bottom-left.svg";
 import { StaticQuery, graphql } from "gatsby";
@@ -103,7 +103,7 @@ const Covid = () => {
       render={(data) => (
         <CovidContainer>
           <CovidImage>
-            <CovidSvg aria-hidden="true" focusable="false" />
+            <img src={covid} width="58" height="58" alt="" aria-hidden="true" loading="lazy" />
           </CovidImage>
           <CovidHeader>
             {data.datoCmsCovi.spotkaniaOsobisteLubSesjeZdalne}
