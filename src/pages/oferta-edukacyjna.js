@@ -1,13 +1,13 @@
 import * as React from "react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
-import AboutOffer from "../components/AboutOffer";
+import EducationDetails from "../components/EducationDetails";
+import TextLink from "../components/styles/TextLink";
 import { graphql } from "gatsby";
 
 import SeeOffer from "../components/SeeOffer";
 import Testimonial from "../components/Testimonial";
 import { OfferEdukacja } from "../components/OfferEdukacja";
-import Process from "../components/Process";
 import TopOffer from "../components/TopOffer";
 
 // markup
@@ -30,25 +30,32 @@ const oferta = ({ data }) => {
           { name: "Strona główna", path: "/" },
           { name: "Oferta edukacyjna", path: "/oferta-edukacyjna/" },
         ]}>
-        <TopOffer
-          headerElement="Szkolenia psychologiczne i psychoedukacja"
-          subheaderText={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTopCopy1}
-        />
-        <OfferEdukacja />
-        <Testimonial
-          quote={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytat}
-          author={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytatAutor}
-        />
-        <SeeOffer
-          mainTitle={data.datoCmsOfertaEdukacyjna.sprawdMojOfertTytu}
-          subParagraph={data.datoCmsOfertaEdukacyjna.sprawdMojOfertOpis}
-          mainCta={data.datoCmsOfertaEdukacyjna.sprawdMojOfertPrzyciskglowny}
-          secondCta={
-            data.datoCmsOfertaEdukacyjna.sprawdMojOfertPrzyciskdrugiejkategorii
-          }
-        />
-        <AboutOffer />
-        <Process />
+        <main>
+          <TopOffer
+            headerElement="Szkolenia psychologiczne i psychoedukacja"
+            subheaderText={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTopCopy1}
+          />
+          <OfferEdukacja />
+          <EducationDetails />
+          <Testimonial
+            quote={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytat}
+            author={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytatAutor}
+          />
+          <SeeOffer
+            noOverlap
+            mainTitle="Sprawdź moją ofertę"
+            subParagraph={
+              <>
+                Oprócz zajęć edukacyjnych prowadzę psychoterapię oraz{" "}
+                <TextLink to="/superwizja/">superwizję</TextLink>.
+              </>
+            }
+            mainCta={data.datoCmsOfertaEdukacyjna.sprawdMojOfertPrzyciskglowny}
+            secondCta={
+              data.datoCmsOfertaEdukacyjna.sprawdMojOfertPrzyciskdrugiejkategorii
+            }
+          />
+        </main>
         <Footer />
       </Layout>
     </>
@@ -57,14 +64,11 @@ const oferta = ({ data }) => {
 export const query = graphql`
   query EdukacyjnaQuery {
     datoCmsOfertaEdukacyjna {
-      edukacyjnaTytuTop
       edukacyjnaTytuTopCopy1
       ofertaEdukacyjnaCytat
       ofertaEdukacyjnaCytatAutor
-      sprawdMojOfertTytu
       sprawdMojOfertPrzyciskglowny
       sprawdMojOfertPrzyciskdrugiejkategorii
-      sprawdMojOfertOpis
     }
   }
 `;

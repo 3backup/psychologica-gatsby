@@ -55,6 +55,9 @@ const HeaderPsychoterapia = styled.h2`
   font-size: 42px;
   line-height: 125%;
   color: #1f1f1f;
+  @media (max-width: 578px) {
+    font-size: 32px;
+  }
 `;
 const LeadPsychoterapia = styled.p`
   font-family: Manrope;
@@ -91,7 +94,6 @@ export const OfferEdukacja = () => {
           datoCmsOfertaEdukacyjna {
             edukacyjnaSzaraSekcjaOpisMniejszy
             edukacyjnaSzaraSekcjaOpisWiKszy
-            edukacyjnaSzaraSekcjaTytu
           }
         }
       `}
@@ -100,7 +102,7 @@ export const OfferEdukacja = () => {
           <PsychoterapiaContainer>
             <RightContent>
               <HeaderPsychoterapia>
-                {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaTytu}
+                Szkolenia, warsztaty i webinaria
               </HeaderPsychoterapia>
               <LeadPsychoterapia>
                 {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisWiKszy}
@@ -112,13 +114,19 @@ export const OfferEdukacja = () => {
             <LeftContent>
               <StaticImage
                 src="../images/edukacja-zdjecie.jpg"
-                alt="Psychoedukacja - Renata Zuba wystąpienie konferencja UJ"
-                layout="fullWidth"
+                alt="Renata Zuba podczas wystąpienia z prezentacją"
+                layout="constrained"
+                width={525}
+                height={643}
+                sizes="(max-width: 768px) 80vw, (max-width: 1230px) 34vw, 525px"
+                quality={80}
+                formats={["auto", "avif", "webp"]}
+                loading="eager"
                 placeholder="blurred"
               />
             </LeftContent>
           </PsychoterapiaContainer>
-          <BgElement />
+          <BgElement aria-hidden="true" focusable="false" />
         </PsychoterapiaSection>
       )}
     />
