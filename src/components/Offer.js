@@ -94,6 +94,7 @@ const SingleOffer = styled.div`
 `;
 const SingleOfferImage = styled.div`
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: center;
   width: 4.75rem;
@@ -105,7 +106,11 @@ const SingleOfferImage = styled.div`
 const SingleOfferText = styled.div`
   display: flex;
   flex-direction: column;
+  min-width: 0;
   margin-left: 2.5rem;
+  @media (max-width: 480px) {
+    margin-left: 1rem;
+  }
 `;
 const AboutLink = styled(Link)`
   display: flex;
@@ -116,15 +121,18 @@ const AboutLink = styled(Link)`
   font-weight: 500;
   font-size: 16px;
   line-height: 21px;
-  width: max-content;
-  text-align: center;
+  width: fit-content;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: left;
   color: #005650;
   list-style-type: none;
-  line-height: 60px;
-  height: 3.75rem;
+  line-height: 1.5;
+  min-height: 3.75rem;
   border-bottom: 2px solid rgba(40, 174, 102, 0);
   transition: 0.3s;
   & svg {
+    flex-shrink: 0;
     transition: 0.3s;
     margin-left: 1rem;
   }
@@ -155,9 +163,7 @@ const Offer = () => {
             myofferDesc
             myofferFirsttileTxt
             myofferSecondtile
-            myofferSecondtitleTxt
             myofferThirdtile
-            myofferThirdtileTxt
             myofferTitle
           }
         }
@@ -206,7 +212,7 @@ const Offer = () => {
                     {data.datoCmsIndex.myofferSecondtile}{" "}
                   </SingleOfferHeader>
                   <AboutLink to="/oferta-edukacyjna/">
-                    {data.datoCmsIndex.myofferSecondtitleTxt}
+                    Szkolenia psychologiczne Rzeszów
                     <ArrowRight aria-hidden="true" focusable="false" />
                   </AboutLink>
                 </SingleOfferText>
@@ -221,7 +227,7 @@ const Offer = () => {
                   </SingleOfferHeader>
 
                   <AboutLink to="/superwizja/">
-                    {data.datoCmsIndex.myofferThirdtileTxt}
+                    Superwizja psychoterapii uzależnień
                     <ArrowRight aria-hidden="true" focusable="false" />
                   </AboutLink>
                 </SingleOfferText>
