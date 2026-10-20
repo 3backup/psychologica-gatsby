@@ -305,6 +305,65 @@ function verifyTherapyPage(html, facts) {
   }
 }
 
+function verifyAddictionPage(html, facts) {
+  assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
+    "Psychoterapia uzależnień Rzeszów | Renata Zuba");
+  assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
+    ["Psychoterapia uzależnień w Rzeszowie"]);
+  const body = html.replace(/<(script|header|footer|nav)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
+  const text = htmlText(body);
+  for (const content of [
+    `Sesja ${facts.duration}`, `Koszt ${facts.price}`, `${facts.priceLabel} ${facts.price}`,
+    `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`,
+    "Psychoterapia uzależnień obejmuje pracę nad rozumieniem mechanizmów problemu, emocji i sposobów reagowania.",
+    "Renata Zuba jest psychologiem klinicznym.", "certyfikat specjalisty psychoterapii uzależnień nr 123",
+    "certyfikat superwizora psychoterapii uzależnień nr 34", "Konsultacja", "Cel i plan pracy", "Regularna praca",
+    "Formę i częstotliwość spotkań ustalamy indywidualnie podczas konsultacji",
+    "Omawiamy również Twoje oczekiwania i trudności, z którymi chcesz pracować.",
+    "Uzgadniamy formę i częstotliwość spotkań, tak aby plan pracy odpowiadał Twojej sytuacji.",
+    "Przyglądamy się bieżącym trudnościom i temu, jak podejmowana praca odnosi się do wspólnie ustalonego celu.",
+    "Można rozpocząć ją niezależnie od tego, czy osoba uzależniona korzysta z terapii.",
+  ]) assert(text.includes(content), `Uzależnienia: brak lub niezgodna informacja: ${content}`);
+  const visibleFaq = [...html.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)].map((m) => ({
+    question: htmlText(m[1].match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i)?.[1] || ""),
+    answer: htmlText(m[1].match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || ""),
+  }));
+  assert.deepEqual(visibleFaq.map((item) => item.question), [
+    "Ile kosztuje terapia od uzależnień?", "Na czym polega psychoterapia uzależnień?",
+    "Czy na konsultację może zgłosić się bliska osoba osoby uzależnionej?",
+    "Czy przed pierwszą wizytą trzeba mieć postawione rozpoznanie?",
+    "Czy psychoterapia uzależnień może odbywać się online?", "Jak długo trwa sesja?",
+  ], "Uzależnienia: wymagane dwa nowe i cztery istniejące FAQ");
+  assert.equal(visibleFaq[0].answer, `Indywidualna sesja psychoterapii uzależnień kosztuje ${facts.price} i trwa ${facts.duration}. Aby ustalić termin spotkania w Rzeszowie lub online, skontaktuj się z gabinetem.`);
+  assert.equal(visibleFaq[1].answer, "Psychoterapia uzależnień polega na lepszym rozumieniu mechanizmów problemu, własnych emocji i sposobów reagowania oraz pracy nad zmianą codziennego funkcjonowania. Pierwsze konsultacje służą omówieniu sytuacji, potrzeb i celu spotkań. Sposób pracy dopasowuję indywidualnie do osoby i jej sytuacji.");
+  assert.equal(visibleFaq[5].answer, `Sesja trwa ${facts.duration}. Częstotliwość i przewidywany sposób pracy ustalamy indywidualnie po pierwszych konsultacjach.`);
+  const faqNodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; })
+    .filter((node) => node["@type"] === "FAQPage");
+  assert.equal(faqNodes.length, 1, "Uzależnienia: wymagany jeden FAQPage");
+  assert.deepEqual(faqNodes[0].mainEntity.map((item) => ({
+    question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text),
+  })), visibleFaq, "Uzależnienia: FAQ w HTML i JSON-LD różni się");
+  const sections = [...body.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((m) => m[1]);
+  for (const link of [
+    { heading: "Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji", anchor: "Sprawdź dojazd do gabinetu", route: "/lokalizacja/", context: "Spotkania mogą odbywać się w gabinecie przy ul." },
+    { heading: "Pomoc dla osoby uzależnionej i dla bliskich", anchor: "psychoterapia dorosłych", route: "/oferta-terapeutyczna/", context: "Jeśli chcesz poznać szerszy opis pracy nad emocjami, relacjami i powtarzającymi się trudnościami" },
+  ]) {
+    const section = sections.find((value) => htmlText(value).includes(link.heading));
+    assert(section, `Uzależnienia: brak sekcji ${link.heading}`);
+    const paragraph = [...section.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+      .map((m) => m[1]).find((value) => htmlText(value).includes(link.context));
+    assert(paragraph, `Uzależnienia: brak kontekstu linku ${link.route}`);
+    const anchor = [...paragraph.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+      .find((m) => htmlText(m[2]) === link.anchor);
+    assert.equal(anchor?.[1].match(/\bhref="([^"]+)"/i)?.[1], link.route, `Uzależnienia: nieprawidłowy link ${link.anchor}`);
+    assert(!/\btarget\s*=|\brel=["'][^"']*\bnofollow\b/i.test(anchor[1]));
+  }
+  for (const route of ["/lokalizacja/", "/oferta-terapeutyczna/", "/o-mnie/", supportPath, "/skontaktuj-sie/"]) {
+    assert(body.includes(`href="${route}"`), `Uzależnienia: brak linku w treści do ${route}`);
+  }
+}
+
 async function main() {
   const commit = process.argv[2];
   assert(/^[a-f0-9]{40}$/.test(commit || ""), "Podaj pełny SHA zatwierdzonego wydania");
@@ -341,6 +400,7 @@ async function main() {
   }
   verifyInternalLinks(pages);
   verifyTherapyPage(pages["/oferta-terapeutyczna/"], facts);
+  verifyAddictionPage(pages["/psychoterapia-uzaleznien-rzeszow/"], facts);
   verifyLocationPage(pages["/lokalizacja/"], facts);
   if (!pages["/skontaktuj-sie/"]) pages["/skontaktuj-sie/"] = await read(`${domain}/skontaktuj-sie/?verify=${commit}`);
   assert(pages["/skontaktuj-sie/"].includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
@@ -363,6 +423,7 @@ async function main() {
   console.log(`APLIKACJA: OK ${domain} — SHA, title, H1, treści i alt potwierdzone`);
   console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
   console.log("OFERTA TERAPEUTYCZNA: OK — opis Google, zakres, proces, cennik CMS, 7 zgodnych FAQ/JSON-LD, obrazy i linki");
+  console.log("PSYCHOTERAPIA UZALEŻNIEŃ: OK — treści, kwalifikacje, adres, cennik CMS, 6 zgodnych FAQ/JSON-LD i 5 celów linkowania w treści");
   console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
@@ -371,7 +432,7 @@ async function main() {
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage };
 
 if (require.main === module) {
   main().catch((error) => {
