@@ -114,6 +114,7 @@ module.exports = {
         ],
       },
     },
+    "./plugins/psychologica-sitemap",
     {
       resolve: "gatsby-source-filesystem",
       options: {

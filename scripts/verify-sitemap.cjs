@@ -112,5 +112,5 @@ async function local() {
   console.log(`SITEMAP: OK — ${rows.length} kanonicznych stron, lastmod, sitemap.xml, zgodny stary adres i robots.txt`);
 }
 
-module.exports = { entries, verifyPage, verifySitemap, finalize };
+module.exports = { entries, verifyPage, verifySitemap, finalize, local };
 if (require.main === module) local().catch((error) => { console.error(error.message); process.exitCode = 1; });
