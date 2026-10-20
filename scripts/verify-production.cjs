@@ -41,10 +41,12 @@ const internalLinks = [
 
 async function read(url, format) {
   const response = await fetch(url, {
+    redirect: "error",
     headers: { Accept: format === "json" ? "application/json" : "text/html", "Cache-Control": "no-cache" },
     signal: AbortSignal.timeout(30000),
   });
   assert(response.ok, `Odczyt produkcji nie powiódł się: ${response.status}`);
+  assert(!/noindex/i.test(response.headers.get("x-robots-tag") || ""), `Adres produkcyjny ma noindex: ${url}`);
   return format === "json" ? response.json() : response.text();
 }
 
