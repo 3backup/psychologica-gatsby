@@ -104,6 +104,13 @@ const PsychoterapiaUzaleznienPage = () => {
         "Pierwsze konsultacje służą nazwaniu problemu, rozpoznaniu potrzeb i ustaleniu realnego celu pracy. Tempo oraz metody dobieram do sytuacji konkretnej osoby.",
         "Psychoterapia uzależnień obejmuje pracę nad rozumieniem mechanizmów problemu, emocji i sposobów reagowania. Podczas spotkań przyglądamy się aktualnym trudnościom i zasobom oraz określamy cel pracy dopasowany do Twojej sytuacji.",
         {
+          id: "alcohol-support",
+          content: <>
+            Jeśli niepokoi Cię własne picie lub picie bliskiej osoby, poznaj, jak wygląda{" "}
+            <TextLink to="/psycholog-od-uzaleznien-alkoholowych-rzeszow/">pomoc przy problemie alkoholowym w Rzeszowie</TextLink>.
+          </>,
+        },
+        {
           id: "office-location",
           content: <>
             Spotkania mogą odbywać się w gabinecie przy ul. {address.streetAddress}, {address.postalCode} {address.addressLocality} albo online.{" "}
