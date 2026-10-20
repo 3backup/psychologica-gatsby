@@ -1,10 +1,10 @@
 import React from "react";
 import { styled } from "linaria/react";
-import Container from "./styles/Container";
 import TextLink from "./styles/TextLink";
 
 const Section = styled.section`
-  padding: 5rem 0;
+  padding: 2.5rem 0;
+  border-top: 1px solid #dbe4e2;
   color: #3e7672;
   font-family: Manrope, sans-serif;
   font-size: 1.0625rem;
@@ -15,7 +15,7 @@ const Section = styled.section`
     margin: 0 0 1.5rem;
     color: #1f1f1f;
     font-family: "Red Hat Display", sans-serif;
-    font-size: 2.625rem;
+    font-size: 2.25rem;
     font-weight: 400;
     line-height: 1.2;
   }
@@ -31,17 +31,17 @@ const Section = styled.section`
   p { max-width: 68ch; margin: 0 0 1.25rem; }
 
   @media (max-width: 578px) {
-    padding: 3.5rem 0;
+    padding: 2rem 0;
     h2 { font-size: 2rem; }
   }
 `;
 
-const SoftSection = styled(Section)`background: #f4f5f7;`;
+const SoftSection = Section;
 
 const Steps = styled.ol`
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 2rem;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.5rem;
   padding: 0;
   list-style: none;
   counter-reset: education-step;
@@ -85,7 +85,7 @@ const ContactLink = styled(TextLink)`
 const EducationDetails = () => (
   <>
     <Section>
-      <Container>
+      <div>
         <h2>Dla kogo jest oferta edukacyjna?</h2>
         <p>
           Specjalistyczne szkolenia kieruję do osób zajmujących się psychoterapią
@@ -97,10 +97,10 @@ const EducationDetails = () => (
           zawodowych i społecznych. Jeśli szukasz zajęć dla swojej grupy, opisz
           w zapytaniu, kim są uczestnicy i jakie potrzeby chcecie omówić.
         </p>
-      </Container>
+      </div>
     </Section>
     <SoftSection>
-      <Container>
+      <div>
         <h2>Doświadczenie prowadzącej</h2>
         <p>
           Nazywam się Renata Zuba. Jestem psychologiem klinicznym i absolwentką
@@ -113,10 +113,10 @@ const EducationDetails = () => (
           w pismach dla profesjonalistów.
         </p>
         <TextLink to="/o-mnie/">Poznaj kwalifikacje Renaty Zuby</TextLink>
-      </Container>
+      </div>
     </SoftSection>
     <Section>
-      <Container>
+      <div>
         <h2>Jak zapytać o współpracę edukacyjną?</h2>
         <Steps>
           <li>
@@ -133,10 +133,10 @@ const EducationDetails = () => (
             <p>Kontakt pozwoli omówić zakres zajęć i możliwości ich organizacji. To również moment na pytania o czas trwania oraz koszt.</p>
           </li>
         </Steps>
-      </Container>
+      </div>
     </Section>
     <SoftSection>
-      <Container>
+      <div>
         <h2>Czas, koszt i organizacja zajęć</h2>
         <p>
           Aby uzyskać informacje o czasie trwania, kosztach i organizacji zajęć,
@@ -144,7 +144,7 @@ const EducationDetails = () => (
           i interesującą Cię formę współpracy.
         </p>
         <ContactLink to="/skontaktuj-sie/">Zapytaj o współpracę edukacyjną</ContactLink>
-      </Container>
+      </div>
     </SoftSection>
   </>
 );

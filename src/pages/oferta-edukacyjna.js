@@ -1,7 +1,6 @@
 import * as React from "react";
 import Layout from "../components/Layout";
 import Footer from "../components/Footer";
-import EducationDetails from "../components/EducationDetails";
 import TextLink from "../components/styles/TextLink";
 import { graphql } from "gatsby";
 
@@ -36,7 +35,6 @@ const oferta = ({ data }) => {
             subheaderText={data.datoCmsOfertaEdukacyjna.edukacyjnaTytuTopCopy1}
           />
           <OfferEdukacja />
-          <EducationDetails />
           <Testimonial
             quote={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytat}
             author={data.datoCmsOfertaEdukacyjna.ofertaEdukacyjnaCytatAutor}

@@ -2,53 +2,77 @@ import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
-import Whatisimportant from "../images/whatisimportant-bg.svg";
+import EducationDetails from "./EducationDetails";
 import { StaticQuery, graphql } from "gatsby";
 
-const PsychoterapiaSection = styled.section`
-  position: relative;
-  padding: 7rem 0;
+const EducationSection = styled.div`
+  padding: 4rem 0;
   background: #f4f5f7;
-`;
-const PsychoterapiaContainer = styled(Container)`
-  display: flex;
-  flex-direction: row;
-  position: relative;
-  @media (max-width: 768px) {
-    flex-direction: column;
-  }
-`;
 
-const LeftContent = styled.div`
-  width: 43.75%;
-  margin-top: -9rem;
-  @media (max-width: 1024px) {
-    width: 33%;
-    margin: 0;
-    position: sticky;
-  }
-  @media (max-width: 768px) {
-    width: 80%;
-    margin: 0 auto;
-    aspect-ratio: 1.1;
-    overflow: hidden;
+  @media (max-width: 900px) { padding: 2.5rem 0; }
+`;
+const EducationContainer = styled(Container)`
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: clamp(3rem, 5vw, 5rem);
+  align-items: start;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
   }
 `;
-const RightContent = styled.div`
+const EducationContent = styled.div`
+  min-width: 0;
+  @media (max-width: 900px) { order: 2; }
+`;
+const Introduction = styled.section`
+  padding-bottom: 2.5rem;
+`;
+const StickyPhoto = styled.figure`
+  position: sticky;
+  top: 8rem;
+  align-self: start;
+  justify-self: end;
   box-sizing: border-box;
-  padding: 0 6.25% 0 2rem;
-  width: 56.25%;
-  @media (max-width: 1024px) {
-    width: 66%;
-    margin: 0;
-    position: sticky;
+  width: 100%;
+  max-width: min(28rem, calc(81.65vh - 12.25rem));
+  margin: 0;
+  padding: 0.75rem;
+  border: 1px solid #e0e7e4;
+  border-radius: 1.5rem;
+  background: #fff;
+  box-shadow: 0 12px 32px rgba(0, 54, 50, 0.06);
+
+  .gatsby-image-wrapper {
+    display: block;
+    border-radius: 1rem;
   }
-  @media (max-width: 768px) {
-    padding: 0;
-    width: 100%;
+
+  figcaption {
+    padding: 1rem 0.5rem 0.25rem;
+    color: #1f1f1f;
+    font-family: "Red Hat Display", sans-serif;
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  figcaption span {
+    display: block;
+    color: #3e7672;
+    font-family: Manrope, sans-serif;
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 900px) {
+    position: static;
+    order: 1;
+    justify-self: center;
+    max-width: 24rem;
   }
 `;
 const HeaderPsychoterapia = styled.h2`
+  margin: 0 0 1.5rem;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -80,12 +104,6 @@ const ParagraphPsychoterapia = styled.p`
   color: #3e7672;
   opacity: 0.9;
 `;
-const BgElement = styled(Whatisimportant)`
-  position: absolute;
-  bottom: 0;
-  right: 0;
-`;
-
 export const OfferEdukacja = () => {
   return (
     <StaticQuery
@@ -98,36 +116,42 @@ export const OfferEdukacja = () => {
         }
       `}
       render={(data) => (
-        <PsychoterapiaSection>
-          <PsychoterapiaContainer>
-            <RightContent>
-              <HeaderPsychoterapia>
-                Szkolenia, warsztaty i webinaria
-              </HeaderPsychoterapia>
-              <LeadPsychoterapia>
-                {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisWiKszy}
-              </LeadPsychoterapia>
-              <ParagraphPsychoterapia>
-                {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisMniejszy}
-              </ParagraphPsychoterapia>
-            </RightContent>
-            <LeftContent>
+        <EducationSection data-education-layout="">
+          <EducationContainer>
+            <EducationContent>
+              <Introduction>
+                <HeaderPsychoterapia>
+                  Szkolenia, warsztaty i webinaria
+                </HeaderPsychoterapia>
+                <LeadPsychoterapia>
+                  {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisWiKszy}
+                </LeadPsychoterapia>
+                <ParagraphPsychoterapia>
+                  {data.datoCmsOfertaEdukacyjna.edukacyjnaSzaraSekcjaOpisMniejszy}
+                </ParagraphPsychoterapia>
+              </Introduction>
+              <EducationDetails />
+            </EducationContent>
+            <StickyPhoto data-education-photo="">
               <StaticImage
                 src="../images/edukacja-zdjecie.jpg"
                 alt="Renata Zuba podczas wystąpienia z prezentacją"
                 layout="constrained"
                 width={525}
                 height={643}
-                sizes="(max-width: 768px) 80vw, (max-width: 1230px) 34vw, 525px"
+                sizes="(max-width: 900px) min(100vw - 72px, 360px), min(38vw, 424px)"
                 quality={80}
                 formats={["auto", "avif", "webp"]}
                 loading="eager"
                 placeholder="blurred"
               />
-            </LeftContent>
-          </PsychoterapiaContainer>
-          <BgElement aria-hidden="true" focusable="false" />
-        </PsychoterapiaSection>
+              <figcaption>
+                Renata Zuba
+                <span>Psycholog kliniczny · wykładowca</span>
+              </figcaption>
+            </StickyPhoto>
+          </EducationContainer>
+        </EducationSection>
       )}
     />
   );
