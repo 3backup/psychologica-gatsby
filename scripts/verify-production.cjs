@@ -18,6 +18,111 @@ async function read(url, format) {
   return format === "json" ? response.json() : response.text();
 }
 
+const normalizeText = (value) => value.replace(/\s+/g, " ").trim();
+
+function htmlText(value) {
+  const entities = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
+  return normalizeText(value
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/&(#x[\da-f]+|#\d+|amp|lt|gt|quot|apos|nbsp);/gi, (match, entity) => {
+      if (entity[0] !== "#") return entities[entity.toLowerCase()];
+      const hex = entity[1].toLowerCase() === "x";
+      return String.fromCodePoint(parseInt(entity.slice(hex ? 2 : 1), hex ? 16 : 10));
+    }));
+}
+
+async function readSupportFacts() {
+  const config = require(path.join(root, "gatsby-config.js"));
+  const source = config.plugins.find((plugin) => plugin.resolve === "gatsby-source-datocms");
+  const response = await fetch("https://graphql.datocms.com/", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${source.options.apiToken}`,
+      "X-Environment": "main",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      query: "query SupportReleaseVerification { offerprice { offerprice offerpricePrice } howitlookslike { processTime } }",
+    }),
+    signal: AbortSignal.timeout(30000),
+  });
+  assert(response.ok, `Nie można odczytać opublikowanego cennika CMS (${response.status})`);
+  const result = await response.json();
+  assert(!result.errors, "CMS nie potwierdził opublikowanego cennika i czasu sesji");
+  const price = result.data?.offerprice?.offerpricePrice;
+  const priceLabel = result.data?.offerprice?.offerprice;
+  const processTime = result.data?.howitlookslike?.processTime;
+  const address = config.siteMetadata?.businessAddress;
+  assert([price, priceLabel, processTime, address?.streetAddress, address?.postalCode, address?.addressLocality]
+    .every((value) => typeof value === "string" && value.trim()), "Niepełne dane cennika, czasu sesji lub adresu");
+  return {
+    price: normalizeText(price),
+    priceLabel: normalizeText(priceLabel),
+    duration: normalizeText(processTime.replace(/^Czas sesji:\s*/i, "")),
+    address,
+  };
+}
+
+function verifySupportPage(html, facts) {
+  const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1];
+  assert.equal(title, "Pomoc psychologiczna Rzeszów | Renata Zuba", "Pomoc psychologiczna: nieprawidłowy title");
+  const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((match) => htmlText(match[1]));
+  assert.deepEqual(headings, ["Pomoc psychologiczna dla dorosłych w Rzeszowie"], "Pomoc psychologiczna: nieprawidłowy H1");
+
+  const areaStart = html.indexOf("W jakich sytuacjach warto zgłosić się po pomoc?");
+  assert(areaStart >= 0, "Brak zakresu pomocy");
+  const areaSection = html.slice(areaStart, html.indexOf("</section>", areaStart));
+  const areas = [...areaSection.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi)].map((match) => htmlText(match[1]));
+  assert.deepEqual(areas, [
+    "Kryzys i trudna zmiana", "Lęk i napięcie", "Przewlekły stres", "Trudne emocje",
+    "Niska samoocena", "Strata i żałoba", "Obniżony nastrój", "Trudności w relacjach", "Problemy ze snem",
+  ], "Zakres pomocy musi zawierać dziewięć zatwierdzonych obszarów");
+
+  const visibleFaq = [...html.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)].map((match) => {
+    const question = match[1].match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i);
+    const answer = match[1].match(/<p\b[^>]*>([\s\S]*?)<\/p>/i);
+    assert(question && answer, "Niepełne pytanie lub odpowiedź FAQ");
+    return { question: htmlText(question[1]), answer: htmlText(answer[1]) };
+  });
+  assert.deepEqual(visibleFaq.map((item) => item.question), [
+    "W czym psycholog pomaga?", "Ile kosztuje pomoc psychologiczna?",
+    "Czy pierwsze spotkanie zobowiązuje do rozpoczęcia psychoterapii?",
+    "Czym pomoc psychologiczna różni się od psychoterapii?", "Czy spotkania mogą odbywać się online?",
+    "Jak długo trwa konsultacja psychologiczna?",
+  ], "FAQ musi zawierać sześć pytań w zatwierdzonej kolejności");
+  assert.equal(visibleFaq[0].answer, "Psycholog pomaga lepiej zrozumieć aktualną sytuację, emocje i trudności oraz znaleźć sposoby radzenia sobie z nimi. W Psychologica pracuję z osobami dorosłymi doświadczającymi między innymi kryzysu, lęku, stresu, obniżonego nastroju, niskiej samooceny i trudności w relacjach. Cele i formę pomocy ustalamy podczas konsultacji.");
+  assert.equal(visibleFaq[1].answer, `Spotkanie kosztuje ${facts.price} i trwa ${facts.duration}. Aby ustalić termin konsultacji w Rzeszowie lub online, skontaktuj się z gabinetem.`, "Cena lub czas w FAQ nie odpowiadają opublikowanym danym CMS");
+  assert.equal(visibleFaq[5].answer, `Jedno spotkanie trwa ${facts.duration}. Liczbę i częstotliwość kolejnych spotkań ustalamy indywidualnie po rozpoznaniu potrzeb i celu pomocy.`, "Czas konsultacji nie odpowiada CMS");
+
+  const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((match) => {
+      const document = JSON.parse(match[1]);
+      return document["@graph"] || [document];
+    });
+  const faqNodes = nodes.filter((node) => node["@type"] === "FAQPage");
+  assert.equal(faqNodes.length, 1, "Wymagany jest jeden obiekt FAQPage");
+  assert(Array.isArray(faqNodes[0].mainEntity), "Brak pytań w FAQPage");
+  const structuredFaq = faqNodes[0].mainEntity.map((item) => {
+    assert.equal(item["@type"], "Question");
+    assert.equal(item.acceptedAnswer?.["@type"], "Answer");
+    return { question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text) };
+  });
+  assert.deepEqual(structuredFaq, visibleFaq, "Widoczne FAQ różni się od danych strukturalnych");
+
+  const body = htmlText(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""));
+  for (const text of [
+    `Sesja ${facts.duration}`, `${facts.priceLabel} ${facts.price}`,
+    `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`,
+    "Jestem psychologiem klinicznym i absolwentką psychologii Uniwersytetu Jagiellońskiego.",
+    "Pracuję z osobami dorosłymi, dopasowując formę pomocy do ich sytuacji i potrzeb.",
+    "Smutek i przygnębienie oraz potrzeba wsparcia w lepszym rozumieniu własnych emocji i sytuacji.",
+    "Problemy w relacjach z innymi, kryzys w związku lub poczucie osamotnienia.",
+    "Wsparcie psychologiczne dla osób doświadczających problemów ze snem.",
+  ]) assert(body.includes(text), `Brak lub niezgodna informacja na podstronie: ${text}`);
+  assert(/<a\b[^>]*\bhref=["']\/o-mnie\/["']/i.test(html), "Brak odnośnika do kwalifikacji");
+}
+
 async function main() {
   const commit = process.argv[2];
   assert(/^[a-f0-9]{40}$/.test(commit || ""), "Podaj pełny SHA zatwierdzonego wydania");
@@ -45,11 +150,19 @@ async function main() {
     assert(html.includes(text), `Brak treści: ${text}`);
   }
   assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "Obraz bez atrybutu alt");
+  const facts = await readSupportFacts();
+  const supportHtml = await read(`${domain}/pomoc-psychologiczna-rzeszow/?verify=${commit}`);
+  verifySupportPage(supportHtml, facts);
   console.log(`APLIKACJA: OK ${domain} — SHA, title, H1, treści i alt potwierdzone`);
+  console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-main().catch((error) => {
-  console.error(`NIEKOMPLETNE/ZABLOKOWANE: ${error.message}`);
-  process.exitCode = 1;
-});
+module.exports = { readSupportFacts, verifySupportPage };
+
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(`NIEKOMPLETNE/ZABLOKOWANE: ${error.message}`);
+    process.exitCode = 1;
+  });
+}
