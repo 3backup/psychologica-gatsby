@@ -96,11 +96,12 @@ const Seo = ({
 
   const address = {
     "@type": "PostalAddress",
-    streetAddress: businessAddress?.streetAddress || "Mikołaja Reja 12/320",
-    addressLocality: businessAddress?.addressLocality || "Rzeszów",
-    postalCode: businessAddress?.postalCode || "35-211",
-    addressCountry: businessAddress?.addressCountry || "PL",
+    ...businessAddress,
   };
+  if (![address.streetAddress, address.addressLocality, address.postalCode, address.addressCountry]
+    .every((value) => typeof value === "string" && value.trim())) {
+    throw new Error("Brak potwierdzonego adresu firmy dla danych strukturalnych");
+  }
 
   const graph = [
     {
@@ -146,7 +147,7 @@ const Seo = ({
       ],
     },
     {
-      "@type": "ProfessionalService",
+      "@type": ["LocalBusiness", "ProfessionalService"],
       "@id": businessId,
       name: "Psychologica - Renata Zuba",
       description: siteDescription,
@@ -157,7 +158,7 @@ const Seo = ({
       email: datoCmsGlobal?.email,
       address,
       areaServed: [
-        { "@type": "City", name: "Rzeszów" },
+        { "@type": "City", name: address.addressLocality },
         { "@type": "Country", name: "Polska" },
       ],
       founder: { "@id": personId },
@@ -192,7 +193,7 @@ const Seo = ({
       provider: { "@id": businessId },
       areaServed: service.areaServed || {
         "@type": "City",
-        name: "Rzeszów",
+        name: address.addressLocality,
       },
       audience: service.audience
         ? { "@type": "Audience", audienceType: service.audience }
@@ -245,6 +246,7 @@ const Seo = ({
     <>
       <Helmet title={metaTitle} meta={meta} htmlAttributes={{ lang: "pl" }}>
         <link rel="canonical" href={canonical} />
+        <link rel="describedby" type="text/plain" href={`${siteUrl}/llms.txt`} />
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
       </Helmet>
       {!noIndex && (

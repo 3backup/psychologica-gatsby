@@ -2,6 +2,7 @@ const assert = require("node:assert/strict");
 const { execFileSync } = require("node:child_process");
 const path = require("node:path");
 const { verifyCms } = require("./cms-release-check.cjs");
+const { sitemapUrls, verifyLocalBusiness, verifyLlms } = require("./verify-discovery.cjs");
 
 const root = path.join(__dirname, "..");
 const repository = "3backup/psychologica-gatsby";
@@ -91,7 +92,7 @@ async function readSupportFacts() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: "query SupportReleaseVerification { offerprice { offerprice offerpricePrice } howitlookslike { processTime } }",
+      query: "query SupportReleaseVerification { offerprice { offerprice offerpricePrice } howitlookslike { processTime } global { email phonenumber adress } }",
     }),
     signal: AbortSignal.timeout(30000),
   });
@@ -102,13 +103,21 @@ async function readSupportFacts() {
   const priceLabel = result.data?.offerprice?.offerprice;
   const processTime = result.data?.howitlookslike?.processTime;
   const address = config.siteMetadata?.businessAddress;
+  const email = result.data?.global?.email;
+  const telephone = result.data?.global?.phonenumber;
   assert([price, priceLabel, processTime, address?.streetAddress, address?.postalCode, address?.addressLocality]
     .every((value) => typeof value === "string" && value.trim()), "Niepełne dane cennika, czasu sesji lub adresu");
+  assert(email && telephone, "Brak danych kontaktowych firmy w CMS");
+  assert.equal(normalizeText(result.data?.global?.adress || ""),
+    `ul. ${address.streetAddress}, ${address.postalCode} ${address.addressLocality}`,
+    "Adres w konfiguracji różni się od opublikowanego adresu CMS");
   return {
     price: normalizeText(price),
     priceLabel: normalizeText(priceLabel),
     duration: normalizeText(processTime.replace(/^Czas sesji:\s*/i, "")),
     address,
+    email,
+    telephone,
   };
 }
 
@@ -206,9 +215,27 @@ async function main() {
     if (!pages[route]) pages[route] = await read(`${domain}${route}?verify=${commit}`);
   }
   verifyInternalLinks(pages);
+  const pageUrls = [];
+  for (const sitemap of sitemapUrls(await read(`${domain}/sitemap-index.xml?verify=${commit}`))) {
+    pageUrls.push(...sitemapUrls(await read(`${sitemap}?verify=${commit}`)));
+  }
+  assert(pageUrls.length >= 9, "Brak oczekiwanych podstron w mapie witryny");
+  for (const url of pageUrls) {
+    const route = new URL(url).pathname;
+    if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
+    verifyLocalBusiness(pages[route], facts);
+  }
+  const llmsResponse = await fetch(`${domain}/llms.txt?verify=${commit}`, { signal: AbortSignal.timeout(30000) });
+  assert.equal(llmsResponse.status, 200, "llms.txt musi być dostępny bez przekierowania i błędu");
+  assert.equal(new URL(llmsResponse.url).pathname, "/llms.txt");
+  assert(/text\/plain.*charset=utf-8/i.test(llmsResponse.headers.get("content-type") || ""), "llms.txt musi być tekstem UTF-8");
+  const llmsLinks = verifyLlms(await llmsResponse.text(), pageUrls);
+  for (const url of llmsLinks.filter((url) => !pageUrls.includes(url))) await read(url);
   console.log(`APLIKACJA: OK ${domain} — SHA, title, H1, treści i alt potwierdzone`);
   console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
   console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
+  console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
+  console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 

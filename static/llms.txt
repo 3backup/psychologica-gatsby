@@ -1,0 +1,19 @@
+# Psychologica – Renata Zuba
+
+> Psychologica to gabinet psychologiczny i psychoterapeutyczny Renaty Zuby, psychologa klinicznego i psychoterapeuty. Oferta obejmuje pomoc psychologiczną i psychoterapię osób dorosłych, w tym psychoterapię uzależnień i wsparcie bliskich osób uzależnionych. Spotkania odbywają się w Rzeszowie lub zdalnie; oferta obejmuje także szkolenia i superwizję psychoterapii uzależnień.
+
+## Oferta i informacje o gabinecie
+
+- [Strona główna](https://www.psychologica.pl/): Przedstawia gabinet, zakres pomocy, odbiorców oferty i sposób rozpoczęcia współpracy.
+- [Psychoterapia dorosłych](https://www.psychologica.pl/oferta-terapeutyczna/): Opisuje ofertę psychoterapii i pomocy psychologicznej dla osób dorosłych.
+- [Pomoc psychologiczna](https://www.psychologica.pl/pomoc-psychologiczna-rzeszow/): Wyjaśnia zakres wsparcia, przebieg konsultacji, cenę i czas sesji oraz odpowiada na najczęstsze pytania.
+- [Psychoterapia uzależnień](https://www.psychologica.pl/psychoterapia-uzaleznien-rzeszow/): Przedstawia pomoc dla osób dorosłych z problemem uzależnienia oraz ich bliskich.
+- [O Renacie Zubie](https://www.psychologica.pl/o-mnie/): Opisuje wykształcenie, doświadczenie i kwalifikacje prowadzącej gabinet.
+- [Lokalizacja gabinetu](https://www.psychologica.pl/lokalizacja/): Podaje adres gabinetu przy ul. Mikołaja Reja 12/320, 35-211 Rzeszów oraz informacje o dojeździe i spotkaniach zdalnych.
+- [Kontakt](https://www.psychologica.pl/skontaktuj-sie/): Udostępnia dane kontaktowe i formularz do ustalenia konsultacji.
+- [Oferta edukacyjna](https://www.psychologica.pl/oferta-edukacyjna/): Przedstawia szkolenia, warsztaty i psychoedukację prowadzone przez Renatę Zubę.
+- [Superwizja](https://www.psychologica.pl/superwizja/): Opisuje superwizję indywidualną i grupową dla specjalistów psychoterapii uzależnień.
+
+## Optional
+
+- [Strona główna w Markdown](https://www.psychologica.pl/index.md): Zawiera tekstowy opis oferty i współpracy oraz cenę i czas sesji pobierane z CMS podczas publikacji strony.
