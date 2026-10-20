@@ -104,6 +104,7 @@ module.exports = {
     {
       resolve: "gatsby-plugin-sitemap",
       options: {
+        ...require("./scripts/sitemap-lastmod.cjs").options,
         excludes: [
           "/404/",
           "/404.html",

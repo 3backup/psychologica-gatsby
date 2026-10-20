@@ -13,7 +13,7 @@
   "scripts": {
     "develop": "gatsby develop",
     "start": "gatsby develop",
-    "build": "rm -rf .cache public 2>/dev/null; gatsby build",
+    "build": "rm -rf .cache public 2>/dev/null; gatsby build && node scripts/verify-sitemap.cjs",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "analyze": "ANALYZE_BUNDLE=true gatsby build"

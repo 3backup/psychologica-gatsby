@@ -3,6 +3,7 @@ const { execFileSync } = require("node:child_process");
 const path = require("node:path");
 const { verifyCms } = require("./cms-release-check.cjs");
 const { sitemapUrls, verifyLocalBusiness, verifyLlms } = require("./verify-discovery.cjs");
+const { verifySitemap } = require("./verify-sitemap.cjs");
 const locationMap = require("../src/config/location-map.cjs");
 
 const root = path.join(__dirname, "..");
@@ -46,10 +47,14 @@ const internalLinks = [
 
 async function read(url, format) {
   const response = await fetch(url, {
+    redirect: "error",
     headers: { Accept: format === "json" ? "application/json" : "text/html", "Cache-Control": "no-cache" },
     signal: AbortSignal.timeout(30000),
   });
   assert(response.ok, `Odczyt produkcji nie powiódł się: ${response.status}`);
+  if (/text\/html/i.test(response.headers.get("content-type") || "")) {
+    assert(!/noindex/i.test(response.headers.get("x-robots-tag") || ""), `Strona produkcyjna ma noindex: ${url}`);
+  }
   return format === "json" ? response.json() : response.text();
 }
 
@@ -690,6 +695,8 @@ async function main() {
     if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
     verifyLocalBusiness(pages[route], facts);
   }
+  const sitemap = await verifySitemap(read, pages);
+  console.log(`SITEMAP: OK — ${sitemap.length} stron, lastmod, canonical, indeks i robots.txt`);
   verifySupervisionPage(pages["/superwizja/"], facts);
   verifyEducationPage(pages["/oferta-edukacyjna/"]);
   verifyAboutPage(pages["/o-mnie/"], facts);
