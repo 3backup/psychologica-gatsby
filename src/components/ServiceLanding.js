@@ -16,6 +16,37 @@ const HeroContent = styled(Container)`
   max-width: 1050px;
 `;
 
+const HeroColumns = styled.div`
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 3rem;
+  align-items: center;
+
+  @media (max-width: 900px) {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+  }
+`;
+
+const HeroPhoto = styled.div`
+  min-width: 0;
+  width: 100%;
+  max-width: 30rem;
+  justify-self: center;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: #e3e9e5;
+
+  .gatsby-image-wrapper {
+    display: block;
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    max-width: 24rem;
+  }
+`;
+
 const Breadcrumbs = styled.nav`
   margin-bottom: 2rem;
   color: #3e7672;
@@ -340,6 +371,7 @@ const ServiceLanding = ({
   eyebrow,
   title,
   lead,
+  heroImage,
   facts,
   introTitle,
   introParagraphs,
@@ -355,7 +387,25 @@ const ServiceLanding = ({
   faq,
   closingTitle,
   closingText,
-}) => (
+}) => {
+  const heroCopy = (
+    <>
+      <Eyebrow>{eyebrow}</Eyebrow>
+      <HeroTitle>{title}</HeroTitle>
+      <HeroLead>{lead}</HeroLead>
+      <Actions>
+        <PrimaryAction to="/skontaktuj-sie/">Umów pierwszą rozmowę</PrimaryAction>
+        <SecondaryAction to="/o-mnie/">Poznaj moje kwalifikacje</SecondaryAction>
+      </Actions>
+      <Facts>
+        {facts.map((fact) => (
+          <li key={fact}>{fact}</li>
+        ))}
+      </Facts>
+    </>
+  );
+
+  return (
   <Layout visableHeader {...seo}>
     <main>
       <Hero>
@@ -367,18 +417,12 @@ const ServiceLanding = ({
             <span aria-hidden="true">/</span>
             {eyebrow}
           </Breadcrumbs>
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <HeroTitle>{title}</HeroTitle>
-          <HeroLead>{lead}</HeroLead>
-          <Actions>
-            <PrimaryAction to="/skontaktuj-sie/">Umów pierwszą rozmowę</PrimaryAction>
-            <SecondaryAction to="/o-mnie/">Poznaj moje kwalifikacje</SecondaryAction>
-          </Actions>
-          <Facts>
-            {facts.map((fact) => (
-              <li key={fact}>{fact}</li>
-            ))}
-          </Facts>
+          {heroImage ? (
+            <HeroColumns>
+              <div>{heroCopy}</div>
+              <HeroPhoto>{heroImage}</HeroPhoto>
+            </HeroColumns>
+          ) : heroCopy}
         </HeroContent>
       </Hero>
 
@@ -458,6 +502,7 @@ const ServiceLanding = ({
     </main>
     <Footer />
   </Layout>
-);
+  );
+};
 
 export default ServiceLanding;

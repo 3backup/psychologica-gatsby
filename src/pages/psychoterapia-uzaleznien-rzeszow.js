@@ -1,5 +1,6 @@
 import * as React from "react";
 import { graphql, useStaticQuery } from "gatsby";
+import { StaticImage } from "gatsby-plugin-image";
 import ServiceLanding from "../components/ServiceLanding";
 import TextLink from "../components/styles/TextLink";
 
@@ -83,6 +84,19 @@ const PsychoterapiaUzaleznienPage = () => {
       eyebrow="Psychoterapia uzależnień"
       title="Psychoterapia uzależnień w Rzeszowie"
       lead="Profesjonalna pomoc dla osób dorosłych zmagających się z uzależnieniem oraz dla bliskich, którzy doświadczają jego konsekwencji w rodzinie lub związku."
+      heroImage={
+        <StaticImage
+          src="../images/TopAbout.jpg"
+          alt="Renata Zuba – psycholog kliniczny i specjalista psychoterapii uzależnień"
+          layout="constrained"
+          width={480}
+          height={600}
+          quality={85}
+          placeholder="blurred"
+          loading="eager"
+          formats={["auto", "avif", "webp"]}
+        />
+      }
       facts={["Certyfikat specjalisty nr 123", "Gabinet w Rzeszowie", "Spotkania online", `Sesja ${duration}`, `Koszt ${price}`]}
       introTitle="Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji"
       introParagraphs={[
