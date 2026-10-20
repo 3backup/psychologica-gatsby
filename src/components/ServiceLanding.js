@@ -48,19 +48,33 @@ const HeroPhoto = styled.div`
 `;
 
 const Breadcrumbs = styled.nav`
-  margin-bottom: 2rem;
-  color: #3e7672;
+  margin-bottom: 2.75rem;
+  color: #63736f;
   font-family: Manrope, sans-serif;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
+  line-height: 1.6;
 
   a {
-    color: #005650;
+    color: inherit;
     text-decoration: none;
+
+    &:hover {
+      color: #005650;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
+
+    &:focus-visible {
+      outline: 2px solid #18724d;
+      outline-offset: 4px;
+      border-radius: 2px;
+    }
   }
 
   span[aria-hidden="true"] {
     margin: 0 0.5rem;
-    color: #87a5a0;
+    color: #8c9e97;
+    font-size: 0.875rem;
   }
 `;
 
@@ -414,7 +428,7 @@ const ServiceLanding = ({
           <Breadcrumbs aria-label="Okruszki nawigacyjne">
             {seo.breadcrumbs.map((item, index) => (
               <React.Fragment key={item.path}>
-                {index > 0 && <span aria-hidden="true">/</span>}
+                {index > 0 && <span aria-hidden="true">›</span>}
                 {index === seo.breadcrumbs.length - 1
                   ? <span aria-current="page">{item.name}</span>
                   : <Link to={item.path}>{item.name}</Link>}
