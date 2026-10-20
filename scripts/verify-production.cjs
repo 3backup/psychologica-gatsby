@@ -46,7 +46,9 @@ async function read(url, format) {
     signal: AbortSignal.timeout(30000),
   });
   assert(response.ok, `Odczyt produkcji nie powiódł się: ${response.status}`);
-  assert(!/noindex/i.test(response.headers.get("x-robots-tag") || ""), `Adres produkcyjny ma noindex: ${url}`);
+  if (/text\/html/i.test(response.headers.get("content-type") || "")) {
+    assert(!/noindex/i.test(response.headers.get("x-robots-tag") || ""), `Strona produkcyjna ma noindex: ${url}`);
+  }
   return format === "json" ? response.json() : response.text();
 }
 

@@ -20,6 +20,7 @@ function entries(xml, kind) {
     assert(!new URL(url).search && !new URL(url).hash, "Adres mapy z parametrami lub fragmentem");
     const lastmod = dates[0][1];
     assert(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(lastmod) && Number.isFinite(Date.parse(lastmod)), "Nieprawidłowy lastmod");
+    assert.equal(new Date(lastmod).toISOString(), lastmod, "Nieistniejąca data lastmod");
     assert(Date.parse(lastmod) <= Date.now(), "lastmod w przyszłości");
     if (kind !== "index") {
       assert(new URL(url).pathname.endsWith("/"), "Brak kanonicznego ukośnika");

@@ -2,7 +2,7 @@ const { test } = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
-const { dependencies, lastmod } = require("./sitemap-lastmod.cjs");
+const { dependencies, lastmod, prepareMetadata } = require("./sitemap-lastmod.cjs");
 const { entries, verifyPage } = require("./verify-sitemap.cjs");
 
 const component = path.join(__dirname, "../src/pages/oferta-edukacyjna.js");
@@ -31,6 +31,23 @@ test("linked CMS records contribute their publication date", () => {
   parent.references.push("linked-test-record");
   data.push({ id: "linked-test-record", type: "DatoCmsTest", publishedAt: newer, references: [] });
   assert.equal(lastmod(component, data), newer);
+});
+
+test("saving a draft does not replace the public publication timestamp", () => {
+  const filename = path.join(__dirname, "../.cache/sitemap-metadata.json");
+  const original = fs.readFileSync(filename);
+  try {
+    prepareMetadata([{ internal: { type: "DatoCmsGlobal" }, entityPayload: {
+      id: "fixture", type: "item", attributes: { text: "not retained" },
+      meta: { published_at: "2026-01-01T00:00:00.000Z", updated_at: newer },
+    } }]);
+    const metadata = JSON.parse(fs.readFileSync(filename, "utf8"));
+    assert.equal(metadata[0].publishedAt, "2026-01-01T00:00:00.000Z");
+    assert(!JSON.stringify(metadata).includes("not retained"));
+    assert(!JSON.stringify(metadata).includes(newer));
+  } finally {
+    fs.writeFileSync(filename, original);
+  }
 });
 
 test("future CMS timestamps block generation", () => {
