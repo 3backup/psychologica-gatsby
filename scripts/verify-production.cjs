@@ -18,7 +18,7 @@ const internalLinks = [
   { source: "/o-mnie/", section: "Psycholog kliniczny Rzeszów", destination: supportPath,
     anchor: "pomoc psychologiczna dla dorosłych",
     paragraph: "Sprawdź, jak wygląda oferowana przeze mnie pomoc psychologiczna dla dorosłych." },
-  { source: "/lokalizacja/", section: "Gabinet psychologiczny Mikołaja Reja", destination: supportPath,
+  { source: "/lokalizacja/", section: "Gabinet psychologiczny przy ul. Mikołaja Reja", destination: supportPath,
     anchor: "pomoc psychologiczną dla dorosłych",
     paragraph: "W tym gabinecie prowadzę pomoc psychologiczną dla dorosłych." },
   { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Pomoc dla osoby uzależnionej i dla bliskich", destination: supportPath,
@@ -121,6 +121,46 @@ async function readSupportFacts() {
   };
 }
 
+function verifyLocationPage(html, facts) {
+  const street = facts.address.streetAddress;
+  const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1];
+  assert.equal(htmlText(title || ""), `Gabinet psychologiczny ${street.split("/")[0]}, ${facts.address.addressLocality} | Psychologica`);
+  const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((match) => htmlText(match[1]));
+  assert.deepEqual(headings, [`Gabinet psychologiczny przy ul. ${street} w Rzeszowie`]);
+  const description = html.match(/<meta\b(?=[^>]*\bname="description")[^>]*>/i)?.[0]
+    .match(/\bcontent="([^"]*)"/i)?.[1];
+  assert.equal(htmlText(description || ""), `Gabinet psychologiczny przy ul. ${street} w Rzeszowie. Sprawdź adres, dojazd komunikacją miejską i samochodem oraz możliwości spotkań online.`);
+  const hero = html.match(/<section\b(?=[^>]*\bid="hero")[^>]*>([\s\S]*?)<\/section>/i)?.[1];
+  assert(hero, "Brak sekcji wprowadzającej lokalizacji");
+  const introduction = hero.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1];
+  assert(htmlText(introduction || "").startsWith(`Gabinet psychologiczny znajduje się przy ul. ${street} w Rzeszowie.`));
+  const sectionHeadings = [...html.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((match) => htmlText(match[1]));
+  for (const heading of ["Jak wyglądają spotkania w gabinecie i online?", "Dla kogo jest ta forma spotkań?", "Co warto sprawdzić przed kontaktem?"]) {
+    assert.equal(sectionHeadings.filter((value) => value === heading).length, 1, `Brak lub powtórzony śródtytuł: ${heading}`);
+  }
+  const text = htmlText(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ""));
+  for (const content of [
+    `Spotkania mogą odbywać się osobiście w gabinecie przy ul. ${street} w Rzeszowie albo zdalnie.`,
+    "Oferuję sesje online za pomocą Zoom, Skype, Microsoft Teams, a także sesje telefoniczne.",
+    "Sesje zdalne odbywają się na takich samych zasadach jak sesje osobiste",
+    "Ta strona jest dla osób, które chcą sprawdzić, gdzie znajduje się gabinet",
+    "Przed umówieniem spotkania możesz zdecydować, czy wolisz wizytę osobistą, czy sesję zdalną.",
+    "Dojazd komunikacją miejską", "Dojazd samochodem",
+  ]) assert(text.includes(content), `Brak informacji o lokalizacji: ${content}`);
+  assert(!/\[czas odpowiedzi\]|czas realizacji|Wycena w/.test(text), "Nieuzupełniony lub niedopasowany szablon lokalizacji");
+  const images = [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0]);
+  for (const image of images) assert(/\balt="[^"]*"/i.test(image), "Obraz bez alt na stronie lokalizacji");
+  const photoAlt = `Wnętrze gabinetu psychologicznego Psychologica przy ul. ${street} w Rzeszowie`;
+  assert(images.some((image) => image.includes(`alt="${photoAlt}"`)), "Brak opisu zdjęcia gabinetu");
+  for (const image of images.filter((image) => /\balt=""/i.test(image))) {
+    assert(/\bdata-placeholder-image|testimonial-bg/.test(image), "Pusty alt jest przeznaczony wyłącznie dla dekoracji i placeholderów");
+  }
+  const svgs = [...html.matchAll(/<svg\b[^>]*>/gi)].map((match) => match[0]);
+  for (const svg of svgs) assert(/\baria-hidden="true"|\baria-label="[^"]+"/.test(svg), "Nieopisany SVG na stronie lokalizacji");
+  assert(/<a\b[^>]*\bhref="\/oferta-terapeutyczna\/"[^>]*>opisu usług<\/a>/.test(html));
+  assert(/<a\b[^>]*\bhref="\/skontaktuj-sie\/"[^>]*>Umów konsultację<\/a>/.test(html));
+}
+
 function verifySupportPage(html, facts) {
   const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1];
   assert.equal(title, "Pomoc psychologiczna Rzeszów | Renata Zuba", "Pomoc psychologiczna: nieprawidłowy title");
@@ -215,6 +255,7 @@ async function main() {
     if (!pages[route]) pages[route] = await read(`${domain}${route}?verify=${commit}`);
   }
   verifyInternalLinks(pages);
+  verifyLocationPage(pages["/lokalizacja/"], facts);
   const pageUrls = [];
   for (const sitemap of sitemapUrls(await read(`${domain}/sitemap-index.xml?verify=${commit}`))) {
     pageUrls.push(...sitemapUrls(await read(`${sitemap}?verify=${commit}`)));
@@ -236,10 +277,11 @@ async function main() {
   console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
+  console.log("LOKALIZACJA: OK — title, H1, adres we wstępie, opis Google, 3 sekcje, linki i dostępność obrazów");
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage };
 
 if (require.main === module) {
   main().catch((error) => {

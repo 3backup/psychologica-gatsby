@@ -29,8 +29,6 @@ const HalfBackground = styled.div`
   bottom: 0;
   left: 50%;
   width: 50%;
-  height: 44rem;
-  height: 100%;
   & div:first-child {
     height: 100%;
   }
@@ -82,7 +80,7 @@ const HeroContainer = styled(Container)`
 const TopSection = styled.section`
   position: relative;
 `;
-const TitleGabinet = styled.h5`
+const TitleGabinet = styled.p`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
@@ -140,7 +138,7 @@ const SantBox = styled.div`
   }
 `;
 
-const TopLocation = ({ props }) => {
+const TopLocation = ({ address }) => {
   return (
     <StaticQuery
       query={graphql`
@@ -161,9 +159,11 @@ const TopLocation = ({ props }) => {
           <Top>
             <HeroContainer>
               <TextContainer>
-                <HeroTitle>Gabinet psychologiczny Mikołaja Reja 12 Rzeszów – Psychologica</HeroTitle>
+                <HeroTitle>Gabinet psychologiczny przy ul. {address.streetAddress} w Rzeszowie</HeroTitle>
 
-                <ParagraphText>{data.datoCmsLocation.paragraf}</ParagraphText>
+                <ParagraphText>
+                  Gabinet psychologiczny znajduje się przy ul. {address.streetAddress} w Rzeszowie. {data.datoCmsLocation.paragraf}
+                </ParagraphText>
                 <TitleGabinet>{data.datoCmsLocation.subheader}</TitleGabinet>
                 <Adress>
                 <AddressLink
@@ -182,12 +182,12 @@ const TopLocation = ({ props }) => {
           <HalfBackground>
             <StaticImage
               src="../images/gabinet-psychologica.jpg"
-              alt="Gabinet psychologiczny w Rzeszowie"
+              alt={`Wnętrze gabinetu psychologicznego Psychologica przy ul. ${address.streetAddress} w Rzeszowie`}
               layout="fullWidth"
               placeholder="blurred"
             />
             <SantBox>
-              <Sanitization /> {data.datoCmsLocation.sanitization}
+              <Sanitization aria-hidden="true" focusable="false" /> {data.datoCmsLocation.sanitization}
             </SantBox>
           </HalfBackground>
         </TopSection>

@@ -9,7 +9,6 @@ const MainContainer = styled.section`
   position: relative;
   overflow: hidden;
   padding: 7rem 0;
-  margin-bottom: -4rem;
 
   @media (max-width: 768px) {
     padding: 4rem 0;
@@ -141,14 +140,15 @@ const HowToGet = ({ props }) => {
                 <li>{data.datoCmsLocation.carDescTwo}</li>
               </ListContainer>
               <ParkingInfo>
-                <Parking /> {data.datoCmsLocation.carDescParking}
+                <Parking aria-hidden="true" focusable="false" /> {data.datoCmsLocation.carDescParking}
               </ParkingInfo>
             </RightContent>
           </InnerContianer>
           <TestimonialBg>
             <StaticImage
               src="../images/testimonial-bg.jpg"
-              alt="Tło na sekcji dojazd do psychologica rzeszów"
+              alt=""
+              aria-hidden="true"
               layout="fullWidth"
               placeholder="blurred"
             />

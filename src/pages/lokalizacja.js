@@ -3,38 +3,32 @@ import Layout from "../components/Layout";
 import Footer from "../components/Footer";
 import { graphql } from "gatsby";
 import HowToGet from "../components/HowToGet";
-import Covid from "../components/Covid";
-import SeeOffer from "../components/SeeOffer";
+import LocationVisitDetails from "../components/LocationVisitDetails";
 import TopLocation from "../components/TopLocation";
 import "normalize.css";
 
 const Maps = React.lazy(() => import("../components/Maps"));
 
 const lokalizacja = ({ data }) => {
+  const address = data.site.siteMetadata.businessAddress;
   return (
     <>
       <Layout
         visableHeader
-        pageTitle="Gabinet psychologiczny Rzeszów | Psychologica"
-        pageDescription="Gabinet psychologiczny Renaty Zuby przy ul. Mikołaja Reja 12/320 w Rzeszowie. Sprawdź lokalizację, dojazd oraz możliwości spotkań online i w gabinecie."
+        pageTitle={`Gabinet psychologiczny ${address.streetAddress.split("/")[0]}, ${address.addressLocality} | Psychologica`}
+        pageDescription={`Gabinet psychologiczny przy ul. ${address.streetAddress} w Rzeszowie. Sprawdź adres, dojazd komunikacją miejską i samochodem oraz możliwości spotkań online.`}
         pageImageAlt="Gabinet psychologiczny Psychologica w Rzeszowie"
         pageType="WebPage"
         breadcrumbs={[
           { name: "Strona główna", path: "/" },
           { name: "Lokalizacja", path: "/lokalizacja/" },
         ]}>
-        <TopLocation />
+        <TopLocation address={address} />
         <React.Suspense fallback={<div style={{ minHeight: "31.25rem", background: "#f2f2f2" }} aria-hidden="true" />}>
           <Maps />
         </React.Suspense>
         <HowToGet />
-        <Covid />
-        <SeeOffer
-          mainTitle={data.datoCmsLocation.offer}
-          subParagraph={data.datoCmsLocation.offerDesc}
-          mainCta={data.datoCmsLocation.offerCta}
-          secondCta={data.datoCmsLocation.offerCtasecond}
-        />
+        <LocationVisitDetails address={address} />
         <Footer />
       </Layout>
     </>
@@ -42,11 +36,13 @@ const lokalizacja = ({ data }) => {
 };
 export const query = graphql`
   query LocationPageQuery {
-    datoCmsLocation {
-      offer
-      offerCta
-      offerCtasecond
-      offerDesc
+    site {
+      siteMetadata {
+        businessAddress {
+          streetAddress
+          addressLocality
+        }
+      }
     }
   }
 `;
