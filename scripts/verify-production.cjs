@@ -8,6 +8,29 @@ const repository = "3backup/psychologica-gatsby";
 const remote = `https://github.com/${repository}.git`;
 const ref = "refs/heads/main";
 const domain = "https://www.psychologica.pl";
+const supportPath = "/pomoc-psychologiczna-rzeszow/";
+
+const internalLinks = [
+  { source: "/oferta-terapeutyczna/", section: "Pomoc psychologiczna", destination: supportPath,
+    anchor: "pomocy psychologicznej dla dorosłych w Rzeszowie",
+    paragraph: "Poznaj zakres pomocy psychologicznej dla dorosłych w Rzeszowie i przebieg konsultacji." },
+  { source: "/o-mnie/", section: "Psycholog kliniczny Rzeszów", destination: supportPath,
+    anchor: "pomoc psychologiczna dla dorosłych",
+    paragraph: "Sprawdź, jak wygląda oferowana przeze mnie pomoc psychologiczna dla dorosłych." },
+  { source: "/lokalizacja/", section: "Gabinet psychologiczny Mikołaja Reja", destination: supportPath,
+    anchor: "pomoc psychologiczną dla dorosłych",
+    paragraph: "W tym gabinecie prowadzę pomoc psychologiczną dla dorosłych." },
+  { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Pomoc dla osoby uzależnionej i dla bliskich", destination: supportPath,
+    anchor: "pomocy psychologicznej dla dorosłych",
+    paragraph: "Wsparcie w innych trudnościach opisuję na stronie pomocy psychologicznej dla dorosłych." },
+  { source: supportPath, section: "Wsparcie dopasowane do aktualnej sytuacji", destination: "/lokalizacja/",
+    anchor: "Sprawdź dojazd do gabinetu", paragraph: "Dostępne są również sesje zdalne. Sprawdź dojazd do gabinetu." },
+  { source: supportPath, section: "Pomoc psychologiczna czy psychoterapia?", destination: "/oferta-terapeutyczna/",
+    anchor: "Psychoterapia dorosłych", paragraph: "Psychoterapia dorosłych jest regularnym i zwykle dłuższym procesem." },
+  { source: supportPath, section: "Pomoc psychologiczna czy psychoterapia?", destination: "/psychoterapia-uzaleznien-rzeszow/",
+    anchor: "psychoterapii uzależnień",
+    paragraph: "Jeśli problem dotyczy uzależnienia Twojego lub bliskiej osoby, poznaj zakres psychoterapii uzależnień." },
+];
 
 async function read(url, format) {
   const response = await fetch(url, {
@@ -30,6 +53,31 @@ function htmlText(value) {
       const hex = entity[1].toLowerCase() === "x";
       return String.fromCodePoint(parseInt(entity.slice(hex ? 2 : 1), hex ? 16 : 10));
     }));
+}
+
+function verifyInternalLinks(pages) {
+  for (const link of internalLinks) {
+    const html = pages[link.source];
+    assert.equal(typeof html, "string", `Brak strony źródłowej ${link.source}`);
+    const body = html.replace(/<(script|header|footer|nav)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
+    const section = [...body.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)]
+      .map((match) => match[1])
+      .find((content) => [...content.matchAll(/<h[12]\b[^>]*>([\s\S]*?)<\/h[12]>/gi)]
+        .some((heading) => htmlText(heading[1]).includes(link.section)));
+    assert(section, `Brak sekcji „${link.section}” na ${link.source}`);
+    const paragraph = [...section.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+      .map((match) => match[1])
+      .find((content) => htmlText(content).replace(/\s+([.,;:!?])/g, "$1").includes(link.paragraph));
+    assert(paragraph, `Brak kontekstu odnośnika na ${link.source}: ${link.paragraph}`);
+    const anchor = [...paragraph.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+      .find((match) => htmlText(match[2]) === link.anchor);
+    assert(anchor, `Brak kotwicy „${link.anchor}” na ${link.source}`);
+    assert.equal(anchor[1].match(/\bhref=["']([^"']+)["']/i)?.[1], link.destination,
+      `Nieprawidłowy cel linku na ${link.source}`);
+    assert(!/\btarget\s*=|\brel=["'][^"']*\bnofollow\b/i.test(anchor[1]),
+      `Link musi działać w tej samej karcie i bez nofollow: ${link.source}`);
+    assert.equal(typeof pages[link.destination], "string", `Niepotwierdzona strona docelowa ${link.destination}`);
+  }
 }
 
 async function readSupportFacts() {
@@ -153,12 +201,18 @@ async function main() {
   const facts = await readSupportFacts();
   const supportHtml = await read(`${domain}/pomoc-psychologiczna-rzeszow/?verify=${commit}`);
   verifySupportPage(supportHtml, facts);
+  const pages = { [supportPath]: supportHtml };
+  for (const route of [...new Set(internalLinks.flatMap((link) => [link.source, link.destination]))]) {
+    if (!pages[route]) pages[route] = await read(`${domain}${route}?verify=${commit}`);
+  }
+  verifyInternalLinks(pages);
   console.log(`APLIKACJA: OK ${domain} — SHA, title, H1, treści i alt potwierdzone`);
   console.log("POMOC PSYCHOLOGICZNA: OK — 9 obszarów, 6 zgodnych FAQ/JSON-LD, kwalifikacje, adres i cennik CMS");
+  console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks };
 
 if (require.main === module) {
   main().catch((error) => {

@@ -1,6 +1,7 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
+import TextLink from "./styles/TextLink";
 import { StaticQuery, graphql } from "gatsby";
 import { StaticImage } from "gatsby-plugin-image";
 import Whatisimportant from "../images/about-leaves.svg";
@@ -104,6 +105,9 @@ export const OfferPomoc = () => {
               </LeadPomoc>
               <ParagraphPomoc>
                 {data.datoCmsOfertaTerapeutyczna.pomocPsychologicznaLeadCopy1}
+              </ParagraphPomoc>
+              <ParagraphPomoc>
+                Poznaj zakres <TextLink to="/pomoc-psychologiczna-rzeszow/">pomocy psychologicznej dla dorosłych w Rzeszowie</TextLink> i przebieg konsultacji.
               </ParagraphPomoc>
             </LeftContent>
 

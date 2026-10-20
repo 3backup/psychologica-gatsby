@@ -1,5 +1,6 @@
 import * as React from "react";
 import ServiceLanding from "../components/ServiceLanding";
+import TextLink from "../components/styles/TextLink";
 
 const faq = [
   {
@@ -104,6 +105,12 @@ const PsychoterapiaUzaleznienPage = () => (
     distinctionParagraphs={[
       "Osoba zmagająca się z uzależnieniem pracuje nad rozumieniem mechanizmów problemu, motywacją, odpowiedzialnością i sposobami radzenia sobie w sytuacjach ryzyka.",
       "Praca z bliskimi koncentruje się na ich własnych potrzebach, emocjach i granicach. Można rozpocząć ją niezależnie od tego, czy osoba uzależniona korzysta z terapii.",
+      {
+        id: "psychological-support",
+        content: <>
+          Wsparcie w innych trudnościach opisuję na stronie <TextLink to="/pomoc-psychologiczna-rzeszow/">pomocy psychologicznej dla dorosłych</TextLink>.
+        </>,
+      },
     ]}
     faq={faq}
     closingTitle="Możesz zacząć od konsultacji"

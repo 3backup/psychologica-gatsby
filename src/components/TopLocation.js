@@ -1,12 +1,15 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
+import TextLink from "./styles/TextLink";
 import Sanitization from "../images/satnitization.svg";
 import { StaticImage } from "gatsby-plugin-image";
 import { StaticQuery, graphql } from "gatsby";
 
 const Top = styled.div`
   width: 100%;
+  box-sizing: border-box;
+  padding: 10rem 0 4rem;
   display: flex;
   align-items: center;
   position: relative;
@@ -14,7 +17,7 @@ const Top = styled.div`
   min-height: 44rem;
   overflow: hidden;
   @media (max-width: 768px) {
-    padding-top: 80px;
+    padding: 80px 0 0;
     min-height: auto;
     height: max-content;
   }
@@ -170,6 +173,9 @@ const TopLocation = ({ props }) => {
                   {data.datoCmsGlobal.adress}
                 </AddressLink>
               </Adress>
+                <ParagraphText>
+                  W tym gabinecie prowadzę <TextLink to="/pomoc-psychologiczna-rzeszow/">pomoc psychologiczną dla dorosłych</TextLink>.
+                </ParagraphText>
               </TextContainer>
             </HeroContainer>
           </Top>

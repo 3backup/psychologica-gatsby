@@ -1,6 +1,7 @@
 import * as React from "react";
 import { graphql, useStaticQuery } from "gatsby";
 import ServiceLanding from "../components/ServiceLanding";
+import TextLink from "../components/styles/TextLink";
 
 const PomocPsychologicznaPage = () => {
   const data = useStaticQuery(graphql`
@@ -96,7 +97,13 @@ const PomocPsychologicznaPage = () => {
       introParagraphs={[
         "Pomoc psychologiczna koncentruje się na tym, z czym mierzysz się teraz. Jej celem jest lepsze rozumienie sytuacji, rozpoznanie własnych zasobów i wypracowanie sposobów radzenia sobie z trudnościami.",
         "Pierwsze konsultacje pozwalają określić potrzeby i ustalić, czy odpowiednia będzie krótkoterminowa pomoc psychologiczna, czy regularna psychoterapia. Każdy plan współpracy ustalam indywidualnie.",
-        `Spotkania osobiste prowadzę przy ul. ${address.streetAddress}, ${address.postalCode} ${address.addressLocality}. Dostępne są również sesje zdalne.`,
+        {
+          id: "location",
+          content: <>
+            {`Spotkania osobiste prowadzę przy ul. ${address.streetAddress}, ${address.postalCode} ${address.addressLocality}. Dostępne są również sesje zdalne. `}
+            <TextLink to="/lokalizacja/">Sprawdź dojazd do gabinetu</TextLink>.
+          </>,
+        },
       ]}
       trustTitle="Psycholog kliniczny z wieloletnim doświadczeniem"
       trustText="Jestem psychologiem klinicznym i absolwentką psychologii Uniwersytetu Jagiellońskiego. Pracuję z osobami dorosłymi, dopasowując formę pomocy do ich sytuacji i potrzeb."
@@ -158,7 +165,18 @@ const PomocPsychologicznaPage = () => {
       distinctionTitle="Pomoc psychologiczna czy psychoterapia?"
       distinctionParagraphs={[
         "Krótkoterminowa pomoc psychologiczna sprawdza się, gdy potrzebujesz wsparcia w określonym kryzysie, decyzji lub zmianie. Skupia się na aktualnej sytuacji i możliwościach poradzenia sobie z nią.",
-        "Psychoterapia jest regularnym i zwykle dłuższym procesem. Pozwala głębiej poznawać powtarzające się schematy, emocje i relacje. Odpowiednią formę pomocy ustalamy po konsultacji, bez zobowiązania do kontynuowania spotkań.",
+        {
+          id: "adult-psychotherapy",
+          content: <>
+            <TextLink to="/oferta-terapeutyczna/">Psychoterapia dorosłych</TextLink> jest regularnym i zwykle dłuższym procesem. Pozwala głębiej poznawać powtarzające się schematy, emocje i relacje. Odpowiednią formę pomocy ustalamy po konsultacji, bez zobowiązania do kontynuowania spotkań.
+          </>,
+        },
+        {
+          id: "addiction-psychotherapy",
+          content: <>
+            Jeśli problem dotyczy uzależnienia Twojego lub bliskiej osoby, poznaj zakres <TextLink to="/psychoterapia-uzaleznien-rzeszow/">psychoterapii uzależnień</TextLink>.
+          </>,
+        },
       ]}
       faq={faq}
       closingTitle="Pierwszym krokiem może być krótka rozmowa"

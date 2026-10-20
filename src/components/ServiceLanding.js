@@ -329,6 +329,12 @@ const LightAction = styled(PrimaryAction)`
   }
 `;
 
+const renderParagraph = (paragraph) => (
+  typeof paragraph === "string"
+    ? <p key={paragraph}>{paragraph}</p>
+    : <p key={paragraph.id}>{paragraph.content}</p>
+);
+
 const ServiceLanding = ({
   seo,
   eyebrow,
@@ -381,9 +387,7 @@ const ServiceLanding = ({
           <div>
             <SectionTitle>{introTitle}</SectionTitle>
             <Body>
-              {introParagraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
+              {introParagraphs.map(renderParagraph)}
             </Body>
           </div>
           <TrustCard>
@@ -434,9 +438,7 @@ const ServiceLanding = ({
             <SectionTitle>{distinctionTitle}</SectionTitle>
           </div>
           <Body>
-            {distinctionParagraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
+            {distinctionParagraphs.map(renderParagraph)}
           </Body>
         </Split>
       </SoftSection>

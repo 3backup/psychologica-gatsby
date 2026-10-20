@@ -3,10 +3,13 @@ import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import { StaticQuery, graphql } from "gatsby";
 import Button from "./styles/Button";
+import TextLink from "./styles/TextLink";
 import { StaticImage } from "gatsby-plugin-image";
 
 const Top = styled.div`
   width: 100%;
+  box-sizing: border-box;
+  padding: 10rem 0 4rem;
   display: flex;
   align-items: center;
   position: relative;
@@ -14,7 +17,7 @@ const Top = styled.div`
   min-height: 50rem;
   overflow: hidden;
   @media (max-width: 768px) {
-    padding-top: 80px;
+    padding: 80px 0 0;
     min-height: auto;
     height: max-content;
   }
@@ -120,6 +123,9 @@ const TopAbout = () => {
                 <ParagraphText>{data.datoCmsAboout.lead}</ParagraphText>
                 <SmallerParagraph>
                   {data.datoCmsAboout.paragraph}
+                </SmallerParagraph>
+                <SmallerParagraph>
+                  Sprawdź, jak wygląda oferowana przeze mnie <TextLink to="/pomoc-psychologiczna-rzeszow/">pomoc psychologiczna dla dorosłych</TextLink>.
                 </SmallerParagraph>
                 <Button> {data.datoCmsAboout.buttonCta}</Button>
               </TextContainer>
