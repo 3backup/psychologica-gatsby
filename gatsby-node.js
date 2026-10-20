@@ -4,8 +4,9 @@ const sharp = require("sharp");
 const { execFileSync } = require("node:child_process");
 const { verifyCms } = require("./scripts/cms-release-check.cjs");
 
-exports.onPreBuild = async () => {
+exports.onPreBuild = async ({ getNodes }) => {
   await verifyCms();
+  require("./scripts/sitemap-lastmod.cjs").prepareMetadata(getNodes());
 };
 
 exports.createPages = ({ actions }) => {

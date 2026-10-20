@@ -3,6 +3,7 @@ const { execFileSync } = require("node:child_process");
 const path = require("node:path");
 const { verifyCms } = require("./cms-release-check.cjs");
 const { sitemapUrls, verifyLocalBusiness, verifyLlms } = require("./verify-discovery.cjs");
+const { verifySitemap } = require("./verify-sitemap.cjs");
 const locationMap = require("../src/config/location-map.cjs");
 
 const root = path.join(__dirname, "..");
@@ -561,6 +562,8 @@ async function main() {
     if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
     verifyLocalBusiness(pages[route], facts);
   }
+  const sitemap = await verifySitemap(read, pages);
+  console.log(`SITEMAP: OK — ${sitemap.length} stron, lastmod, canonical, indeks i robots.txt`);
   verifySupervisionPage(pages["/superwizja/"], facts);
   verifyEducationPage(pages["/oferta-edukacyjna/"]);
   verifyAboutPage(pages["/o-mnie/"], facts);
