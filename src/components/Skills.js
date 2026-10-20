@@ -3,7 +3,7 @@ import { StaticQuery, graphql } from "gatsby";
 import Container from "./styles/Container";
 import { StaticImage } from "gatsby-plugin-image";
 import { styled } from "linaria/react";
-import Button from "./styles/Button";
+import AboutContactLink from "./styles/AboutContactLink";
 import SkillList from "./styles/SkillList";
 
 const SkillSection = styled.section`
@@ -13,17 +13,17 @@ const SkillSection = styled.section`
 const SkillsContainer = styled(Container)`
   margin: 0 auto;
   display: flex;
-  padding-top: 3rem;
-  padding-bottom: 7rem;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  gap: 3rem;
+  align-items: center;
   @media (max-width: 768px) {
     flex-direction: column;
   }
 `;
 const SkillsPhoto = styled.div`
-  margin-top: -6rem;
   width: 37.5%;
   @media (max-width: 768px) {
-    width: 80%;
     position: static;
     width: 100%;
     overflow: hidden;
@@ -31,19 +31,12 @@ const SkillsPhoto = styled.div`
   }
 `;
 const SkillsText = styled.div`
-  width: 62.5%;
-  padding: 0 6.25%;
+  min-width: 0;
+  flex: 1;
+  padding: 0;
   @media (max-width: 768px) {
     width: 100%;
     padding: 0;
-  }
-`;
-const ButtonLightGreen = styled(Button)`
-  background-color: #4abd7f;
-  transition: 0.3s ease;
-  &:hover {
-    background-color: #ffffff;
-    color: #005650;
   }
 `;
 const Skills = () => {
@@ -52,8 +45,6 @@ const Skills = () => {
       query={graphql`
         query SkillsQuery {
           datoCmsAboout {
-            skillsTitle
-            skillsSubtitle
             skillsCta
           }
         }
@@ -64,20 +55,25 @@ const Skills = () => {
             <SkillsPhoto>
               <StaticImage
                 src="../images/skills-image.jpg"
-                alt="Zdjęcie Renata Zuba w sekcji kompetencje"
-                layout="fullWidth"
+                alt="Renata Zuba z otwartą książką w gabinecie"
+                layout="constrained"
+                width={460}
+                sizes="(max-width: 768px) calc(100vw - 48px), 38vw"
+                quality={80}
+                formats={["auto", "avif", "webp"]}
+                loading="lazy"
                 placeholder="blurred"
               />
             </SkillsPhoto>
             <SkillsText>
               <SkillList
-                header={data.datoCmsAboout.skillsTitle}
-                subheader={data.datoCmsAboout.skillsSubtitle}
+                header="Kwalifikacje"
+                headingAs="h2"
                 bigFont
               />
-              <ButtonLightGreen>
+              <AboutContactLink to="/skontaktuj-sie/">
                 {data.datoCmsAboout.skillsCta}
-              </ButtonLightGreen>
+              </AboutContactLink>
             </SkillsText>
           </SkillsContainer>
         </SkillSection>

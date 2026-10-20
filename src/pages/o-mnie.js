@@ -7,34 +7,50 @@ import AboutCopy from "../components/AboutCopy";
 import WhatIsImportant from "../components/WhatIsImportant";
 import SeeOffer from "../components/SeeOffer";
 import Skills from "../components/Skills";
-import Process from "../components/Process";
+import { AboutCareer, AboutContact } from "../components/AboutDetails";
 import TopAbout from "../components/TopAbout";
+import TextLink from "../components/styles/TextLink";
 
 const oMnie = ({ data }) => {
+  const address = data.site?.siteMetadata?.businessAddress;
+  if (![address?.streetAddress, address?.postalCode, address?.addressLocality]
+    .every((value) => typeof value === "string" && value.trim())) {
+    throw new Error("Brak potwierdzonego adresu na stronie O mnie");
+  }
   return (
     <>
       <Layout
         visableHeader
         pageTitle="Renata Zuba – psycholog kliniczny w Rzeszowie"
-        pageDescription="Poznaj Renatę Zubę – psychologa klinicznego, psychoterapeutę i certyfikowanego specjalistę psychoterapii uzależnień w Rzeszowie. Sprawdź kwalifikacje."
+        pageDescription="Poznaj Renatę Zubę, psychologa klinicznego i psychoterapeutę z wieloletnim doświadczeniem. Sprawdź kwalifikacje, sposób pracy i obszary wsparcia dla dorosłych w Rzeszowie."
         pageImageAlt="Renata Zuba – psycholog kliniczny i psychoterapeuta"
         pageType="AboutPage"
         breadcrumbs={[
           { name: "Strona główna", path: "/" },
           { name: "O mnie", path: "/o-mnie/" },
         ]}>
-        <TopAbout />
-        <AboutCopy />
-        <Skills />
-        <WhatIsImportant />
-        <SeeOffer
-          mainTitle={data.datoCmsAboout.checkoffer}
-          subParagraph={data.datoCmsAboout.offerDesc}
-          mainCta={data.datoCmsAboout.offertFirstcta}
-          secondCta={data.datoCmsAboout.offerctaSecond}
-          supervision
-        />
-        <Process />
+        <main>
+          <TopAbout />
+          <AboutCopy />
+          <Skills />
+          <AboutCareer />
+          <WhatIsImportant />
+          <AboutContact address={address} />
+          <SeeOffer
+            mainTitle="Gdzie możesz przejść dalej"
+            subParagraph={
+              <>
+                Poznaj ofertę psychoterapii i pomocy psychologicznej dla dorosłych
+                oraz zajęć edukacyjnych. Jeśli szukasz wsparcia w pracy zawodowej,
+                sprawdź <TextLink to="/superwizja/">ofertę superwizji</TextLink>.
+              </>
+            }
+            mainCta={data.datoCmsAboout.offertFirstcta}
+            secondCta={data.datoCmsAboout.offerctaSecond}
+            supervision
+            noOverlap
+          />
+        </main>
         <Footer />
       </Layout>
     </>
@@ -42,11 +58,10 @@ const oMnie = ({ data }) => {
 };
 export const query = graphql`
   query AboutPageQuery {
+    site { siteMetadata { businessAddress { streetAddress postalCode addressLocality } } }
     datoCmsAboout {
       offertFirstcta
       offerctaSecond
-      offerDesc
-      checkoffer
     }
   }
 `;

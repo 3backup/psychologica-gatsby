@@ -2,7 +2,7 @@ import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
 import { StaticQuery, graphql } from "gatsby";
-import Button from "./styles/Button";
+import AboutContactLink from "./styles/AboutContactLink";
 import TextLink from "./styles/TextLink";
 import { StaticImage } from "gatsby-plugin-image";
 
@@ -29,8 +29,7 @@ const HalfBackground = styled.div`
   bottom: 0;
   left: 50%;
   width: 50%;
-  height: 44rem;
-  height: 100%;
+  height: auto;
   & div:first-child {
     height: 100%;
   }
@@ -58,7 +57,7 @@ const HeroTitle = styled.h1`
   color: #1f1f1f;
   & span {
     color: #4abd7f;
-    font-weight: medium;
+    font-weight: 500;
   }
   @media (max-width: 1024px) {
     font-size: 42px;
@@ -72,7 +71,6 @@ const ParagraphText = styled.p`
   font-size: 22px;
   line-height: 150%;
   color: #3e7672;
-  opacity: 0.7;
 `;
 
 const HeroContainer = styled(Container)`
@@ -95,7 +93,6 @@ const SmallerParagraph = styled.p`
   font-size: 20px;
   line-height: 150%;
   color: #3e7672;
-  opacity: 0.7;
 `;
 
 const TopAbout = () => {
@@ -119,7 +116,6 @@ const TopAbout = () => {
                 <HeroTitle>
                   Psycholog kliniczny Rzeszów – <span>Renata Zuba</span> | Psychologica
                 </HeroTitle>
-                {/* DUZY SPACING TO DO  */}
                 <ParagraphText>{data.datoCmsAboout.lead}</ParagraphText>
                 <SmallerParagraph>
                   {data.datoCmsAboout.paragraph}
@@ -127,16 +123,22 @@ const TopAbout = () => {
                 <SmallerParagraph>
                   Sprawdź, jak wygląda oferowana przeze mnie <TextLink to="/pomoc-psychologiczna-rzeszow/">pomoc psychologiczna dla dorosłych</TextLink>.
                 </SmallerParagraph>
-                <Button> {data.datoCmsAboout.buttonCta}</Button>
+                <AboutContactLink to="/skontaktuj-sie/">{data.datoCmsAboout.buttonCta}</AboutContactLink>
               </TextContainer>
             </HeroContainer>
           </Top>
           <HalfBackground>
             <StaticImage
               src="../images/about-renata-zuba.jpg"
-              alt="Renata Zuba - o mnie"
-              layout="fullWidth"
-              quality="100"
+              alt="Renata Zuba w gabinecie Psychologica"
+              layout="constrained"
+              width={720}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              quality={80}
+              formats={["auto", "avif", "webp"]}
+              loading="eager"
+              style={{ width: "100%", height: "100%" }}
+              imgStyle={{ objectPosition: "center 35%" }}
               placeholder="blurred"
             />
           </HalfBackground>

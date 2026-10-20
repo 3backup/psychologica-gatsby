@@ -59,6 +59,7 @@ const SkillList = (props) => {
       render={(data) => (
         <AboutSkillList>
           <AboutSkillListTitle
+            as={props.headingAs || "h3"}
             style={{ fontSize: `${props.bigFont ? "42px" : "26px"}` }}>
             {props.header} <span>{props.subheader}</span>
           </AboutSkillListTitle>

@@ -9,10 +9,10 @@ import Whatisimportant from "../images/whatisimportant-bg.svg";
 
 const MainContainer = styled.section`
   position: relative;
-  padding: 7rem 0;
+  padding: 4rem 0;
   overflow: hidden;
 `;
-const HeaderTitle = styled.h3`
+const HeaderTitle = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -29,7 +29,6 @@ const HeaderParagraph = styled.p`
   line-height: 150%;
   text-align: center;
   color: #3e7672;
-  opacity: 0.7;
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -45,7 +44,7 @@ const HeaderDiv = styled.div`
   margin: 0 auto;
   @media (max-width: 768px) {
     flex-direction: column;
-    margin-bottom: 7rem;
+    margin-bottom: 0;
   }
 `;
 const SingleBox = styled.div`
@@ -84,7 +83,7 @@ const BgElement = styled(Whatisimportant)`
   right: 0;
 `;
 
-const WhatIsImportant = ({ props }) => {
+const WhatIsImportant = () => {
   return (
     <StaticQuery
       query={graphql`
@@ -108,7 +107,7 @@ const WhatIsImportant = ({ props }) => {
             <HeaderDiv>
               <SingleBox>
                 <BoxIcon>
-                  <Individual />
+                  <Individual aria-hidden="true" focusable="false" />
                 </BoxIcon>
                 <BoxHeader>
                   {data.datoCmsAboout.whatisimportantSecondelement}
@@ -116,7 +115,7 @@ const WhatIsImportant = ({ props }) => {
               </SingleBox>
               <SingleBox>
                 <BoxIcon>
-                  <Discretion />
+                  <Discretion aria-hidden="true" focusable="false" />
                 </BoxIcon>
                 <BoxHeader>
                   {data.datoCmsAboout.whatisimportantFirstelement}
@@ -124,7 +123,7 @@ const WhatIsImportant = ({ props }) => {
               </SingleBox>
               <SingleBox>
                 <BoxIcon>
-                  <Acceptance />
+                  <Acceptance aria-hidden="true" focusable="false" />
                 </BoxIcon>
                 <BoxHeader>
                   {data.datoCmsAboout.whatisimportantThirdelement}
@@ -132,7 +131,7 @@ const WhatIsImportant = ({ props }) => {
               </SingleBox>
             </HeaderDiv>
           </Container>
-          <BgElement />
+          <BgElement aria-hidden="true" focusable="false" />
         </MainContainer>
       )}
     />

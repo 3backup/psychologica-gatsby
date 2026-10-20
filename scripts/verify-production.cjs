@@ -93,7 +93,7 @@ async function readSupportFacts() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      query: "query SupportReleaseVerification { offerprice { offerprice offerpricePrice } howitlookslike { processTime } global { email phonenumber adress } }",
+      query: "query SupportReleaseVerification { offerprice { offerprice offerpricePrice } howitlookslike { processTime } global { email phonenumber adress } skillList { listaKompetencji { skillsElement } } }",
     }),
     signal: AbortSignal.timeout(30000),
   });
@@ -119,6 +119,7 @@ async function readSupportFacts() {
     address,
     email,
     telephone,
+    credentials: result.data?.skillList?.listaKompetencji?.map((item) => normalizeText(item.skillsElement)),
   };
 }
 
@@ -458,6 +459,58 @@ function verifyEducationPage(html) {
   assert.equal(nodes.filter((node) => node["@type"] === "FAQPage").length, 0, "Edukacja: nie planowano dodatkowego FAQ");
 }
 
+function verifyAboutPage(html, facts) {
+  assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
+    "Renata Zuba – psycholog kliniczny w Rzeszowie");
+  assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
+    ["Psycholog kliniczny Rzeszów – Renata Zuba | Psychologica"]);
+  const description = "Poznaj Renatę Zubę, psychologa klinicznego i psychoterapeutę z wieloletnim doświadczeniem. Sprawdź kwalifikacje, sposób pracy i obszary wsparcia dla dorosłych w Rzeszowie.";
+  for (const key of ["description", "og:description", "twitter:description"]) {
+    const tag = [...html.matchAll(/<meta\b[^>]*>/gi)].find((m) => m[0].includes(`="${key}"`))?.[0] || "";
+    assert(tag.includes(`content="${description}"`), `O mnie: niezgodny ${key}`);
+  }
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert(main, "O mnie: brak obszaru main");
+  assert.deepEqual([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1])), [
+    "O mnie", "Doświadczenie i sposób pracy", "Kwalifikacje", "Szkolenia i publikacje",
+    "Co jest ważne w mojej pracy?", "Jak rozpocząć współpracę?", "Gdzie możesz przejść dalej",
+  ]);
+  const text = htmlText(main);
+  assert.equal(facts.credentials?.length, 5, "O mnie: CMS nie potwierdza pięciu kwalifikacji");
+  const skillSection = [...main.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)]
+    .find((m) => /<h2\b[^>]*>Kwalifikacje[\s<]/.test(m[1]))?.[1];
+  assert(skillSection, "O mnie: brak sekcji kwalifikacji");
+  assert.deepEqual([...skillSection.matchAll(/<li\b[^>]*>([\s\S]*?)<\/li>/gi)].map((m) => htmlText(m[1])), facts.credentials,
+    "O mnie: kwalifikacje różnią się od opublikowanego CMS");
+  for (const content of ["psychodynamicznego", "poznawczego", "psychodramy J.L. Moreno",
+    "zmierzającego do uzyskania certyfikatu psychoterapeuty", "podejścia integracyjnego",
+    "wykładowca na studiach wyższych i podyplomowych", "autorką publikacji",
+    "webinariów", "dyskrecja", "Indywidualne podejście", "Akceptacja i wsparcie",
+    `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`]) {
+    assert(text.toLowerCase().includes(content.toLowerCase()), `O mnie: brak informacji ${content}`);
+  }
+  assert(!text.includes("Stworzenie planu terapii dla Ciebie"), "O mnie: pozostał ogólny blok procesu terapii");
+  const links = [...main.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)];
+  for (const [anchor, route] of [
+    ["pomoc psychologiczna dla dorosłych", "/pomoc-psychologiczna-rzeszow/"],
+    ["psychoterapii uzależnień", "/psychoterapia-uzaleznien-rzeszow/"],
+    ["psychoterapii dorosłych", "/oferta-terapeutyczna/"],
+    ["ofercie edukacyjnej", "/oferta-edukacyjna/"],
+    ["superwizję dla specjalistów", "/superwizja/"],
+    ["gabinet w Rzeszowie", "/lokalizacja/"],
+    ["Skontaktuj się w sprawie współpracy", "/skontaktuj-sie/"],
+  ]) assert(links.some((m) => htmlText(m[2]) === anchor && m[1].includes(`href="${route}"`)), `O mnie: brak linku ${anchor}`);
+  assert(links.filter((m) => m[1].includes('href="/skontaktuj-sie/"')).length >= 3, "O mnie: przyciski kontaktowe nie prowadzą do kontaktu");
+  assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "O mnie: obraz bez alt");
+  for (const alt of ["Renata Zuba w gabinecie Psychologica", "Renata Zuba z otwartą książką w gabinecie"]) assert(main.includes(`alt="${alt}"`));
+  assert(main.includes('type="image/avif"') && main.includes('type="image/webp"'), "O mnie: brak nowoczesnych formatów");
+  for (const m of html.matchAll(/<svg\b[^>]*>/gi)) assert(/aria-hidden="true"|aria-label="[^"]+"/.test(m[0]), "O mnie: SVG bez semantyki");
+  const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; });
+  for (const type of ["AboutPage", "Person"]) assert.equal(nodes.filter((node) => node["@type"] === type).length, 1, `O mnie: wymagany jeden ${type}`);
+  assert.equal(nodes.filter((node) => node["@type"] === "FAQPage").length, 0, "O mnie: nie planowano dodatkowego FAQ");
+}
+
 async function main() {
   const commit = process.argv[2];
   assert(/^[a-f0-9]{40}$/.test(commit || ""), "Podaj pełny SHA zatwierdzonego wydania");
@@ -510,6 +563,7 @@ async function main() {
   }
   verifySupervisionPage(pages["/superwizja/"], facts);
   verifyEducationPage(pages["/oferta-edukacyjna/"]);
+  verifyAboutPage(pages["/o-mnie/"], facts);
   const llmsResponse = await fetch(`${domain}/llms.txt?verify=${commit}`, { signal: AbortSignal.timeout(30000) });
   assert.equal(llmsResponse.status, 200, "llms.txt musi być dostępny bez przekierowania i błędu");
   assert.equal(new URL(llmsResponse.url).pathname, "/llms.txt");
@@ -522,6 +576,7 @@ async function main() {
   console.log("PSYCHOTERAPIA UZALEŻNIEŃ: OK — treści, kwalifikacje, adres, cennik CMS, 6 zgodnych FAQ/JSON-LD i 5 celów linkowania w treści");
   console.log("SUPERWIZJA: OK — odbiorcy i formy, proces, warunki, kwalifikacje, adres, 4 FAQ/JSON-LD i dostępne obrazy");
   console.log("OFERTA EDUKACYJNA: OK — title/H1, 6 H2, odbiorcy, kwalifikacje, 3 kroki kontaktu, warunki, obrazy i linki");
+  console.log("O MNIE: OK — title/H1, opis Google, 7 H2, kwalifikacje zgodne z CMS, doświadczenie, dorobek, obrazy i 7 celów linkowania");
   console.log("LINKOWANIE: OK — 4 nowe linki do pomocy i 3 z pomocy, we właściwym kontekście; strony dostępne");
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
@@ -530,7 +585,7 @@ async function main() {
   console.log(`BAZA: zweryfikowana; brak wymaganych zmian. DatoCMS ${cms.siteId}/${cms.environment}; schemat ${cms.schemaSha256}`);
 }
 
-module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifySupervisionPage, verifyEducationPage };
+module.exports = { readSupportFacts, verifySupportPage, verifyInternalLinks, verifyLocationPage, verifyOpenStreetMap, verifyTherapyPage, verifyAddictionPage, verifySupervisionPage, verifyEducationPage, verifyAboutPage };
 
 if (require.main === module) {
   main().catch((error) => {
