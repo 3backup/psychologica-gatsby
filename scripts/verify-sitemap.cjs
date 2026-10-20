@@ -40,33 +40,50 @@ function verifyPage(html, url) {
 }
 
 async function verifySitemap(read, htmlByPath = {}) {
-  const index = entries(await read(`${domain}/sitemap-index.xml`), "index");
+  const primary = await read(`${domain}/sitemap.xml`);
+  assert.equal(await read(`${domain}/sitemap-index.xml`), primary, "Stary adres mapy różni się od głównej mapy");
   const rows = [];
-  for (const map of index) {
-    const children = entries(await read(map.url), "pages");
-    assert.equal(map.lastmod, children.map((row) => row.lastmod).sort().at(-1), "lastmod indeksu różni się od mapy podrzędnej");
-    rows.push(...children);
+  if (/<urlset\b/.test(primary)) rows.push(...entries(primary, "pages"));
+  else {
+    for (const map of entries(primary, "index")) {
+      const children = entries(await read(map.url), "pages");
+      assert.equal(map.lastmod, children.map((row) => row.lastmod).sort().at(-1), "lastmod indeksu różni się od mapy podrzędnej");
+      rows.push(...children);
+    }
   }
   assert.equal(new Set(rows.map((row) => row.url)).size, rows.length, "Duplikaty między mapami");
   assert(rows.some((row) => row.url === `${domain}/`), "Brak strony głównej w mapie");
   for (const { url } of rows) {
     const route = new URL(url).pathname;
-    verifyPage(htmlByPath[route] || await read(url), url);
+    if (!htmlByPath[route]) htmlByPath[route] = await read(url);
+    verifyPage(htmlByPath[route], url);
   }
   const robots = await read(`${domain}/robots.txt`);
-  assert(robots.split(/\r?\n/).includes(`Sitemap: ${domain}/sitemap-index.xml`), "robots.txt nie wskazuje mapy");
+  assert(robots.split(/\r?\n/).includes(`Sitemap: ${domain}/sitemap.xml`), "robots.txt nie wskazuje głównej mapy");
   return rows;
 }
 
 function finalize() {
   const indexPath = path.join(root, "public/sitemap-index.xml");
   let index = fs.readFileSync(indexPath, "utf8");
+  const chunks = [];
   index = index.replace(/<sitemap><loc>([^<]+)<\/loc>(?:<lastmod>[^<]+<\/lastmod>)?<\/sitemap>/g, (_, url) => {
     assert.equal(new URL(url).origin, domain);
-    const rows = entries(fs.readFileSync(path.join(root, "public", new URL(url).pathname), "utf8"), "pages");
+    const xml = fs.readFileSync(path.join(root, "public", new URL(url).pathname), "utf8");
+    const rows = entries(xml, "pages");
+    chunks.push(...xml.matchAll(/<url>[\s\S]*?<\/url>/g));
     return `<sitemap><loc>${url}</loc><lastmod>${rows.map((row) => row.lastmod).sort().at(-1)}</lastmod></sitemap>`;
   });
+  // A small site needs a URL list, not an extra index lookup. Keep the old
+  // submitted URL as an identical alias, so existing clients also see the URLs.
+  // If the site grows past the protocol limits, retain the generated index.
+  if (chunks.length) {
+    entries(index, "index");
+    const flat = `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${chunks.map((match) => match[0]).join("")}</urlset>`;
+    if (chunks.length <= 50000 && Buffer.byteLength(flat) <= 50 * 1024 * 1024) index = flat;
+  } else entries(index, /<urlset\b/.test(index) ? "pages" : "index");
   fs.writeFileSync(indexPath, index);
+  fs.writeFileSync(path.join(root, "public/sitemap.xml"), index);
 }
 
 async function local() {
@@ -92,7 +109,7 @@ async function local() {
   }
   walk(path.join(root, "public"));
   assert.deepEqual(rows.map((row) => row.url).sort(), expected.sort(), "Mapa nie obejmuje wszystkich indeksowalnych stron kompilacji");
-  console.log(`SITEMAP: OK — ${rows.length} kanonicznych stron, lastmod, indeks i robots.txt`);
+  console.log(`SITEMAP: OK — ${rows.length} kanonicznych stron, lastmod, sitemap.xml, zgodny stary adres i robots.txt`);
 }
 
 module.exports = { entries, verifyPage, verifySitemap, finalize };

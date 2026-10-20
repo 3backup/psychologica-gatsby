@@ -3,7 +3,7 @@ const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 const { dependencies, lastmod, prepareMetadata } = require("./sitemap-lastmod.cjs");
-const { entries, verifyPage } = require("./verify-sitemap.cjs");
+const { entries, verifyPage, verifySitemap } = require("./verify-sitemap.cjs");
 
 const component = path.join(__dirname, "../src/pages/oferta-edukacyjna.js");
 const records = () => JSON.parse(fs.readFileSync(path.join(__dirname, "../.cache/sitemap-metadata.json"), "utf8"));
@@ -70,4 +70,28 @@ test("noncanonical and noindex pages cannot pass sitemap verification", () => {
   const url = "https://www.psychologica.pl/";
   assert.throws(() => verifyPage('<link rel="canonical" href="https://www.psychologica.pl/o-mnie/">', url), /canonical/);
   assert.throws(() => verifyPage(`<link rel="canonical" href="${url}"><meta name="robots" content="noindex,follow">`, url), /noindex/);
+});
+
+test("the advertised sitemap and legacy address both expose the URL list directly", async () => {
+  const domain = "https://www.psychologica.pl";
+  const xml = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${domain}/</loc><lastmod>${newer}</lastmod></url></urlset>`;
+  const read = async (url) => {
+    if (url.endsWith(".xml")) return xml;
+    if (url.endsWith("robots.txt")) return `User-agent: *\nSitemap: ${domain}/sitemap.xml\n`;
+    return `<link rel="canonical" href="${domain}/">`;
+  };
+  assert.equal((await verifySitemap(read)).length, 1);
+});
+
+test("a large site's sitemap index is still traversed and counted correctly", async () => {
+  const domain = "https://www.psychologica.pl";
+  const xml = `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>${domain}/</loc><lastmod>${newer}</lastmod></url></urlset>`;
+  const index = `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><sitemap><loc>${domain}/sitemap-0.xml</loc><lastmod>${newer}</lastmod></sitemap></sitemapindex>`;
+  const read = async (url) => {
+    if (url.endsWith("sitemap-0.xml")) return xml;
+    if (url.endsWith(".xml")) return index;
+    if (url.endsWith("robots.txt")) return `Sitemap: ${domain}/sitemap.xml`;
+    return `<link rel="canonical" href="${domain}/">`;
+  };
+  assert.equal((await verifySitemap(read)).length, 1);
 });

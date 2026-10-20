@@ -2,8 +2,9 @@ const assert = require("node:assert/strict");
 const { execFileSync } = require("node:child_process");
 const path = require("node:path");
 const { verifyCms } = require("./cms-release-check.cjs");
-const { sitemapUrls, verifyLocalBusiness, verifyLlms } = require("./verify-discovery.cjs");
+const { verifyLocalBusiness, verifyLlms } = require("./verify-discovery.cjs");
 const { verifySitemap } = require("./verify-sitemap.cjs");
+const { verifyRouting } = require("./verify-routing.cjs");
 const locationMap = require("../src/config/location-map.cjs");
 
 const root = path.join(__dirname, "..");
@@ -684,10 +685,8 @@ async function main() {
   const contactWords = verifyContactPage(pages["/skontaktuj-sie/"], facts);
   const footer = html.match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/i)?.[1];
   assert(footer && htmlText(footer).includes("Gabinet w Rzeszowie"), "Stopka: brak miasta gabinetu");
-  const pageUrls = [];
-  for (const sitemap of sitemapUrls(await read(`${domain}/sitemap-index.xml?verify=${commit}`))) {
-    pageUrls.push(...sitemapUrls(await read(`${sitemap}?verify=${commit}`)));
-  }
+  const sitemap = await verifySitemap(read, pages);
+  const pageUrls = sitemap.map((row) => row.url);
   assert(pageUrls.length >= 9, "Brak oczekiwanych podstron w mapie witryny");
   assert(pageUrls.includes(`${domain}${alcoholPath}`), "Brak nowej strony o problemie alkoholowym w mapie witryny");
   for (const url of pageUrls) {
@@ -695,8 +694,9 @@ async function main() {
     if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
     verifyLocalBusiness(pages[route], facts);
   }
-  const sitemap = await verifySitemap(read, pages);
-  console.log(`SITEMAP: OK — ${sitemap.length} stron, lastmod, canonical, indeks i robots.txt`);
+  console.log(`SITEMAP: OK — ${sitemap.length} stron, lastmod, canonical, sitemap.xml i robots.txt`);
+  await verifyRouting();
+  console.log("PRZEKIEROWANIA: OK — HTTPS, domena www, zachowane ścieżki i parametry; nieistniejące strony kończą się 404");
   verifySupervisionPage(pages["/superwizja/"], facts);
   verifyEducationPage(pages["/oferta-edukacyjna/"]);
   verifyAboutPage(pages["/o-mnie/"], facts);
