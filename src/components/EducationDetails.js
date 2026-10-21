@@ -32,6 +32,7 @@ const Section = styled.section`
 
   ul { max-width: 68ch; margin: 0; padding-left: 1.25rem; }
   ul li { margin-bottom: 0.75rem; }
+  ul strong { font-weight: inherit; color: #1f1f1f; }
 
   @media (max-width: 578px) {
     padding: 2rem 0;

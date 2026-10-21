@@ -556,6 +556,15 @@ function verifySupervisionPage(html, facts) {
 }
 
 function verifyEducationPage(html) {
+  const fontPreloads = [...html.matchAll(/<link\b[^>]*>/gi)].map((m) => m[0])
+    .filter((tag) => tag.includes('rel="preload"') && tag.includes('as="font"'));
+  assert.equal(fontPreloads.length, 4, "Edukacja: wymagane cztery fonty pierwszego ekranu");
+  for (const name of ["manrope-latin-400-normal-", "manrope-latin-ext-400-normal-",
+    "red-hat-display-latin-400-normal-", "red-hat-display-latin-ext-400-normal-"]) {
+    assert(fontPreloads.some((tag) => tag.includes(`/static/${name}`) && /\.woff2"/.test(tag)
+      && tag.includes('type="font/woff2"') && tag.includes('crossorigin="anonymous"')),
+    `Edukacja: brak prawidłowego preload fontu ${name}`);
+  }
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
     "Szkolenia psychologiczne i psychoedukacja w Rzeszowie | Renata Zuba");
   assert.equal(html.match(/<meta\b[^>]*\bname="description"[^>]*\bcontent="([^"]*)"/i)?.[1],
@@ -718,6 +727,13 @@ async function main() {
   console.log("PRZEKIEROWANIA: OK — HTTPS, domena www, zachowane ścieżki i parametry; nieistniejące strony kończą się 404");
   verifySupervisionPage(pages["/superwizja/"], facts);
   verifyEducationPage(pages["/oferta-edukacyjna/"]);
+  for (const tag of pages["/oferta-edukacyjna/"].matchAll(/<link\b[^>]*>/gi)) {
+    if (!tag[0].includes('rel="preload"') || !tag[0].includes('as="font"')) continue;
+    const url = tag[0].match(/\bhref="([^"]+)"/)?.[1];
+    const response = await fetch(new URL(url, domain), { redirect: "error", signal: AbortSignal.timeout(30000) });
+    assert.equal(response.status, 200, `Edukacja: niedostępny preload fontu ${url}`);
+    assert((await response.arrayBuffer()).byteLength > 0, `Edukacja: pusty plik fontu ${url}`);
+  }
   verifyAboutPage(pages["/o-mnie/"], facts);
   const llmsResponse = await fetch(`${domain}/llms.txt?verify=${commit}`, { signal: AbortSignal.timeout(30000) });
   assert.equal(llmsResponse.status, 200, "llms.txt musi być dostępny bez przekierowania i błędu");

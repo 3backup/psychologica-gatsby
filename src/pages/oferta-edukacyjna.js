@@ -3,6 +3,11 @@ import Layout from "../components/Layout";
 import Footer from "../components/Footer";
 import TextLink from "../components/styles/TextLink";
 import { graphql } from "gatsby";
+import { Helmet } from "react-helmet";
+import manropeLatin from "@fontsource/manrope/files/manrope-latin-400-normal.woff2";
+import manropePolish from "@fontsource/manrope/files/manrope-latin-ext-400-normal.woff2";
+import headingLatin from "@fontsource/red-hat-display/files/red-hat-display-latin-400-normal.woff2";
+import headingPolish from "@fontsource/red-hat-display/files/red-hat-display-latin-ext-400-normal.woff2";
 
 import SeeOffer from "../components/SeeOffer";
 import Testimonial from "../components/Testimonial";
@@ -29,6 +34,11 @@ const oferta = ({ data }) => {
           { name: "Strona główna", path: "/" },
           { name: "Oferta edukacyjna", path: "/oferta-edukacyjna/" },
         ]}>
+        <Helmet>
+          {[manropeLatin, manropePolish, headingLatin, headingPolish].map((font) => (
+            <link key={font} rel="preload" as="font" type="font/woff2" href={font} crossOrigin="anonymous" />
+          ))}
+        </Helmet>
         <main>
           <TopOffer
             headerElement="Szkolenia psychologiczne i psychoedukacja"
