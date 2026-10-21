@@ -557,27 +557,40 @@ function verifySupervisionPage(html, facts) {
 
 function verifyEducationPage(html) {
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
-    "Szkolenia psychologiczne Rzeszów | Renata Zuba");
+    "Szkolenia psychologiczne i psychoedukacja w Rzeszowie | Renata Zuba");
+  assert.equal(html.match(/<meta\b[^>]*\bname="description"[^>]*\bcontent="([^"]*)"/i)?.[1],
+    "Szkolenia psychologiczne, warsztaty, webinaria i psychoedukacja w Rzeszowie. Sprawdź, dla kogo jest oferta edukacyjna Renaty Zuby i jak wygląda współpraca.",
+    "Edukacja: nieprawidłowy opis Google");
   assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
     ["Szkolenia psychologiczne i psychoedukacja"]);
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   assert(main, "Edukacja: brak głównego obszaru treści");
   assert.deepEqual([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1])), [
     "Szkolenia, warsztaty i webinaria", "Dla kogo jest oferta edukacyjna?",
-    "Doświadczenie prowadzącej", "Jak zapytać o współpracę edukacyjną?",
+    "Doświadczenie prowadzącej", "Jak wygląda współpraca przy szkoleniu lub warsztacie?",
+    "Jakie informacje warto podać w zapytaniu?",
     "Czas, koszt i organizacja zajęć", "Sprawdź moją ofertę",
   ]);
   const text = htmlText(main);
   for (const content of ["osób zajmujących się psychoterapią lub pomocą psychologiczną",
     "różnych grup zawodowych i społecznych", "psychologiem klinicznym",
     "psychologii Uniwersytetu Jagiellońskiego", "studiach wyższych i podyplomowych",
-    "publikacji z zakresu psychoterapii i superwizji", "proponowany termin",
+    "publikacji z zakresu psychoterapii i superwizji", "Pierwszy kontakt pozwala omówić",
     "Aby uzyskać informacje o czasie trwania, kosztach i organizacji zajęć, skontaktuj się ze mną.",
     "Zapytaj o współpracę edukacyjną"]) {
     assert(text.includes(content), `Edukacja: brak informacji ${content}`);
   }
   assert(!/200\s*zł|50\s*minut|plan[u]? terapii/i.test(text), "Edukacja: pozostały warunki lub proces psychoterapii");
-  assert.equal((main.match(/<li\b/g) || []).length, 3, "Edukacja: wymagane trzy kroki kontaktu");
+  const steps = main.match(/<ol\b[^>]*>([\s\S]*?)<\/ol>/i)?.[1];
+  assert(steps, "Edukacja: brak procesu współpracy");
+  assert.equal((steps.match(/<li\b/g) || []).length, 3, "Edukacja: wymagane trzy kroki kontaktu");
+  assert.deepEqual([...steps.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi)].map((m) => htmlText(m[1])),
+    ["Kontakt", "Przedstawienie odbiorców i potrzeb", "Omówienie możliwości współpracy"]);
+  const checklist = main.match(/<ul\b[^>]*>([\s\S]*?)<\/ul>/i)?.[1];
+  assert(checklist, "Edukacja: brak listy informacji do zapytania");
+  assert.equal((checklist.match(/<li\b/g) || []).length, 4, "Edukacja: wymagane cztery informacje do zapytania");
+  assert.deepEqual([...checklist.matchAll(/<strong\b[^>]*>([\s\S]*?)<\/strong>/gi)].map((m) => htmlText(m[1])),
+    ["Odbiorcy:", "Potrzeby lub temat:", "Forma zajęć:", "Proponowany termin:"]);
   const links = [...main.matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)];
   for (const [anchor, route] of [
     ["Poznaj kwalifikacje Renaty Zuby", "/o-mnie/"],
@@ -718,7 +731,7 @@ async function main() {
   console.log("PSYCHOTERAPIA UZALEŻNIEŃ: OK — treści, kwalifikacje, adres, cennik CMS, 6 zgodnych FAQ/JSON-LD i 5 celów linkowania w treści");
   console.log("POMOC PRZY PROBLEMIE ALKOHOLOWYM: OK — title/H1, canonical, sekcje, CMS, 5 FAQ HTML/JSON-LD, Service, okruszki i linki");
   console.log("SUPERWIZJA: OK — odbiorcy i formy, proces, warunki, kwalifikacje, adres, 4 FAQ/JSON-LD i dostępne obrazy");
-  console.log("OFERTA EDUKACYJNA: OK — title/H1, 6 H2, odbiorcy, kwalifikacje, 3 kroki kontaktu, warunki, obrazy i linki");
+  console.log("OFERTA EDUKACYJNA: OK — title/opis/H1, 7 H2, odbiorcy, kwalifikacje, 3 kroki kontaktu, 4 informacje do zapytania, warunki, obrazy i linki");
   console.log("O MNIE: OK — title/H1, opis Google, 7 H2, kwalifikacje zgodne z CMS, doświadczenie, dorobek, obrazy i 7 celów linkowania");
   console.log("LINKOWANIE: OK — linki do pomocy i strony o problemie alkoholowym oraz 3 kontekstowe linki do lokalizacji; strony dostępne");
   console.log(`KONTAKT: OK — ${contactWords} słów, 3 sekcje, cennik CMS, adres, linki i zachowany formularz`);

@@ -14,8 +14,8 @@ const oferta = ({ data }) => {
   return (
     <>
       <Layout
-        pageTitle="Szkolenia psychologiczne Rzeszów | Renata Zuba"
-        pageDescription="Specjalistyczne szkolenia, warsztaty i psychoedukacja prowadzone przez psychologa klinicznego Renatę Zubę w Rzeszowie oraz dla grup zawodowych."
+        pageTitle="Szkolenia psychologiczne i psychoedukacja w Rzeszowie | Renata Zuba"
+        pageDescription="Szkolenia psychologiczne, warsztaty, webinaria i psychoedukacja w Rzeszowie. Sprawdź, dla kogo jest oferta edukacyjna Renaty Zuby i jak wygląda współpraca."
         pageImageAlt="Szkolenia i psychoedukacja – Renata Zuba"
         pageType="WebPage"
         service={{

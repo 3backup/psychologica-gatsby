@@ -30,6 +30,9 @@ const Section = styled.section`
 
   p { max-width: 68ch; margin: 0 0 1.25rem; }
 
+  ul { max-width: 68ch; margin: 0; padding-left: 1.25rem; }
+  ul li { margin-bottom: 0.75rem; }
+
   @media (max-width: 578px) {
     padding: 2rem 0;
     h2 { font-size: 2rem; }
@@ -117,22 +120,42 @@ const EducationDetails = () => (
     </SoftSection>
     <Section>
       <div>
-        <h2>Jak zapytać o współpracę edukacyjną?</h2>
+        <h2>Jak wygląda współpraca przy szkoleniu lub warsztacie?</h2>
+        <p>
+          Pierwszy kontakt pozwala omówić, dla kogo są zajęcia, jaki temat Cię
+          interesuje i jakie potrzeby ma grupa. Możesz zapytać o szkolenie,
+          warsztat, trening kompetencji lub webinarium.
+        </p>
         <Steps>
           <li>
             <h3>Kontakt</h3>
-            <p>Napisz lub zadzwoń w sprawie szkoleń, warsztatów, treningów kompetencji albo webinariów.</p>
+            <p>Napisz lub zadzwoń, jeśli szukasz zajęć dla swojej grupy i chcesz omówić możliwości współpracy.</p>
             <TextLink to="/skontaktuj-sie/">Skontaktuj się w sprawie zajęć</TextLink>
           </li>
           <li>
             <h3>Przedstawienie odbiorców i potrzeb</h3>
-            <p>Opisz grupę uczestników i jej potrzeby. W wiadomości warto podać interesującą Cię formę zajęć oraz proponowany termin.</p>
+            <p>Opowiedz, w jakim kontekście pracują uczestnicy i czego potrzebują. Pozwoli to skupić rozmowę na istotnych dla nich zagadnieniach.</p>
           </li>
           <li>
             <h3>Omówienie możliwości współpracy</h3>
-            <p>Kontakt pozwoli omówić zakres zajęć i możliwości ich organizacji. To również moment na pytania o czas trwania oraz koszt.</p>
+            <p>Zapytaj o możliwą formę, zakres i organizację zajęć, a także o ich czas oraz koszt. Wstępny kontakt służy omówieniu tych kwestii przed podjęciem decyzji.</p>
           </li>
         </Steps>
+      </div>
+    </Section>
+    <Section>
+      <div>
+        <h2>Jakie informacje warto podać w zapytaniu?</h2>
+        <p>
+          W pierwszej wiadomości opisz planowane zajęcia. Pomocne będą
+          następujące informacje:
+        </p>
+        <ul>
+          <li><strong>Odbiorcy:</strong> kim są uczestnicy i w jakim obszarze pracują.</li>
+          <li><strong>Potrzeby lub temat:</strong> jakie zagadnienia chcecie omówić.</li>
+          <li><strong>Forma zajęć:</strong> szkolenie, warsztat, trening kompetencji lub webinarium.</li>
+          <li><strong>Proponowany termin:</strong> kiedy planujecie zajęcia.</li>
+        </ul>
       </div>
     </Section>
     <SoftSection>
@@ -140,8 +163,13 @@ const EducationDetails = () => (
         <h2>Czas, koszt i organizacja zajęć</h2>
         <p>
           Aby uzyskać informacje o czasie trwania, kosztach i organizacji zajęć,
-          skontaktuj się ze mną. W wiadomości opisz potrzeby uczestników
-          i interesującą Cię formę współpracy.
+          skontaktuj się ze mną. Podczas rozmowy można omówić te kwestie
+          w odniesieniu do wybranej formy zajęć, tematu i potrzeb grupy.
+        </p>
+        <p>
+          Zapytaj o dostępne terminy, przewidywany czas zajęć oraz koszt dla
+          wybranej formy. Omówienie tych kwestii ułatwi Ci podjęcie decyzji
+          o dalszej współpracy.
         </p>
         <ContactLink to="/skontaktuj-sie/">Zapytaj o współpracę edukacyjną</ContactLink>
       </div>
