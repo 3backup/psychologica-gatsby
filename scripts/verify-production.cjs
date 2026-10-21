@@ -37,8 +37,10 @@ const internalLinks = [
   { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Pomoc dla osoby uzależnionej i dla bliskich", destination: supportPath,
     anchor: "pomocy psychologicznej dla dorosłych",
     paragraph: "Wsparcie w innych trudnościach opisuję na stronie pomocy psychologicznej dla dorosłych." },
-  { source: supportPath, section: "Wsparcie dopasowane do aktualnej sytuacji", destination: "/lokalizacja/",
+  { source: supportPath, section: "Spotkania w gabinecie lub online", destination: "/lokalizacja/",
     anchor: "Sprawdź dojazd do gabinetu", paragraph: "Dostępne są również sesje zdalne. Sprawdź dojazd do gabinetu." },
+  { source: supportPath, section: "Dla kogo jest pomoc psychologiczna?", destination: "/oferta-terapeutyczna/",
+    anchor: "psychoterapia dorosłych", paragraph: "czy psychoterapia dorosłych." },
   { source: supportPath, section: "Pomoc psychologiczna czy psychoterapia?", destination: "/oferta-terapeutyczna/",
     anchor: "Psychoterapia dorosłych", paragraph: "Psychoterapia dorosłych jest regularnym i zwykle dłuższym procesem." },
   { source: supportPath, section: "Pomoc psychologiczna czy psychoterapia?", destination: "/psychoterapia-uzaleznien-rzeszow/",
@@ -257,11 +259,29 @@ function verifyOpenStreetMap(html, facts) {
 
 function verifySupportPage(html, facts) {
   const title = html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1];
-  assert.equal(title, "Pomoc psychologiczna Rzeszów | Renata Zuba", "Pomoc psychologiczna: nieprawidłowy title");
+  assert.equal(title, "Pomoc psychologiczna dla dorosłych w Rzeszowie | Renata Zuba", "Pomoc psychologiczna: nieprawidłowy title");
   const headings = [...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((match) => htmlText(match[1]));
   assert.deepEqual(headings, ["Pomoc psychologiczna dla dorosłych w Rzeszowie"], "Pomoc psychologiczna: nieprawidłowy H1");
 
-  const areaStart = html.indexOf("W jakich sytuacjach warto zgłosić się po pomoc?");
+  const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
+  assert(main, "Pomoc: brak obszaru main");
+  const sectionHeadings = [...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((match) => htmlText(match[1]));
+  const requiredHeadings = ["Dla kogo jest pomoc psychologiczna?", "Jak wygląda proces pomocy?",
+    "Co obejmuje pomoc psychologiczna?", "Spotkania w gabinecie lub online"];
+  for (const heading of requiredHeadings) {
+    assert.equal(sectionHeadings.filter((value) => value === heading).length, 1, `Pomoc: brak lub powtórzony nagłówek ${heading}`);
+  }
+  const positions = requiredHeadings.map((heading) => sectionHeadings.indexOf(heading));
+  assert(positions.every((position, index) => index === 0 || position > positions[index - 1]),
+    "Pomoc: opis odbiorców i procesu musi poprzedzać zakres i formy spotkań");
+  const sections = [...main.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((match) => match[1]);
+  const processSection = sections.find((section) => htmlText(section).includes("Jak wygląda proces pomocy?"));
+  assert.equal((processSection?.match(/<ol\b/g) || []).length, 1, "Pomoc: brak listy etapów procesu");
+  assert.equal((processSection?.match(/<li\b/g) || []).length, 3, "Pomoc: wymagane trzy etapy procesu");
+  const closing = sections.find((section) => htmlText(section).includes("Pierwszym krokiem może być krótka rozmowa"));
+  assert(closing?.includes('href="/skontaktuj-sie/"'), "Pomoc: brak końcowego odnośnika do kontaktu");
+
+  const areaStart = html.indexOf("Co obejmuje pomoc psychologiczna?");
   assert(areaStart >= 0, "Brak zakresu pomocy");
   const areaSection = html.slice(areaStart, html.indexOf("</section>", areaStart));
   const areas = [...areaSection.matchAll(/<h3\b[^>]*>([\s\S]*?)<\/h3>/gi)].map((match) => htmlText(match[1]));
@@ -310,6 +330,10 @@ function verifySupportPage(html, facts) {
     "Smutek i przygnębienie oraz potrzeba wsparcia w lepszym rozumieniu własnych emocji i sytuacji.",
     "Problemy w relacjach z innymi, kryzys w związku lub poczucie osamotnienia.",
     "Wsparcie psychologiczne dla osób doświadczających problemów ze snem.",
+    "Pomoc psychologiczna jest przeznaczona dla osób dorosłych",
+    "Pierwsza konsultacja służy rozpoznaniu Twojej sytuacji, trudności i potrzeb.",
+    "Zakres wsparcia zależy od tego, z czym przychodzisz i czego potrzebujesz na danym etapie.",
+    "Pomoc psychologiczna jest dostępna w gabinecie w Rzeszowie oraz online.",
   ]) assert(body.includes(text), `Brak lub niezgodna informacja na podstronie: ${text}`);
   assert(/<a\b[^>]*\bhref=["']\/o-mnie\/["']/i.test(html), "Brak odnośnika do kwalifikacji");
 }

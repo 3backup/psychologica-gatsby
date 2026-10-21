@@ -431,9 +431,12 @@ const ServiceLanding = ({
   trustTitle,
   trustText,
   areasTitle,
+  areasParagraphs = [],
   areas,
   processTitle,
   processLead,
+  processParagraphs = [],
+  processAfterIntro = false,
   steps,
   distinctionTitle,
   distinctionParagraphs,
@@ -457,6 +460,28 @@ const ServiceLanding = ({
         ))}
       </Facts>
     </>
+  );
+
+  const processSection = (
+    <Section>
+      <GridContainer>
+        <Eyebrow>Przebieg współpracy</Eyebrow>
+        <SectionTitle>{processTitle}</SectionTitle>
+        <Body>
+          {processParagraphs.length
+            ? processParagraphs.map(renderParagraph)
+            : <p>{processLead}</p>}
+        </Body>
+        <Steps>
+          {steps.map((step) => (
+            <Step key={step.title}>
+              <h3>{step.title}</h3>
+              <p>{step.description}</p>
+            </Step>
+          ))}
+        </Steps>
+      </GridContainer>
+    </Section>
   );
 
   return (
@@ -499,10 +524,13 @@ const ServiceLanding = ({
         </Split>
       </Section>
 
+      {processAfterIntro && processSection}
+
       <SoftSection>
         <GridContainer>
           <Eyebrow>Zakres wsparcia</Eyebrow>
           <SectionTitle>{areasTitle}</SectionTitle>
+          {areasParagraphs.length > 0 && <Body>{areasParagraphs.map(renderParagraph)}</Body>}
           <AreaGrid>
             {areas.map((area) => (
               <AreaCard key={area.title}>
@@ -514,23 +542,7 @@ const ServiceLanding = ({
         </GridContainer>
       </SoftSection>
 
-      <Section>
-        <GridContainer>
-          <Eyebrow>Przebieg współpracy</Eyebrow>
-          <SectionTitle>{processTitle}</SectionTitle>
-          <Body>
-            <p>{processLead}</p>
-          </Body>
-          <Steps>
-            {steps.map((step) => (
-              <Step key={step.title}>
-                <h3>{step.title}</h3>
-                <p>{step.description}</p>
-              </Step>
-            ))}
-          </Steps>
-        </GridContainer>
-      </Section>
+      {!processAfterIntro && processSection}
 
       <SoftSection>
         <Split>

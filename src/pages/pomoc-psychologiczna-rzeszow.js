@@ -71,7 +71,7 @@ const PomocPsychologicznaPage = () => {
   return (
     <ServiceLanding
       seo={{
-        pageTitle: "Pomoc psychologiczna Rzeszów | Renata Zuba",
+        pageTitle: "Pomoc psychologiczna dla dorosłych w Rzeszowie | Renata Zuba",
         pageDescription:
           "Pomoc psychologiczna dla dorosłych w Rzeszowie i online. Wsparcie w kryzysie, lęku, stresie i trudnych zmianach. Psycholog kliniczny Renata Zuba.",
         pageImageAlt: "Renata Zuba – psycholog kliniczny w Rzeszowie",
@@ -107,21 +107,25 @@ const PomocPsychologicznaPage = () => {
         />
       }
       facts={["Gabinet w Rzeszowie", "Spotkania online", `Sesja ${duration}`]}
-      introTitle="Wsparcie dopasowane do aktualnej sytuacji"
+      introTitle="Dla kogo jest pomoc psychologiczna?"
       introParagraphs={[
-        "Pomoc psychologiczna koncentruje się na tym, z czym mierzysz się teraz. Jej celem jest lepsze rozumienie sytuacji, rozpoznanie własnych zasobów i wypracowanie sposobów radzenia sobie z trudnościami.",
-        "Pierwsze konsultacje pozwalają określić potrzeby i ustalić, czy odpowiednia będzie krótkoterminowa pomoc psychologiczna, czy regularna psychoterapia. Każdy plan współpracy ustalam indywidualnie.",
+        "Z tej formy wsparcia możesz skorzystać wtedy, gdy przechodzisz przez kryzys, trudną zmianę albo czujesz, że bieżące napięcie zaczyna wpływać na codzienne funkcjonowanie. Pomoc psychologiczna jest przeznaczona dla osób dorosłych, które chcą lepiej zrozumieć swoją sytuację i spokojnie przyjrzeć się możliwym kolejnym krokom.",
         {
-          id: "location",
+          id: "support-or-psychotherapy",
           content: <>
-            {`Spotkania osobiste prowadzę przy ul. ${address.streetAddress}, ${address.postalCode} ${address.addressLocality}. Dostępne są również sesje zdalne. `}
-            <TextLink to="/lokalizacja/">Sprawdź dojazd do gabinetu</TextLink>.
+            Możesz zatrzymać się, uporządkować emocje, omówić konkretną trudność lub sprawdzić,
+            czy na tym etapie bardziej pomocna będzie konsultacja, krótkoterminowe wsparcie
+            czy <TextLink to="/oferta-terapeutyczna/">psychoterapia dorosłych</TextLink>.
           </>,
         },
       ]}
       trustTitle="Psycholog kliniczny z wieloletnim doświadczeniem"
       trustText="Jestem psychologiem klinicznym i absolwentką psychologii Uniwersytetu Jagiellońskiego. Pracuję z osobami dorosłymi, dopasowując formę pomocy do ich sytuacji i potrzeb."
-      areasTitle="W jakich sytuacjach warto zgłosić się po pomoc?"
+      areasTitle="Co obejmuje pomoc psychologiczna?"
+      areasParagraphs={[
+        "Zakres wsparcia zależy od tego, z czym przychodzisz i czego potrzebujesz na danym etapie. Spotkania mogą koncentrować się na lepszym rozumieniu emocji, uporządkowaniu sytuacji kryzysowej, omówieniu trudności w relacjach, przewlekłego stresu, lęku, obniżonego nastroju albo problemów ze snem.",
+        "Wspólnie przyglądamy się temu, co dzieje się teraz, jakie są Twoje zasoby i co może pomóc w najbliższym czasie. Jeśli w trakcie konsultacji okaże się, że bardziej odpowiednia będzie psychoterapia, omawiamy to spokojnie i bez presji.",
+      ]}
       areas={[
         {
           title: "Kryzys i trudna zmiana",
@@ -160,8 +164,12 @@ const PomocPsychologicznaPage = () => {
           description: "Wsparcie psychologiczne dla osób doświadczających problemów ze snem.",
         },
       ]}
-      processTitle="Jak wygląda pierwsza konsultacja?"
-      processLead="Pierwsze spotkania dają przestrzeń do spokojnego przedstawienia sytuacji i określenia, jakiej pomocy potrzebujesz."
+      processTitle="Jak wygląda proces pomocy?"
+      processAfterIntro
+      processParagraphs={[
+        "Pierwsza konsultacja służy rozpoznaniu Twojej sytuacji, trudności i potrzeb. Rozmawiamy o tym, co dzieje się teraz, co jest najbardziej obciążające i jakiego rodzaju wsparcia szukasz.",
+        "Na tej podstawie wspólnie ustalamy dalsze kroki. Czasem wystarczają konsultacje skoncentrowane na aktualnym problemie, a czasem bardziej odpowiednia okazuje się regularna psychoterapia. Pierwsze spotkania służą spokojnemu rozpoznaniu sytuacji i dobraniu formy pomocy do Ciebie.",
+      ]}
       steps={[
         {
           title: "Rozmowa o trudnościach",
@@ -190,6 +198,22 @@ const PomocPsychologicznaPage = () => {
           content: <>
             Jeśli problem dotyczy uzależnienia Twojego lub bliskiej osoby, poznaj zakres <TextLink to="/psychoterapia-uzaleznien-rzeszow/">psychoterapii uzależnień</TextLink>.
           </>,
+        },
+      ]}
+      additionalSections={[
+        {
+          id: "spotkania-gabinet-online",
+          title: "Spotkania w gabinecie lub online",
+          paragraphs: [
+            "Pomoc psychologiczna jest dostępna w gabinecie w Rzeszowie oraz online. Możesz wybrać formę spotkania odpowiednią do swojej sytuacji i możliwości.",
+            {
+              id: "location",
+              content: <>
+                {`Spotkania osobiste prowadzę przy ul. ${address.streetAddress}, ${address.postalCode} ${address.addressLocality}. Dostępne są również sesje zdalne. `}
+                <TextLink to="/lokalizacja/">Sprawdź dojazd do gabinetu</TextLink>.
+              </>,
+            },
+          ],
         },
       ]}
       faq={faq}
