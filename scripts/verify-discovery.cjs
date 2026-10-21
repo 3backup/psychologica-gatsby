@@ -47,12 +47,18 @@ function verifyLlms(text, pageUrls) {
   const summary = text.match(/^> (.+)$/m)?.[1];
   assert(summary, "Brak opisu firmy");
   assert.equal(summary.split(/(?<=[.!?])\s+/).length, 3, "Opis musi zawierać trzy zdania");
+  assert(summary.includes("superwizję psychoterapii, prowadzoną wyłącznie stacjonarnie w Rzeszowie"),
+    "Opis firmy musi jasno wskazywać stacjonarną formę superwizji");
   const links = [...text.matchAll(/^- \[([^\]]+)\]\((https:\/\/[^)]+)\): (.+)$/gm)];
   assert.equal(links.length, pageUrls.length + 1, "Brak opisanych stron lub wersji Markdown");
   const urls = links.map((match) => match[2]);
   assert.equal(new Set(urls).size, urls.length, "Powtórzony link w llms.txt");
   assert.deepEqual([...urls].sort(), [...pageUrls, `${domain}/index.md`].sort());
   for (const link of links) assert(link[3].endsWith("."), "Brak pełnego opisu podstrony");
+  const supervision = links.find((link) => link[2] === `${domain}/superwizja/`);
+  assert(supervision?.[1] === "Superwizja psychoterapii"
+    && supervision[3].includes("wyłącznie stacjonarnie w Rzeszowie")
+    && !/online|zdaln/i.test(supervision[3]), "llms.txt: superwizja musi być opisana jako stacjonarna");
   assert(!/\{\{|\bundefined\b|\bnull\b/.test(text), "Niewypełniony tekst pliku llms.txt");
   return urls;
 }
