@@ -22,9 +22,9 @@ const internalLinks = [
     anchor: "Sprawdź dojazd do gabinetu", paragraph: "Sprawdź dojazd do gabinetu." },
   { source: "/superwizja/", section: "Superwizja stacjonarna w Rzeszowie", destination: "/lokalizacja/",
     anchor: "Sprawdź lokalizację gabinetu", paragraph: "Sprawdź lokalizację gabinetu." },
-  { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji", destination: alcoholPath,
+  { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Zakres wsparcia", destination: alcoholPath,
     anchor: "pomoc przy problemie alkoholowym w Rzeszowie",
-    paragraph: "Jeśli niepokoi Cię własne picie lub picie bliskiej osoby, poznaj, jak wygląda pomoc przy problemie alkoholowym w Rzeszowie." },
+    paragraph: "Psychoterapia uzależnień obejmuje pomoc przy problemie alkoholowym w Rzeszowie oraz wsparcie związane z używaniem innych substancji." },
   { source: "/oferta-terapeutyczna/", section: "Pomoc psychologiczna", destination: supportPath,
     anchor: "pomocy psychologicznej dla dorosłych w Rzeszowie",
     paragraph: "Poznaj zakres pomocy psychologicznej dla dorosłych w Rzeszowie i przebieg konsultacji." },
@@ -400,7 +400,13 @@ function verifyTherapyPage(html, facts) {
 
 function verifyAddictionPage(html, facts) {
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
-    "Psychoterapia uzależnień Rzeszów | Renata Zuba");
+    "Psychoterapia uzależnień i terapia alkoholowa w Rzeszowie | Renata Zuba");
+  const description = `Psychoterapia uzależnień w Rzeszowie i online dla osób dorosłych oraz ich bliskich. Pomoc przy problemie alkoholowym i innych uzależnieniach, konsultacja, sesja ${facts.duration}, koszt ${facts.price}.`;
+  for (const attribute of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
+    const tag = [...html.matchAll(/<meta\b[^>]*>/gi)].map((m) => m[0]).find((tag) => tag.includes(attribute));
+    assert.equal(htmlText(tag?.match(/\bcontent="([^"]*)"/i)?.[1] || ""), description,
+      "Uzależnienia: opis Google/social musi zawierać aktualny czas i cenę CMS");
+  }
   assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
     ["Psychoterapia uzależnień w Rzeszowie"]);
   const body = html.replace(/<(script|header|footer|nav)\b[^>]*>[\s\S]*?<\/\1>/gi, "");
@@ -438,8 +444,21 @@ function verifyAddictionPage(html, facts) {
     question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text),
   })), visibleFaq, "Uzależnienia: FAQ w HTML i JSON-LD różni się");
   const sections = [...body.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((m) => m[1]);
+  const scopeSections = sections.filter((section) => [...section.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)]
+    .some((m) => htmlText(m[1]) === "Zakres wsparcia"));
+  assert.equal(scopeSections.length, 1, "Uzależnienia: wymagana jedna sekcja Zakres wsparcia");
+  const scope = htmlText(scopeSections[0]);
+  for (const content of ["Jest przeznaczona dla osób dorosłych", "używanie alkoholu lub innych substancji",
+    "Przyglądamy się także czynnikom, które podtrzymują trudność.",
+    "Pomoc obejmuje także partnerów i członków rodzin.", "zadbać o granice"]) {
+    assert(scope.includes(content), `Uzależnienia: niepełny zakres wsparcia: ${content}`);
+  }
+  assert(body.indexOf(scopeSections[0]) < body.indexOf("Dla kogo przeznaczona jest pomoc?"),
+    "Uzależnienia: zakres musi poprzedzać listę odbiorców");
+  const closing = sections.find((section) => htmlText(section).includes("Możesz zacząć od konsultacji"));
+  assert(closing?.includes('href="/skontaktuj-sie/"'), "Uzależnienia: brak końcowego linku do kontaktu");
   for (const link of [
-    { heading: "Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji", anchor: "Sprawdź dojazd do gabinetu", route: "/lokalizacja/", context: "Spotkania mogą odbywać się w gabinecie przy ul." },
+    { heading: "Zakres wsparcia", anchor: "Sprawdź dojazd do gabinetu", route: "/lokalizacja/", context: "Spotkania mogą odbywać się w gabinecie przy ul." },
     { heading: "Pomoc dla osoby uzależnionej i dla bliskich", anchor: "psychoterapia dorosłych", route: "/oferta-terapeutyczna/", context: "Jeśli chcesz poznać szerszy opis pracy nad emocjami, relacjami i powtarzającymi się trudnościami" },
   ]) {
     const section = sections.find((value) => htmlText(value).includes(link.heading));

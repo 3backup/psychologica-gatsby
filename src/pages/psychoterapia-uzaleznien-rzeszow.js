@@ -62,9 +62,9 @@ const PsychoterapiaUzaleznienPage = () => {
   return (
     <ServiceLanding
       seo={{
-        pageTitle: "Psychoterapia uzależnień Rzeszów | Renata Zuba",
+        pageTitle: "Psychoterapia uzależnień i terapia alkoholowa w Rzeszowie | Renata Zuba",
         pageDescription:
-          "Psychoterapia uzależnień w Rzeszowie i online dla osób dorosłych oraz ich bliskich. Certyfikowany specjalista i superwizor Renata Zuba. Umów konsultację.",
+          `Psychoterapia uzależnień w Rzeszowie i online dla osób dorosłych oraz ich bliskich. Pomoc przy problemie alkoholowym i innych uzależnieniach, konsultacja, sesja ${duration}, koszt ${price}.`,
         pageImageAlt: "Renata Zuba – specjalista psychoterapii uzależnień",
         pageType: "WebPage",
         service: {
@@ -98,18 +98,21 @@ const PsychoterapiaUzaleznienPage = () => {
         />
       }
       facts={["Certyfikat specjalisty nr 123", "Gabinet w Rzeszowie", "Spotkania online", `Sesja ${duration}`, `Koszt ${price}`]}
-      introTitle="Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji"
+      introTitle="Zakres wsparcia"
       introParagraphs={[
-        "Uzależnienie wpływa nie tylko na osobę, która używa substancji, lecz także na relacje, poczucie bezpieczeństwa i codzienne funkcjonowanie całej rodziny. Zgłoszenie się po pomoc nie wymaga gotowej diagnozy ani pewności, jak powinien wyglądać dalszy proces.",
-        "Pierwsze konsultacje służą nazwaniu problemu, rozpoznaniu potrzeb i ustaleniu realnego celu pracy. Tempo oraz metody dobieram do sytuacji konkretnej osoby.",
-        "Psychoterapia uzależnień obejmuje pracę nad rozumieniem mechanizmów problemu, emocji i sposobów reagowania. Podczas spotkań przyglądamy się aktualnym trudnościom i zasobom oraz określamy cel pracy dopasowany do Twojej sytuacji.",
         {
           id: "alcohol-support",
           content: <>
-            Jeśli niepokoi Cię własne picie lub picie bliskiej osoby, poznaj, jak wygląda{" "}
-            <TextLink to="/psycholog-od-uzaleznien-alkoholowych-rzeszow/">pomoc przy problemie alkoholowym w Rzeszowie</TextLink>.
+            Psychoterapia uzależnień obejmuje{" "}
+            <TextLink to="/psycholog-od-uzaleznien-alkoholowych-rzeszow/">pomoc przy problemie alkoholowym w Rzeszowie</TextLink>{" "}
+            oraz wsparcie związane z używaniem innych substancji.
+            Jest przeznaczona dla osób dorosłych, które chcą lepiej zrozumieć
+            swoje używanie alkoholu lub innych substancji, odzyskać wpływ na codzienne
+            funkcjonowanie i przyjrzeć się sytuacjom, w których najtrudniej o zmianę.
           </>,
         },
+        "Psychoterapia uzależnień obejmuje pracę nad rozumieniem mechanizmów problemu, emocji i sposobów reagowania. Przyglądamy się także czynnikom, które podtrzymują trudność. Jeśli zgłaszasz się z powodu picia alkoholu, konsultacja może być pierwszym krokiem do uporządkowania sytuacji i ustalenia odpowiedniej formy pomocy.",
+        "Pomoc obejmuje także partnerów i członków rodzin. Jeśli żyjesz blisko osoby uzależnionej, możesz skorzystać z konsultacji, by lepiej zrozumieć własne reakcje, zadbać o granice i sprawdzić, jakie działania są możliwe w Twojej sytuacji.",
         {
           id: "office-location",
           content: <>
