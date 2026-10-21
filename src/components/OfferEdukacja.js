@@ -49,6 +49,13 @@ const StickyPhoto = styled.figure`
     border-radius: 1rem;
   }
 
+  [data-main-image] {
+    opacity: 1 !important;
+    transition: none;
+  }
+
+  [data-placeholder-image] { opacity: 0 !important; }
+
   figcaption {
     padding: 1rem 0.5rem 0.25rem;
     color: #1f1f1f;
@@ -143,7 +150,8 @@ export const OfferEdukacja = () => {
                 quality={80}
                 formats={["auto", "avif", "webp"]}
                 loading="eager"
-                placeholder="blurred"
+                fetchpriority="high"
+                placeholder="none"
               />
               <figcaption>
                 Renata Zuba

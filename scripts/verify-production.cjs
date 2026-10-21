@@ -609,6 +609,10 @@ function verifyEducationPage(html) {
   assert(main.includes('href="/oferta-terapeutyczna/"'), "Edukacja: brak linku do psychoterapii");
   assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "Edukacja: obraz bez alt");
   assert(main.includes('alt="Renata Zuba podczas wystąpienia z prezentacją"'));
+  const photo = main.match(/<figure\b(?=[^>]*\bdata-education-photo)[^>]*>([\s\S]*?)<\/figure>/i)?.[1];
+  const photoImage = photo?.match(/<img\b(?=[^>]*\bdata-main-image)[^>]*>/i)?.[0];
+  assert(photoImage && photoImage.includes('loading="eager"') && photoImage.includes('fetchpriority="high"'),
+    "Edukacja: fotografia pierwszego ekranu musi być pobierana od razu z wysokim priorytetem");
   assert(main.includes('type="image/avif"') && main.includes('type="image/webp"'), "Edukacja: brak nowoczesnych formatów obrazów");
   for (const m of html.matchAll(/<svg\b[^>]*>/gi)) assert(/aria-hidden="true"|aria-label="[^"]+"/.test(m[0]), "Edukacja: SVG bez opisu lub ukrycia");
   const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
