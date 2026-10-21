@@ -45,7 +45,7 @@ Sesje osobiste odbywają się w Rzeszowie, a spotkania zdalne są dostępne w ca
 ## Pozostałe informacje
 
 - [Oferta edukacyjna](https://www.psychologica.pl/oferta-edukacyjna/)
-- [Superwizja](https://www.psychologica.pl/superwizja/)
+- [Superwizja psychoterapii – wyłącznie stacjonarnie w Rzeszowie](https://www.psychologica.pl/superwizja/)
 - [O mnie](https://www.psychologica.pl/o-mnie/)
 - [Kontakt](https://www.psychologica.pl/skontaktuj-sie/)
 - [Polityka prywatności](https://www.psychologica.pl/polityka-prywatnosci/)

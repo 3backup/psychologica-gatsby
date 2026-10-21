@@ -87,7 +87,7 @@ const SupervisionDetails = ({ faq, address }) => (
       <Container>
         <h2>Dla kogo jest superwizja?</h2>
         <p>
-          Zapraszam specjalistów psychoterapii uzależnień oraz innych
+          Zapraszam psychoterapeutów, w tym specjalistów psychoterapii uzależnień, oraz innych
           profesjonalistów zajmujących się pomocą i wsparciem dla osób
           uzależnionych lub członków ich rodzin. Punktem wyjścia jest Twoja praca
           zawodowa i pytania, które pojawiają się w kontakcie z osobami korzystającymi z pomocy.
@@ -147,13 +147,27 @@ const SupervisionDetails = ({ faq, address }) => (
         <Columns>
           <div>
             <h2>Czas i koszt superwizji</h2>
-            <p>Zapraszam do kontaktu w celu szczegółowego omówienia procesu superwizji. Napisz lub zadzwoń, aby omówić formę spotkań, ich czas, częstotliwość i koszt.</p>
+            <p>
+              Czas trwania, częstotliwość spotkań i koszt superwizji ustalam po
+              rozmowie o Twojej pracy, potrzebach i wybranej formie współpracy.
+              Dzięki temu warunki są dopasowane do tego, czy interesuje Cię
+              superwizja indywidualna, czy grupowa.
+            </p>
+            <p>
+              Podczas pierwszego kontaktu omawiamy także kwestie organizacyjne:
+              możliwy rytm spotkań stacjonarnych oraz zakres tematów, które
+              chcesz wnosić do superwizji. Podaj obszar swojej praktyki,
+              preferowaną formę superwizji i dostępność na spotkania w Rzeszowie.
+              Przed rozpoczęciem współpracy omówimy ich czas, częstotliwość i koszt.
+            </p>
             <TextLink to="/skontaktuj-sie/">Omów warunki superwizji</TextLink>
           </div>
           <div>
-            <h2>Superwizja w Rzeszowie i online</h2>
+            <h2>Superwizja stacjonarna w Rzeszowie</h2>
             <p>
-              Spotkania mogą odbywać się w Rzeszowie lub online. Gabinet znajduje się przy ul.{" "}
+              Superwizję prowadzę wyłącznie stacjonarnie w Rzeszowie.
+              Dotyczy to zarówno spotkań indywidualnych, jak i grupowych.
+              Gabinet znajduje się przy ul.{" "}
               {address.streetAddress}, {address.postalCode} {address.addressLocality}.{" "}
               <TextLink to="/lokalizacja/">Sprawdź lokalizację gabinetu</TextLink>.
             </p>

@@ -1,7 +1,6 @@
 import React from "react";
 import { styled } from "linaria/react";
 import Container from "./styles/Container";
-import { StaticQuery, graphql } from "gatsby";
 
 import { StaticImage } from "gatsby-plugin-image";
 import Whatisimportant from "../images/whatisimportant-bg.svg";
@@ -86,28 +85,20 @@ const BgElement = styled(Whatisimportant)`
 
 export const OfferSuperwizja = () => {
   return (
-    <StaticQuery
-      query={graphql`
-        query OfferSuperwizjaQuery {
-          datoCmsSupervision {
-            superwizjaSekcjaGRnaTytu
-            supervisionGrayLead
-            supervisionGrayParagraph
-          }
-        }
-      `}
-      render={(data) => (
         <PsychoterapiaSection>
           <PsychoterapiaContainer>
             <RightContent>
               <HeaderPsychoterapia>
-                {data.datoCmsSupervision.superwizjaSekcjaGRnaTytu}
+                Praca z superwizorem
               </HeaderPsychoterapia>
               <LeadPsychoterapia>
-                {data.datoCmsSupervision.supervisionGrayLead.replace("profesjinalistów", "profesjonalistów")}
+                Prowadzę superwizję psychoterapii w formie indywidualnej i grupowej.
+                Spotkania są okazją do przyjrzenia się swojej pracy, trudnościom
+                i pytaniom pojawiającym się w kontakcie terapeutycznym.
               </LeadPsychoterapia>
               <ParagraphPsychoterapia>
-                {data.datoCmsSupervision.supervisionGrayParagraph}
+                Zapraszam do kontaktu, aby omówić potrzeby i warunki współpracy.
+                Superwizja odbywa się wyłącznie stacjonarnie w Rzeszowie.
               </ParagraphPsychoterapia>
             </RightContent>
             <LeftContent>
@@ -127,7 +118,5 @@ export const OfferSuperwizja = () => {
           </PsychoterapiaContainer>
           <BgElement aria-hidden="true" focusable="false" />
         </PsychoterapiaSection>
-      )}
-    />
   );
 };

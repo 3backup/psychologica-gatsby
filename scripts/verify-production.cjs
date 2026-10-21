@@ -20,7 +20,7 @@ const internalLinks = [
     anchor: "Sprawdź lokalizację gabinetu", paragraph: "Sprawdź lokalizację gabinetu." },
   { source: "/oferta-terapeutyczna/", section: "Czas i koszt spotkań", destination: "/lokalizacja/",
     anchor: "Sprawdź dojazd do gabinetu", paragraph: "Sprawdź dojazd do gabinetu." },
-  { source: "/superwizja/", section: "Superwizja w Rzeszowie i online", destination: "/lokalizacja/",
+  { source: "/superwizja/", section: "Superwizja stacjonarna w Rzeszowie", destination: "/lokalizacja/",
     anchor: "Sprawdź lokalizację gabinetu", paragraph: "Sprawdź lokalizację gabinetu." },
   { source: "/psychoterapia-uzaleznien-rzeszow/", section: "Zmiana zaczyna się od bezpiecznego rozpoznania sytuacji", destination: alcoholPath,
     anchor: "pomoc przy problemie alkoholowym w Rzeszowie",
@@ -503,14 +503,20 @@ function verifyAlcoholPage(html, facts) {
 
 function verifySupervisionPage(html, facts) {
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
-    "Superwizja psychoterapii uzależnień | Renata Zuba");
+    "Superwizja psychoterapii w Rzeszowie | Renata Zuba");
   assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
-    ["Superwizja psychoterapii uzależnień"]);
+    ["Superwizja psychoterapii"]);
+  const description = "Superwizja psychoterapii indywidualna i grupowa dla psychoterapeutów oraz profesjonalistów pomagających osobom uzależnionym i ich bliskim. Stacjonarnie w Rzeszowie.";
+  for (const attribute of ['name="description"', 'property="og:description"', 'name="twitter:description"']) {
+    const tag = [...html.matchAll(/<meta\b[^>]*>/gi)].map((m) => m[0]).find((tag) => tag.includes(attribute));
+    assert(tag?.includes(`content="${description}"`), "Superwizja: niezgodny opis Google/social");
+  }
+  assert(html.includes(`rel="canonical" href="${domain}/superwizja/"`), "Superwizja: niezgodny canonical");
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   assert(main, "Superwizja: brak głównego obszaru treści");
   const headings = [...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1]));
-  for (const heading of ["Superwizja", "Dla kogo jest superwizja?", "Superwizja indywidualna i grupowa",
-    "Jak rozpocząć współpracę?", "Czas i koszt superwizji", "Superwizja w Rzeszowie i online",
+  for (const heading of ["Praca z superwizorem", "Dla kogo jest superwizja?", "Superwizja indywidualna i grupowa",
+    "Jak rozpocząć współpracę?", "Czas i koszt superwizji", "Superwizja stacjonarna w Rzeszowie",
     "Kto prowadzi superwizję?", "Superwizja – najczęstsze pytania",
     "Szukasz terapii dla siebie lub bliskiej osoby?", "Sprawdź moją ofertę"]) {
     assert(headings.includes(heading), `Superwizja: brak nagłówka ${heading}`);
@@ -518,32 +524,44 @@ function verifySupervisionPage(html, facts) {
   const text = htmlText(main);
   for (const content of ["certyfikat superwizora psychoterapii uzależnień nr 34",
     "certyfikat specjalisty psychoterapii uzależnień nr 123",
-    "ich czas, częstotliwość i koszt", "innych profesjonalistów",
+    "ich czas, częstotliwość i koszt", "innych profesjonalistów", "Zapraszam psychoterapeutów",
+    "Czas trwania, częstotliwość spotkań i koszt superwizji ustalam po rozmowie o Twojej pracy, potrzebach i wybranej formie współpracy.",
+    "Superwizję prowadzę wyłącznie stacjonarnie w Rzeszowie.",
+    "Dotyczy to zarówno spotkań indywidualnych, jak i grupowych.",
     `przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`]) {
     assert(text.includes(content), `Superwizja: brak potwierdzonej informacji ${content}`);
   }
   assert(!text.includes(facts.price), "Superwizja nie może przejmować niepotwierdzonej ceny psychoterapii");
+  assert(!text.includes(facts.duration), "Superwizja nie może przejmować czasu sesji psychoterapii");
+  assert(!/\bonline\b|zdaln/i.test(text), "Superwizja jest dostępna wyłącznie stacjonarnie");
   assert(!text.includes("Stworzenie planu terapii dla Ciebie"), "Superwizja: pozostał ogólny proces terapii dla pacjentów");
   const visibleFaq = [...main.matchAll(/<details\b[^>]*>([\s\S]*?)<\/details>/gi)].map((m) => ({
     question: htmlText(m[1].match(/<summary\b[^>]*>([\s\S]*?)<\/summary>/i)?.[1] || ""),
     answer: htmlText(m[1].match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || ""),
   }));
   assert.deepEqual(visibleFaq.map((item) => item.question), [
-    "Na czym polega superwizja psychoterapii uzależnień?", "Jakie formy superwizji są dostępne?",
-    "Na czym polega terapia uzależnień?", "Ile może trwać terapia uzależnień?",
+    "Na czym polega superwizja psychoterapii?", "Jakie formy superwizji są dostępne?",
+    "Gdzie odbywają się spotkania superwizyjne?", "Ile trwa i ile kosztuje superwizja?",
   ]);
   for (const item of visibleFaq) {
     const sentences = item.answer.match(/[^.!?]+[.!?]/g) || [];
     assert(sentences.length >= 2 && sentences.length <= 4, "Superwizja: FAQ musi mieć 2–4 zdania");
   }
-  assert(visibleFaq[3].answer.includes(`Pojedyncza sesja psychoterapii trwa ${facts.duration}.`));
-  const faqNodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
-    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; })
-    .filter((node) => node["@type"] === "FAQPage");
+  assert(visibleFaq[2].answer.startsWith("Superwizja odbywa się wyłącznie stacjonarnie w Rzeszowie."));
+  const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]
+    .flatMap((m) => { const document = JSON.parse(m[1]); return document["@graph"] || [document]; });
+  const faqNodes = nodes.filter((node) => node["@type"] === "FAQPage");
   assert.equal(faqNodes.length, 1);
   assert.deepEqual(faqNodes[0].mainEntity.map((item) => ({
     question: normalizeText(item.name), answer: normalizeText(item.acceptedAnswer.text),
   })), visibleFaq, "Superwizja: rozbieżne FAQ HTML/JSON-LD");
+  const services = nodes.filter((node) => node["@type"] === "Service");
+  assert.equal(services.length, 1);
+  assert.equal(services[0].name, "Superwizja psychoterapii");
+  assert.equal(services[0].description, "Superwizja psychoterapii indywidualna i grupowa, wyłącznie stacjonarnie w Rzeszowie.");
+  assert.equal(services[0].serviceType, "Stacjonarna superwizja psychoterapii indywidualna i grupowa");
+  assert.equal(services[0].url, `${domain}/superwizja/`);
+  assert.equal(services[0].provider["@id"], `${domain}/#business`);
   assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "Superwizja: obraz bez alt");
   assert(html.includes('alt="Dłonie trzymające ziemię z młodą zieloną rośliną"'));
   assert(html.includes('alt="Renata Zuba – certyfikowany superwizor psychoterapii uzależnień"'));

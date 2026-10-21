@@ -8,43 +8,42 @@ import TopOffer from "../components/TopOffer";
 import SupervisionDetails from "../components/SupervisionDetails";
 
 const oferta = ({ data }) => {
-  const duration = data.datoCmsHowitlookslike?.processTime?.replace(/^Czas sesji:\s*/i, "").trim();
   const address = data.site?.siteMetadata?.businessAddress;
-  if (![duration, address?.streetAddress, address?.postalCode, address?.addressLocality]
+  if (![address?.streetAddress, address?.postalCode, address?.addressLocality]
     .every((value) => typeof value === "string" && value.trim())) {
-    throw new Error("Brak czasu sesji psychoterapii lub adresu dla informacji na stronie superwizji");
+    throw new Error("Brak potwierdzonego adresu dla informacji na stronie superwizji");
   }
   const faq = [
     {
-      question: "Na czym polega superwizja psychoterapii uzależnień?",
-      answer: "Superwizja jest przestrzenią do przyglądania się własnej pracy z osobami uzależnionymi lub członkami ich rodzin. Z superwizorem można omawiać trudności zawodowe, sposób rozumienia sytuacji i kierunek dalszej pracy. Oferta jest skierowana do specjalistów psychoterapii uzależnień i innych profesjonalistów zajmujących się pomocą w tym obszarze.",
+      question: "Na czym polega superwizja psychoterapii?",
+      answer: "Superwizja jest przestrzenią do refleksji nad własną pracą terapeutyczną. Z superwizorem można omawiać trudności zawodowe, sposób rozumienia sytuacji i kierunek dalszej pracy. Szczegółowy zakres współpracy ustalamy w odniesieniu do Twojej praktyki i potrzeb.",
     },
     {
       question: "Jakie formy superwizji są dostępne?",
-      answer: "Prowadzę superwizję indywidualną i grupową. Do kontaktu zapraszam specjalistów psychoterapii uzależnień oraz innych profesjonalistów wspierających osoby uzależnione lub członków ich rodzin. Szczegóły procesu i formę spotkań omawiam podczas kontaktu.",
+      answer: "Prowadzę superwizję indywidualną i grupową, wyłącznie stacjonarnie w Rzeszowie. Do kontaktu zapraszam psychoterapeutów, w tym specjalistów psychoterapii uzależnień, oraz innych profesjonalistów pomagających osobom uzależnionym i ich bliskim. Szczegóły współpracy omawiam podczas kontaktu.",
     },
     {
-      question: "Na czym polega terapia uzależnień?",
-      answer: "Psychoterapia uzależnień polega na lepszym rozumieniu mechanizmów problemu, własnych emocji i sposobów reagowania oraz pracy nad zmianą codziennego funkcjonowania. W Psychologica pracuję z osobami dorosłymi oraz z bliskimi, którzy doświadczają skutków uzależnienia w rodzinie lub związku. Szczegółowy opis pomocy dla pacjentów znajduje się w zakładce „Psychoterapia uzależnień”.",
+      question: "Gdzie odbywają się spotkania superwizyjne?",
+      answer: `Superwizja odbywa się wyłącznie stacjonarnie w Rzeszowie. Gabinet znajduje się przy ul. ${address.streetAddress}, ${address.postalCode} ${address.addressLocality}. Termin spotkania i szczegóły organizacyjne uzgadniamy podczas kontaktu.`,
     },
     {
-      question: "Ile może trwać terapia uzależnień?",
-      answer: `Łączny czas psychoterapii uzależnień zależy od sytuacji, potrzeb i celu pracy danej osoby. Częstotliwość i przewidywany sposób pracy ustalamy indywidualnie po pierwszych konsultacjach. Pojedyncza sesja psychoterapii trwa ${duration}.`,
+      question: "Ile trwa i ile kosztuje superwizja?",
+      answer: "Czas trwania, częstotliwość spotkań i koszt superwizji ustalam po rozmowie o Twojej pracy, potrzebach i wybranej formie współpracy. Przed rozpoczęciem omawiamy warunki superwizji indywidualnej lub grupowej. Aby poznać szczegóły, napisz lub zadzwoń.",
     },
   ];
   return (
     <>
       <Layout
-        pageTitle="Superwizja psychoterapii uzależnień | Renata Zuba"
-        pageDescription="Superwizja indywidualna i grupowa dla specjalistów psychoterapii uzależnień. Certyfikowany superwizor Renata Zuba – spotkania w Rzeszowie i online."
-        pageImageAlt="Superwizja psychoterapii uzależnień – Renata Zuba"
+        pageTitle="Superwizja psychoterapii w Rzeszowie | Renata Zuba"
+        pageDescription="Superwizja psychoterapii indywidualna i grupowa dla psychoterapeutów oraz profesjonalistów pomagających osobom uzależnionym i ich bliskim. Stacjonarnie w Rzeszowie."
+        pageImageAlt="Superwizja psychoterapii – Renata Zuba"
         pageType="WebPage"
         service={{
-          name: "Superwizja psychoterapii uzależnień",
-          serviceType: "Superwizja indywidualna i grupowa",
+          name: "Superwizja psychoterapii",
+          serviceType: "Stacjonarna superwizja psychoterapii indywidualna i grupowa",
           description:
-            "Superwizja dla specjalistów psychoterapii uzależnień w Rzeszowie i online.",
-          audience: "specjaliści psychoterapii uzależnień",
+            "Superwizja psychoterapii indywidualna i grupowa, wyłącznie stacjonarnie w Rzeszowie.",
+          audience: "psychoterapeuci, w tym specjaliści psychoterapii uzależnień, oraz inni profesjonaliści pomagający osobom uzależnionym i ich bliskim",
         }}
         breadcrumbs={[
           { name: "Strona główna", path: "/" },
@@ -53,8 +52,8 @@ const oferta = ({ data }) => {
         faq={faq}>
         <main>
           <TopOffer
-            headerElement="Superwizja psychoterapii uzależnień"
-            subheaderText="Superwizja indywidualna i grupowa dla specjalistów psychoterapii uzależnień oraz innych profesjonalistów pomagających osobom uzależnionym i ich bliskim."
+            headerElement="Superwizja psychoterapii"
+            subheaderText="Superwizja indywidualna i grupowa dla psychoterapeutów oraz innych profesjonalistów pomagających osobom uzależnionym i ich bliskim. Spotkania wyłącznie stacjonarnie w Rzeszowie."
           />
           <OfferSuperwizja />
           <SupervisionDetails faq={faq} address={address} />
@@ -75,7 +74,6 @@ const oferta = ({ data }) => {
 export const query = graphql`
   query SuperwizjaQuery {
     site { siteMetadata { businessAddress { streetAddress postalCode addressLocality } } }
-    datoCmsHowitlookslike { processTime }
     datoCmsSupervision {
       supervisionOfferCta
       supervisionOfferCtaCopy1

@@ -227,7 +227,7 @@ const Offer = () => {
                   </SingleOfferHeader>
 
                   <AboutLink to="/superwizja/">
-                    Superwizja psychoterapii uzależnień
+                    Superwizja psychoterapii
                     <ArrowRight aria-hidden="true" focusable="false" />
                   </AboutLink>
                 </SingleOfferText>
