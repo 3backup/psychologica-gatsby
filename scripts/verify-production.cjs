@@ -151,13 +151,20 @@ function verifyContactPage(html, facts) {
     ["Kontakt z psychologiem Renatą Zubą w Rzeszowie"]);
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   assert(main, "Kontakt: brak obszaru main");
-  const sections = [...main.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((m) => m[1]);
+  const accordionItems = [...main.matchAll(/<details\b([^>]*)>([\s\S]*?)<\/details>/gi)];
+  assert.equal(accordionItems.length, 5, "Kontakt: wymagane pięć rozwijanych odpowiedzi");
+  for (const item of accordionItems) {
+    assert(!/\bopen(?:\s|=|$)/i.test(item[1]), "Kontakt: odpowiedzi powinny być domyślnie zwinięte");
+    assert(/<summary\b[^>]*>\s*<h2\b[^>]*>[\s\S]*?<\/h2>\s*<\/summary>/.test(item[2]),
+      "Kontakt: każda odpowiedź wymaga nagłówka w summary");
+  }
+  const sections = accordionItems.map((m) => m[2]);
   assert.deepEqual(sections.map((section) => htmlText(section.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/i)?.[1] || "")), [
     "Co dzieje się po wysłaniu wiadomości?", "Co warto napisać w wiadomości?",
     "W jakich sprawach możesz się skontaktować?", "Jak rozpoczyna się współpraca?", "Gdzie odbywają się spotkania?",
   ]);
   assert.deepEqual([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1])), [
-    "Jak jeszcze się ze mną skontaktować?", "Wyślij wiadomość",
+    "Wyślij wiadomość", "Jak jeszcze się ze mną skontaktować?",
     "Co dzieje się po wysłaniu wiadomości?", "Co warto napisać w wiadomości?",
     "W jakich sprawach możesz się skontaktować?", "Jak rozpoczyna się współpraca?", "Gdzie odbywają się spotkania?",
   ]);
@@ -166,7 +173,9 @@ function verifyContactPage(html, facts) {
     assert.equal(matches.length, 1, "Kontakt: każda sekcja powinna zawierać jeden akapit");
     return htmlText(matches[0][1]).replace(/\s+([.,;:!?])/g, "$1");
   });
-  const introduction = main.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || "";
+  const introduction = [...main.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((match) => match[1]).find((paragraph) => htmlText(paragraph).startsWith("Aby umówić pierwszą sesję")) || "";
+  assert(introduction, "Kontakt: brak krótkiego opisu sposobów kontaktu");
   const words = htmlText([introduction, ...paragraphs].join(" ")).split(/\s+/).length;
   assert(words >= 150, `Kontakt: tylko ${words} słów treści informacyjnej`);
   assert(paragraphs[0].includes("Po otrzymaniu wiadomości odniosę się do Twojego zgłoszenia") && paragraphs[0].includes("wyłącznie stacjonarnie w Rzeszowie"),
@@ -205,7 +214,8 @@ function verifyContactPage(html, facts) {
     "Kontakt: nieuzupełniony szablon");
   for (const name of ["email", "name", "phone", "message", "_redirect_url"]) assert(form[2].includes(`name="${name}"`), `Kontakt: brak pola ${name}`);
   assert(form[2].includes('value="https://www.psychologica.pl/dziekujemy/"'), "Kontakt: zmienione przekierowanie formularza");
-  assert(main.indexOf(form[0]) < main.indexOf('<section'), "Kontakt: nowa treść powinna być pod formularzem");
+  assert(main.indexOf(form[0]) < main.indexOf('<details'), "Kontakt: pytania powinny być pod formularzem");
+  assert(main.indexOf(form[0]) < main.indexOf('href="tel:'), "Kontakt: formularz powinien poprzedzać dodatkowe dane w kolejności dokumentu");
   assert(main.includes(`href="tel:${facts.telephone.replace(/\s/g, "")}"`) && main.includes(`href="mailto:${facts.email}"`), "Kontakt: niezgodne linki telefonu lub e-maila");
   assert(main.includes(locationMap.mapUrl.replace(/&/g, "&amp;")), "Kontakt: brak zgodnego odnośnika OpenStreetMap");
   const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]

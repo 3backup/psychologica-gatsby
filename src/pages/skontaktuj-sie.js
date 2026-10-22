@@ -24,7 +24,7 @@ const HeaderContact = styled.header`
 `;
 const ContactContainer = styled(Container)`
   box-sizing: border-box;
-  padding-top: 3.25rem;
+  padding-top: 1.5rem;
   padding-bottom: 3.25rem;
   min-height: 95vh;
   a:focus-visible, button:focus-visible {
@@ -32,7 +32,7 @@ const ContactContainer = styled(Container)`
     outline-offset: 4px;
   }
   @media (max-width: 768px) {
-    padding-top: 1.5rem;
+    padding-top: 1rem;
     padding-bottom: 2rem;
   }
 `;
@@ -53,12 +53,13 @@ const BgHalf = styled.div`
   }
 `;
 const TitleContact = styled.h1`
+  grid-area: heading;
   overflow-wrap: anywhere;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
-  width: 70%;
-  font-size: 48px;
+  margin: 0;
+  font-size: 36px;
   line-height: 125%;
   color: #1f1f1f;
   & span {
@@ -66,23 +67,27 @@ const TitleContact = styled.h1`
     font-weight: 700;
   }
   @media (max-width: 768px) {
-    font-size: 32px;
-    width: 100%;
+    font-size: 28px;
   }
 `;
 const InfoContent = styled.div`
   width: 100%;
-  display: flex;
-  align-items: flex-start;
-  gap: 3rem;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-rows: min-content 1fr;
+  grid-template-areas: "heading form" "info form";
+  align-items: start;
+  column-gap: 5rem;
+  row-gap: 1.5rem;
   @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 2rem;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+    grid-template-areas: "heading" "form" "info";
+    gap: 1.5rem;
   }
 `;
 const LeftContact = styled.div`
-  flex: 1;
+  grid-area: info;
   min-width: 0;
   max-width: 28rem;
   flex-direction: column;
@@ -96,14 +101,16 @@ const DescParagraph = styled.p`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
-  font-size: 22px;
+  font-size: 18px;
   line-height: 150%;
   color: #005650;
+  margin: 0 0 1.5rem;
 `;
 const RightContact = styled.div`
-  flex: 1;
+  grid-area: form;
   min-width: 0;
   max-width: 28rem;
+  justify-self: end;
   width: 100%;
   box-sizing: border-box;
 
@@ -112,7 +119,7 @@ const RightContact = styled.div`
   flex-direction: column;
   @media (max-width: 768px) {
     background: #f4f5f7;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 100%;
     position: relative;
     max-width: 100%;
@@ -126,18 +133,12 @@ const ContactForm = styled.form`
   box-sizing: border-box;
   flex-direction: column;
   justify-content: space-between;
-  @media (max-width: 768px) {
-    padding: 2rem;
-    margin-bottom: 2rem;
-  }
-  @media (max-width: 578px) {
-    padding: 0;
-  }
 `;
 const InputForm = styled.input`
   font-family: Red Hat Display;
-  margin-bottom: 1rem;
-  padding: 1rem;
+  margin-bottom: 0.75rem;
+  padding: 0.75rem;
+  box-sizing: border-box;
   background: transparent;
   border-top: none;
   border-left: none;
@@ -147,7 +148,7 @@ const InputForm = styled.input`
   border-bottom: 1px solid #dbdbdb;
   font-style: normal;
   font-weight: bold;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 150%;
   color: #3e7672;
   &::placeholder {
@@ -164,8 +165,9 @@ const InputForm = styled.input`
 `;
 const TextForm = styled.textarea`
   font-family: Red Hat Display;
-  margin-bottom: 2rem;
-  padding: 1rem;
+  margin-bottom: 1.25rem;
+  padding: 0.75rem;
+  box-sizing: border-box;
   background: transparent;
   border-top: none;
   border-left: none;
@@ -175,7 +177,7 @@ const TextForm = styled.textarea`
   border-bottom: 1px solid #dbdbdb;
   font-style: normal;
   font-weight: normal;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 150%;
   color: #3e7672;
   &::placeholder {
@@ -191,7 +193,10 @@ const TextForm = styled.textarea`
   }
 `;
 const FormButton = styled(Button)`
-  max-width: 90%;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  padding: 0.75rem;
   margin: 0 auto;
 `;
 const Footnotes = styled.p`
@@ -200,7 +205,7 @@ const Footnotes = styled.p`
   font-weight: normal;
   margin: 0;
   display: block;
-  width: 80%;
+  width: 100%;
   font-size: 14px;
   line-height: 150%;
   /* or 21px */
@@ -246,7 +251,7 @@ const SingleContactInformation = styled.div`
   font-weight: normal;
   font-size: 18px;
   line-height: 150%;
-  margin: 1.625rem 0;
+  margin: 1.25rem 0;
   color: #3e7672;
   & svg {
     margin-right: 1.6rem;
@@ -266,39 +271,68 @@ const ContactHeading = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
-  font-size: 26px;
+  font-size: 22px;
   line-height: 125%;
   text-align: left;
   color: #1f1f1f;
-  margin: 0 0 1rem;
+  margin: 0 0 0.75rem;
 `;
 const FormIntroduction = styled.p`
   font-family: Red Hat Display;
-  font-size: 18px;
+  font-size: 16px;
   line-height: 1.5;
   color: #005650;
-  margin: 0 0 1.5rem;
+  margin: 0 0 1rem;
 `;
 const ContactDetails = styled.div`
-  margin-top: 4rem;
-  padding-top: 3rem;
-  border-top: 1px solid #dbdbdb;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #dfe8e5;
   max-width: 52rem;
-  & section + section { margin-top: 2.5rem; }
+  & details {
+    background: #fff;
+    border: 1px solid #dfe8e5;
+    border-radius: 12px;
+  }
+  & details + details { margin-top: 0.75rem; }
+  & summary {
+    position: relative;
+    padding: 1.125rem 3.5rem 1.125rem 1.25rem;
+    list-style: none;
+    cursor: pointer;
+  }
+  & summary::-webkit-details-marker { display: none; }
+  & summary::after {
+    content: "+";
+    position: absolute;
+    top: 50%;
+    right: 1.25rem;
+    transform: translateY(-50%);
+    font-family: "Red Hat Display", sans-serif;
+    font-size: 24px;
+    color: #005650;
+  }
+  & details[open] summary::after { content: "−"; }
+  & summary:focus-visible {
+    outline: 3px solid #4abd7f;
+    outline-offset: -3px;
+    border-radius: 12px;
+  }
   & h2 {
     font-family: "Red Hat Display", sans-serif;
-    font-size: 26px;
-    line-height: 1.25;
+    font-size: 18px;
+    line-height: 1.4;
     font-weight: 500;
     color: #1f1f1f;
-    margin: 0 0 1rem;
+    margin: 0;
   }
   & p {
     font-family: "Red Hat Display", sans-serif;
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.65;
     color: #005650;
     margin: 0;
+    padding: 0 1.25rem 1.25rem;
   }
 `;
 
@@ -378,7 +412,7 @@ const SkontaktujSie = ({ data }) => {
       <ContactContainer>
         <HeaderContact>
           <Link to="/" aria-label="Psychologica – strona główna">
-            <img src={logoHeader} alt="" height="60" width="185" aria-hidden="true" />
+            <img src={logoHeader} alt="" height="48" width="148" aria-hidden="true" />
           </Link>
           <GoBack to="/">
             <GoBackIcon aria-hidden="true" focusable="false" />
@@ -386,46 +420,10 @@ const SkontaktujSie = ({ data }) => {
           </GoBack>
         </HeaderContact>
         <ContactContent>
-          <TitleContact>
-            Kontakt z psychologiem <span>Renatą Zubą</span> w Rzeszowie
-          </TitleContact>
           <InfoContent>
-            <LeftContact>
-              <DescParagraph>
-                Aby umówić pierwszą sesję, zadzwoń do mnie. Możesz też napisać e-mail
-                lub skorzystać z formularza. Wybierz dogodny sposób kontaktu i zaznacz,
-                czy interesuje Cię spotkanie w gabinecie, czy zdalne.
-              </DescParagraph>
-              <AdditionalInformation>
-                <ContactHeading>Jak jeszcze się ze mną skontaktować?</ContactHeading>
-                <SingleContactInformation>
-                  <PhoneIcon aria-hidden="true" focusable="false" />{" "}
-                  <ContactLink
-                    onClick={() => trackContactClick("phone", "contact_page")}
-                    href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
-                    {data.datoCmsGlobal.phonenumber}
-                  </ContactLink>
-                </SingleContactInformation>
-                <SingleContactInformation>
-                  <MailIcon aria-hidden="true" focusable="false" />{" "}
-                  <ContactLink
-                    onClick={() => trackContactClick("email", "contact_page")}
-                    href={`mailto:${data.datoCmsGlobal.email || ""}`}>
-                    {data.datoCmsGlobal.email}
-                  </ContactLink>
-                </SingleContactInformation>
-                <SingleContactInformation>
-                  <PinIcon aria-hidden="true" focusable="false" />{" "}
-                  <ContactLink
-                    href={mapUrl}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {data.datoCmsGlobal.adress}
-                  </ContactLink>
-                </SingleContactInformation>
-              </AdditionalInformation>
-              <Footnotes>{data.datoCmsContact.companyDetails}</Footnotes>
-            </LeftContact>
+            <TitleContact>
+              Kontakt z psychologiem <span>Renatą Zubą</span> w Rzeszowie
+            </TitleContact>
             <RightContact>
               <ContactHeading id="contact-form-heading">Wyślij wiadomość</ContactHeading>
               <FormIntroduction id="contact-form-introduction">
@@ -489,10 +487,46 @@ const SkontaktujSie = ({ data }) => {
                 <Link to="/polityka-prywatnosci/">Polityce Prywatności.</Link>
               </Footnotes>
             </RightContact>
+            <LeftContact>
+              <DescParagraph>
+                Aby umówić pierwszą sesję, zadzwoń do mnie. Możesz też napisać e-mail
+                lub skorzystać z formularza. Wybierz dogodny sposób kontaktu i zaznacz,
+                czy interesuje Cię spotkanie w gabinecie, czy zdalne.
+              </DescParagraph>
+              <AdditionalInformation>
+                <ContactHeading>Jak jeszcze się ze mną skontaktować?</ContactHeading>
+                <SingleContactInformation>
+                  <PhoneIcon aria-hidden="true" focusable="false" />{" "}
+                  <ContactLink
+                    onClick={() => trackContactClick("phone", "contact_page")}
+                    href={`tel:${(data.datoCmsGlobal.phonenumber || "").replace(/\s/g, "")}`}>
+                    {data.datoCmsGlobal.phonenumber}
+                  </ContactLink>
+                </SingleContactInformation>
+                <SingleContactInformation>
+                  <MailIcon aria-hidden="true" focusable="false" />{" "}
+                  <ContactLink
+                    onClick={() => trackContactClick("email", "contact_page")}
+                    href={`mailto:${data.datoCmsGlobal.email || ""}`}>
+                    {data.datoCmsGlobal.email}
+                  </ContactLink>
+                </SingleContactInformation>
+                <SingleContactInformation>
+                  <PinIcon aria-hidden="true" focusable="false" />{" "}
+                  <ContactLink
+                    href={mapUrl}
+                    target="_blank"
+                    rel="noopener noreferrer">
+                    {data.datoCmsGlobal.adress}
+                  </ContactLink>
+                </SingleContactInformation>
+              </AdditionalInformation>
+              <Footnotes>{data.datoCmsContact.companyDetails}</Footnotes>
+            </LeftContact>
           </InfoContent>
           <ContactDetails>
-            <section aria-labelledby="contact-next-step">
-              <h2 id="contact-next-step">Co dzieje się po wysłaniu wiadomości?</h2>
+            <details aria-labelledby="contact-next-step">
+              <summary><h2 id="contact-next-step">Co dzieje się po wysłaniu wiadomości?</h2></summary>
               <p>
                 Pierwszy kontakt służy umówieniu terminu konsultacji. Po otrzymaniu
                 wiadomości odniosę się do Twojego zgłoszenia i omówimy dalszy krok
@@ -500,9 +534,9 @@ const SkontaktujSie = ({ data }) => {
                 albo kontakt zdalny. W przypadku <TextLink to="/superwizja/">superwizji psychoterapii</TextLink>{" "}
                 spotkania odbywają się wyłącznie stacjonarnie w Rzeszowie.
               </p>
-            </section>
-            <section aria-labelledby="contact-message">
-              <h2 id="contact-message">Co warto napisać w wiadomości?</h2>
+            </details>
+            <details aria-labelledby="contact-message">
+              <summary><h2 id="contact-message">Co warto napisać w wiadomości?</h2></summary>
               <p>
                 Nie musisz opisywać wszystkiego szczegółowo. Wystarczy krótka
                 informacja, czy chodzi o <TextLink to="/pomoc-psychologiczna-rzeszow/">pomoc psychologiczną</TextLink>,{" "}
@@ -511,9 +545,9 @@ const SkontaktujSie = ({ data }) => {
                 a także czy wolisz spotkanie w gabinecie w Rzeszowie, czy online.
                 Możesz też dodać, w jakich godzinach najłatwiej się z Tobą skontaktować.
               </p>
-            </section>
-            <section aria-labelledby="contact-scope">
-              <h2 id="contact-scope">W jakich sprawach możesz się skontaktować?</h2>
+            </details>
+            <details aria-labelledby="contact-scope">
+              <summary><h2 id="contact-scope">W jakich sprawach możesz się skontaktować?</h2></summary>
               <p>
                 Oferuję pomoc psychologiczną i psychoterapię osobom dorosłym, które
                 doświadczają trudności emocjonalnych, lęku, obniżonego nastroju,
@@ -524,9 +558,9 @@ const SkontaktujSie = ({ data }) => {
                 uzależnień i wsparcia bliskich</TextLink>. Pierwsze spotkanie pozwala
                 wspólnie omówić potrzeby i możliwości dalszej pracy.
               </p>
-            </section>
-            <section aria-labelledby="contact-process">
-              <h2 id="contact-process">Jak rozpoczyna się współpraca?</h2>
+            </details>
+            <details aria-labelledby="contact-process">
+              <summary><h2 id="contact-process">Jak rozpoczyna się współpraca?</h2></summary>
               <p>
                 Pierwszy kontakt służy umówieniu terminu spotkania. Podczas konsultacji
                 rozmawiamy o aktualnych trudnościach, potrzebach i oczekiwaniach.
@@ -537,9 +571,9 @@ const SkontaktujSie = ({ data }) => {
                 Informacje te dotyczą psychoterapii i pomocy psychologicznej,
                 zarówno w gabinecie, jak i zdalnie.
               </p>
-            </section>
-            <section aria-labelledby="contact-location">
-              <h2 id="contact-location">Gdzie odbywają się spotkania?</h2>
+            </details>
+            <details aria-labelledby="contact-location">
+              <summary><h2 id="contact-location">Gdzie odbywają się spotkania?</h2></summary>
               <p>
                 Spotkania osobiste prowadzę w gabinecie przy ul. {address.streetAddress}, {address.postalCode}{" "}
                 {address.addressLocality}. Dostępne są także sesje zdalne dla osób
@@ -549,7 +583,7 @@ const SkontaktujSie = ({ data }) => {
                 Formę spotkania możesz omówić przy ustalaniu terminu pierwszej sesji.
                 {" "}Przed kontaktem możesz również poznać <TextLink to="/o-mnie/">moje doświadczenie i kwalifikacje</TextLink>.
               </p>
-            </section>
+            </details>
           </ContactDetails>
         </ContactContent>
       </ContactContainer>
