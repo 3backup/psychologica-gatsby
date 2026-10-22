@@ -148,11 +148,17 @@ function verifyContactPage(html, facts) {
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
     "Kontakt z psychologiem w Rzeszowie | Psychologica");
   assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
-    ["Kontakt – Psycholog Renata Zuba Rzeszów | Psychologica"]);
+    ["Kontakt z psychologiem Renatą Zubą w Rzeszowie"]);
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   assert(main, "Kontakt: brak obszaru main");
   const sections = [...main.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((m) => m[1]);
   assert.deepEqual(sections.map((section) => htmlText(section.match(/<h2\b[^>]*>([\s\S]*?)<\/h2>/i)?.[1] || "")), [
+    "Co dzieje się po wysłaniu wiadomości?", "Co warto napisać w wiadomości?",
+    "W jakich sprawach możesz się skontaktować?", "Jak rozpoczyna się współpraca?", "Gdzie odbywają się spotkania?",
+  ]);
+  assert.deepEqual([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1])), [
+    "Jak jeszcze się ze mną skontaktować?", "Wyślij wiadomość",
+    "Co dzieje się po wysłaniu wiadomości?", "Co warto napisać w wiadomości?",
     "W jakich sprawach możesz się skontaktować?", "Jak rozpoczyna się współpraca?", "Gdzie odbywają się spotkania?",
   ]);
   const paragraphs = sections.map((section) => {
@@ -163,23 +169,40 @@ function verifyContactPage(html, facts) {
   const introduction = main.match(/<p\b[^>]*>([\s\S]*?)<\/p>/i)?.[1] || "";
   const words = htmlText([introduction, ...paragraphs].join(" ")).split(/\s+/).length;
   assert(words >= 150, `Kontakt: tylko ${words} słów treści informacyjnej`);
-  assert(paragraphs[0].includes("osobom dorosłym") && paragraphs[0].includes("ich bliskimi"), "Kontakt: brak odbiorców pomocy");
-  assert(paragraphs[1].includes(`Czas sesji indywidualnej: ${facts.duration}.`), "Kontakt: czas sesji różni się od CMS");
-  assert(paragraphs[1].includes(`Koszt sesji indywidualnej: ${facts.price}.`), "Kontakt: cena różni się od CMS");
+  assert(paragraphs[0].includes("Po otrzymaniu wiadomości odniosę się do Twojego zgłoszenia") && paragraphs[0].includes("wyłącznie stacjonarnie w Rzeszowie"),
+    "Kontakt: brak kolejnego kroku lub warunku stacjonarnej superwizji");
+  assert(paragraphs[1].includes("Nie musisz opisywać wszystkiego szczegółowo") && paragraphs[1].includes("w jakich godzinach najłatwiej się z Tobą skontaktować"),
+    "Kontakt: brak wskazówek do wiadomości");
+  assert(paragraphs[2].includes("osobom dorosłym") && paragraphs[2].includes("ich bliskimi"), "Kontakt: brak odbiorców pomocy");
+  assert(paragraphs[3].includes(`Czas sesji indywidualnej: ${facts.duration}.`), "Kontakt: czas sesji różni się od CMS");
+  assert(paragraphs[3].includes(`Koszt sesji indywidualnej: ${facts.price}.`), "Kontakt: cena różni się od CMS");
   assert(!/\d+\s*zł/.test(htmlText(introduction)), "Kontakt: cena powtórzona we wstępie");
-  assert(paragraphs[2].includes(`przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`),
+  assert(paragraphs[4].includes(`przy ul. ${facts.address.streetAddress}, ${facts.address.postalCode} ${facts.address.addressLocality}`),
     "Kontakt: adres niezgodny z CMS");
-  assert(paragraphs[2].includes("sesje zdalne"), "Kontakt: brak informacji o spotkaniach zdalnych");
+  assert(paragraphs[4].includes("sesje zdalne"), "Kontakt: brak informacji o spotkaniach zdalnych");
   for (const [index, route, anchor] of [
-    [0, "/oferta-terapeutyczna/", "ofertę psychoterapii dorosłych"],
-    [0, "/psychoterapia-uzaleznien-rzeszow/", "psychoterapii uzależnień i wsparcia bliskich"],
-    [2, "/lokalizacja/", "Sprawdź dojazd do gabinetu"],
+    [0, "/superwizja/", "superwizji psychoterapii"],
+    [1, "/pomoc-psychologiczna-rzeszow/", "pomoc psychologiczną"],
+    [1, "/oferta-terapeutyczna/", "psychoterapię dorosłych"],
+    [1, "/psychoterapia-uzaleznien-rzeszow/", "psychoterapię uzależnień"],
+    [2, "/oferta-terapeutyczna/", "ofertę psychoterapii dorosłych"],
+    [2, "/psychoterapia-uzaleznien-rzeszow/", "psychoterapii uzależnień i wsparcia bliskich"],
+    [4, "/lokalizacja/", "Sprawdź dojazd do gabinetu"],
+    [4, "/o-mnie/", "moje doświadczenie i kwalifikacje"],
   ]) {
     assert([...sections[index].matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
       .some((m) => m[1].includes(`href="${route}"`) && htmlText(m[2]) === anchor), `Kontakt: brak linku ${anchor}`);
   }
   const form = main.match(/<form\b([^>]*)>([\s\S]*?)<\/form>/i);
   assert(form && /method="POST"/i.test(form[1]) && form[1].includes('action="https://formkeep.com/f/c856eba7e66e"'), "Kontakt: zmieniony formularz");
+  assert(form[1].includes('aria-labelledby="contact-form-heading"') && form[1].includes('aria-describedby="contact-form-introduction"'),
+    "Kontakt: formularz wymaga powiązanego nagłówka i wstępu");
+  assert(/<h2\b[^>]*id="contact-form-heading"[^>]*>Wyślij wiadomość<\/h2>/.test(main), "Kontakt: brak H2 formularza");
+  const formIntroduction = main.match(/<p\b[^>]*id="contact-form-introduction"[^>]*>([\s\S]*?)<\/p>/)?.[1];
+  assert(htmlText(formIntroduction || "").includes("Odpowiem na podany adres e-mail lub numer telefonu tak szybko, jak będzie to możliwe."),
+    "Kontakt: brak potwierdzonej informacji o odpowiedzi");
+  assert(!/\[1 dnia roboczego\]|\[wycenę|\[Zakres\]|\[termin\]|\[orientacyjny budżet\]/i.test(htmlText(main)),
+    "Kontakt: nieuzupełniony szablon");
   for (const name of ["email", "name", "phone", "message", "_redirect_url"]) assert(form[2].includes(`name="${name}"`), `Kontakt: brak pola ${name}`);
   assert(form[2].includes('value="https://www.psychologica.pl/dziekujemy/"'), "Kontakt: zmienione przekierowanie formularza");
   assert(main.indexOf(form[0]) < main.indexOf('<section'), "Kontakt: nowa treść powinna być pod formularzem");
@@ -839,7 +862,7 @@ async function main() {
   console.log("OFERTA EDUKACYJNA: OK — title/opis/H1, 7 H2, odbiorcy, kwalifikacje, 3 kroki kontaktu, 4 informacje do zapytania, warunki, obrazy i linki");
   console.log("O MNIE: OK — title/H1, opis Google, 7 H2, kwalifikacje zgodne z CMS, doświadczenie, dorobek, obrazy i 7 celów linkowania");
   console.log("LINKOWANIE: OK — linki do pomocy i strony o problemie alkoholowym oraz 3 kontekstowe linki do lokalizacji; strony dostępne");
-  console.log(`KONTAKT: OK — ${contactWords} słów, 3 sekcje, cennik CMS, adres, linki i zachowany formularz`);
+  console.log(`KONTAKT: OK — ${contactWords} słów, 5 sekcji, 7 H2, cennik CMS, adres, linki i zachowany formularz`);
   console.log(`LOCALBUSINESS: OK — ${pageUrls.length} podstron, jeden wpis firmy z miastem i danymi zgodnymi z CMS`);
   console.log(`LLMS.TXT: OK — tekst UTF-8, opis firmy, ${llmsLinks.length} opisanych i dostępnych linków`);
   console.log("LOKALIZACJA: OK — title, H1, adres we wstępie, opis Google, 3 sekcje, linki i dostępność obrazów");

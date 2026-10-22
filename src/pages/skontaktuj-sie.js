@@ -53,6 +53,7 @@ const BgHalf = styled.div`
   }
 `;
 const TitleContact = styled.h1`
+  overflow-wrap: anywhere;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
@@ -261,16 +262,22 @@ const ContactLink = styled.a`
     color: rgba(74, 189, 127, 1);
   }
 `;
-const FormHeader = styled.p`
+const ContactHeading = styled.h2`
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: 500;
   font-size: 26px;
   line-height: 125%;
   text-align: left;
-  @media (min-width: 769px) {
-    display: none;
-  }
+  color: #1f1f1f;
+  margin: 0 0 1rem;
+`;
+const FormIntroduction = styled.p`
+  font-family: Red Hat Display;
+  font-size: 18px;
+  line-height: 1.5;
+  color: #005650;
+  margin: 0 0 1.5rem;
 `;
 const ContactDetails = styled.div`
   margin-top: 4rem;
@@ -380,7 +387,7 @@ const SkontaktujSie = ({ data }) => {
         </HeaderContact>
         <ContactContent>
           <TitleContact>
-            Kontakt – Psycholog <span>Renata Zuba</span> Rzeszów | Psychologica
+            Kontakt z psychologiem <span>Renatą Zubą</span> w Rzeszowie
           </TitleContact>
           <InfoContent>
             <LeftContact>
@@ -390,6 +397,7 @@ const SkontaktujSie = ({ data }) => {
                 czy interesuje Cię spotkanie w gabinecie, czy zdalne.
               </DescParagraph>
               <AdditionalInformation>
+                <ContactHeading>Jak jeszcze się ze mną skontaktować?</ContactHeading>
                 <SingleContactInformation>
                   <PhoneIcon aria-hidden="true" focusable="false" />{" "}
                   <ContactLink
@@ -419,10 +427,16 @@ const SkontaktujSie = ({ data }) => {
               <Footnotes>{data.datoCmsContact.companyDetails}</Footnotes>
             </LeftContact>
             <RightContact>
-              <FormHeader>Wyślij wiadomość</FormHeader>
+              <ContactHeading id="contact-form-heading">Wyślij wiadomość</ContactHeading>
+              <FormIntroduction id="contact-form-introduction">
+                Opisz krótko, czego potrzebujesz. Odpowiem na podany adres e-mail
+                lub numer telefonu tak szybko, jak będzie to możliwe.
+              </FormIntroduction>
 
               <ContactForm
                 ref={formRef}
+                aria-labelledby="contact-form-heading"
+                aria-describedby="contact-form-introduction"
                 action="https://formkeep.com/f/c856eba7e66e"
                 acceptCharset="UTF-8"
                 encType="multipart/form-data"
@@ -477,6 +491,27 @@ const SkontaktujSie = ({ data }) => {
             </RightContact>
           </InfoContent>
           <ContactDetails>
+            <section aria-labelledby="contact-next-step">
+              <h2 id="contact-next-step">Co dzieje się po wysłaniu wiadomości?</h2>
+              <p>
+                Pierwszy kontakt służy umówieniu terminu konsultacji. Po otrzymaniu
+                wiadomości odniosę się do Twojego zgłoszenia i omówimy dalszy krok
+                odpowiedni do Twojej sytuacji: spotkanie w gabinecie w Rzeszowie
+                albo kontakt zdalny. W przypadku <TextLink to="/superwizja/">superwizji psychoterapii</TextLink>{" "}
+                spotkania odbywają się wyłącznie stacjonarnie w Rzeszowie.
+              </p>
+            </section>
+            <section aria-labelledby="contact-message">
+              <h2 id="contact-message">Co warto napisać w wiadomości?</h2>
+              <p>
+                Nie musisz opisywać wszystkiego szczegółowo. Wystarczy krótka
+                informacja, czy chodzi o <TextLink to="/pomoc-psychologiczna-rzeszow/">pomoc psychologiczną</TextLink>,{" "}
+                <TextLink to="/oferta-terapeutyczna/">psychoterapię dorosłych</TextLink>{" "}
+                czy <TextLink to="/psychoterapia-uzaleznien-rzeszow/">psychoterapię uzależnień</TextLink>,
+                a także czy wolisz spotkanie w gabinecie w Rzeszowie, czy online.
+                Możesz też dodać, w jakich godzinach najłatwiej się z Tobą skontaktować.
+              </p>
+            </section>
             <section aria-labelledby="contact-scope">
               <h2 id="contact-scope">W jakich sprawach możesz się skontaktować?</h2>
               <p>
@@ -512,6 +547,7 @@ const SkontaktujSie = ({ data }) => {
                 zapoznaj się z informacjami o adresie i możliwościach dotarcia na
                 miejsce. <TextLink to="/lokalizacja/">Sprawdź dojazd do gabinetu</TextLink>.
                 Formę spotkania możesz omówić przy ustalaniu terminu pierwszej sesji.
+                {" "}Przed kontaktem możesz również poznać <TextLink to="/o-mnie/">moje doświadczenie i kwalifikacje</TextLink>.
               </p>
             </section>
           </ContactDetails>

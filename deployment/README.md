@@ -1,5 +1,24 @@
 # Publikacja i niezależna weryfikacja
 
+## Kontakt: rekomendacje z 22.10.2026
+
+Punkt wyjścia: świeży fetch `3backup/psychologica-gatsby`, ref `refs/heads/main`; lokalny/zdalny/wdrożony SHA `c482bca96c5ef2acacdfc86d0e00cbeabfb0e76d`, czysty katalog, 0/0 ahead/behind, Production ID 7247317585. Pełna kontrola produkcji potwierdziła wersję aplikacji i DatoCMS 43634/main, endpoint, schemat oraz konfigurację zgodne z baseline i wydaniem. Nie ma lokalnej aplikacyjnej bazy, migracji i wersjonowanych seedów. Baza zweryfikowana; brak wymaganych zmian. Brak zapisów CMS i zmian konfiguracji źródła; aktualności wszystkich danych biznesowych nie wywodzimy z SHA. Poprzednia aplikacja jest dostępna w historii Git/Vercel, bez potrzeby odtwarzania danych.
+
+| Zalecenie | Realizacja do potwierdzenia po publikacji |
+| --- | --- |
+| H1 | „Kontakt z psychologiem Renatą Zubą w Rzeszowie”, z zachowaniem wyróżnienia nazwiska. |
+| Uzupełnienie treści | Dwie krótkie sekcje pod formularzem: następny krok po otrzymaniu wiadomości i wskazówki, co napisać. Trzy dotychczasowe sekcje pozostają poniżej. |
+| H2 nad formularzem | „Wyślij wiadomość” widoczne na komputerze i telefonie, semantycznie powiązane z formularzem. Wstęp mówi o odpowiedzi na e-mail lub telefon tak szybko, jak będzie to możliwe. |
+| Linki powiązane | Kontekstowe linki do pomocy psychologicznej, psychoterapii dorosłych, uzależnień i superwizji oraz końcowy link do doświadczenia i kwalifikacji. Istniejące linki do usług i dojazdu zachowane. |
+| Informacja po wysłaniu i alternatywy | Pokryta tą samą sekcją co uzupełnienie treści, bez powtarzania odpowiedzi. Telefon, e-mail i adres pozostają nad treścią, pod osobnym H2 „Jak jeszcze się ze mną skontaktować?”. |
+| Odpowiedź w jeden dzień, wycena, budżet, godziny biura | Pominięte jako niepotwierdzone lub niedopasowane szablony. Informacja o odpowiedzi pochodzi z istniejącej strony podziękowania. Nie dodawano gwarantowanego terminu ani godzin otwarcia. |
+
+Raport użytkownika pokazuje 65 słów, zero H2 i jeden link. Świeży odczyt przed zmianą potwierdził 253 widoczne słowa main, trzy H2 i siedem linków main (w tym telefon, e-mail i mapę), więc nie jest to aktualny opis opublikowanej strony. Zakres usług, cennik, czas i adres pozostają zgodne z opublikowanym CMS i dotychczasową ofertą. Superwizja jest wyłącznie stacjonarna, co jasno zaznaczono w opisie kolejnego kroku. Bez szczegółowych historii osobistych we wskazówkach; użytkownik może podać rodzaj pomocy, formę spotkania i dogodną porę kontaktu.
+
+Formularz zachowuje metodę, action, przekierowanie, pola, mechanizm powiadomień, analitykę i reCAPTCHA. Dodano wyłącznie powiązanie dostępnej nazwy i opisu z nagłówkiem oraz wstępem. Kontrola nie może wysyłać formularza ani uruchamiać powiadomień testowych. Zachowano URL, title, opis Google i ContactPage.
+
+Przed publikacją: końcowy build z kontrolą CMS, weryfikator kontaktu względem CMS, H1, siedem H2, pięć sekcji informacyjnych, kontekstowe linki i formularz; odrzucenie brakujących wskazówek i zmienionego celu wysyłki; widoki 320/390 px i komputer, fokus pól i nawigacja klawiaturą bez wysyłania. Po publikacji obowiązuje pełny `verify-production.cjs <SHA>`, osobne GITHUB / APLIKACJA / BAZA, nowy pomiar PageSpeed i zgłoszenie adresu do Google. Statusy i punktacja Seonate wymagają własnego potwierdzenia; nie wynikają z samej publikacji. Lokalnie przeszły build z kontrolą CMS i weryfikator kontaktu (288 słów treści informacyjnej); odrzucono usunięte wskazówki i zmieniony cel formularza. W przeglądarce potwierdzono 379 słów main, siedem H2, nagłówek formularza widoczny na komputerze i telefonie, poprawną kolejność fokusu pól oraz link do profilu klawiaturą. Szerokości 320/390/1280 px dają dokument odpowiednio 305/375/1265 px, bez poziomego przewijania. Kontrola nie wysyłała formularza.
+
 ## O mnie: doprecyzowanie bio z 22.10.2026
 
 Punkt wyjścia potwierdzony świeżym fetch `3backup/psychologica-gatsby`, ref `refs/heads/main`: lokalny/zdalny/wdrożony SHA `7e0b21f42b2199c35ec94791a11a6dd9fee41d8b`, czysty katalog, 0/0 ahead/behind, Production ID 7246356039. Pełna kontrola domeny i `/release.json` potwierdziła wydanie. DatoCMS 43634/main, endpoint, schemat i konfiguracja źródła zgodne z baseline i produkcyjnym wydaniem. Brak lokalnej aplikacyjnej bazy, migracji i wersjonowanych seedów. Baza zweryfikowana; brak wymaganych zmian. Nie zapisujemy CMS i nie wywodzimy aktualności wszystkich danych biznesowych z SHA. Powrót aplikacji jest możliwy przez historię Git/Vercel, bez odtwarzania danych CMS.
