@@ -48,6 +48,7 @@ const TextContainer = styled.div`
   }
 `;
 const HeroTitle = styled.h1`
+  overflow-wrap: anywhere;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;
@@ -61,6 +62,9 @@ const HeroTitle = styled.h1`
   }
   @media (max-width: 1024px) {
     font-size: 42px;
+  }
+  @media (max-width: 578px) {
+    font-size: 2rem;
   }
 `;
 const ParagraphText = styled.p`
@@ -114,7 +118,7 @@ const TopAbout = () => {
             <HeroContainer>
               <TextContainer>
                 <HeroTitle>
-                  Psycholog kliniczny Rzeszów – <span>Renata Zuba</span> | Psychologica
+                  <span>Renata Zuba</span> – psycholog kliniczny i psychoterapeutka w Rzeszowie
                 </HeroTitle>
                 <ParagraphText>{data.datoCmsAboout.lead}</ParagraphText>
                 <SmallerParagraph>

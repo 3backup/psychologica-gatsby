@@ -72,22 +72,27 @@ export const AboutCareer = () => (
   <Section>
     <DetailGrid>
       <Copy>
-        <h2>Szkolenia i publikacje</h2>
+        <h2>Wybrane obszary mojego dorobku</h2>
         <p>
-          Pracuję jako wykładowca na studiach wyższych i podyplomowych.
-          Prowadzę specjalistyczne szkolenia dla osób zajmujących się psychoterapią
-          lub pomocą psychologiczną, a także warsztaty i treningi kompetencji
-          dla różnych grup zawodowych i społecznych. Szkolenia prowadzę również
-          w formie webinariów.
+          Poza pracą terapeutyczną dzielę się wiedzą i doświadczeniem zawodowym.
+          W <TextLink to="/oferta-edukacyjna/">ofercie edukacyjnej</TextLink>{" "}
+          przedstawiam specjalistyczne szkolenia dla osób zajmujących się
+          psychoterapią lub pomocą psychologiczną, a także warsztaty i treningi
+          kompetencji dla różnych grup zawodowych i społecznych. Szkolenia
+          prowadzę również w formie webinariów.
         </p>
         <p>
+          Pracuję jako wykładowca na studiach wyższych i podyplomowych.
           Jestem autorką publikacji z zakresu psychoterapii i superwizji
-          w pismach dla profesjonalistów. Formy współpracy przedstawiam
-          w <TextLink to="/oferta-edukacyjna/">ofercie edukacyjnej</TextLink>.
+          w pismach dla profesjonalistów. Działalność dydaktyczna,
+          szkoleniowa i publikacyjna stanowi obok pracy w gabinecie
+          ważną część mojego dorobku zawodowego.
         </p>
         <p>
           Jako certyfikowany superwizor psychoterapii uzależnień prowadzę
           również <TextLink to="/superwizja/">superwizję dla specjalistów</TextLink>.
+          {" "}To odrębna forma współpracy dla osób zawodowo pomagających innym.
+          Superwizja indywidualna i grupowa odbywa się wyłącznie stacjonarnie w Rzeszowie.
         </p>
       </Copy>
       <Photo>
@@ -118,7 +123,7 @@ export const AboutContact = ({ address }) => (
           pomocy, a następnie ustalamy cele oraz zasady współpracy.
         </p>
         <p>
-          Spotkania mogą odbywać się osobiście lub online. Mój <TextLink to="/lokalizacja/">gabinet w Rzeszowie</TextLink>{" "}
+          Psychoterapia i pomoc psychologiczna mogą odbywać się osobiście lub online. Mój <TextLink to="/lokalizacja/">gabinet w Rzeszowie</TextLink>{" "}
           znajduje się przy ul. {address.streetAddress}, {address.postalCode} {address.addressLocality}.
         </p>
         <p>

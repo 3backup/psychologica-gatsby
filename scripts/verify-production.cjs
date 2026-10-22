@@ -28,7 +28,7 @@ const internalLinks = [
   { source: "/oferta-terapeutyczna/", section: "Pomoc psychologiczna", destination: supportPath,
     anchor: "pomocy psychologicznej dla dorosłych w Rzeszowie",
     paragraph: "Poznaj zakres pomocy psychologicznej dla dorosłych w Rzeszowie i przebieg konsultacji." },
-  { source: "/o-mnie/", section: "Psycholog kliniczny Rzeszów", destination: supportPath,
+  { source: "/o-mnie/", section: "Renata Zuba – psycholog kliniczny i psychoterapeutka w Rzeszowie", destination: supportPath,
     anchor: "pomoc psychologiczna dla dorosłych",
     paragraph: "Sprawdź, jak wygląda oferowana przeze mnie pomoc psychologiczna dla dorosłych." },
   { source: "/lokalizacja/", section: "Gabinet psychologiczny przy ul. Mikołaja Reja", destination: supportPath,
@@ -683,11 +683,16 @@ function verifyEducationPage(html) {
 }
 
 function verifyAboutPage(html, facts) {
+  const title = "Renata Zuba – psycholog kliniczny i psychoterapeutka | Rzeszów";
   assert.equal(htmlText(html.match(/<title\b[^>]*>([\s\S]*?)<\/title>/i)?.[1] || ""),
-    "Renata Zuba – psycholog kliniczny w Rzeszowie");
+    title);
+  for (const key of ["og:title", "twitter:title"]) {
+    const tag = [...html.matchAll(/<meta\b[^>]*>/gi)].find((m) => m[0].includes(`="${key}"`))?.[0] || "";
+    assert.equal(htmlText(tag.match(/\bcontent="([^"]*)"/)?.[1] || ""), title, `O mnie: niezgodny ${key}`);
+  }
   assert.deepEqual([...html.matchAll(/<h1\b[^>]*>([\s\S]*?)<\/h1>/gi)].map((m) => htmlText(m[1])),
-    ["Psycholog kliniczny Rzeszów – Renata Zuba | Psychologica"]);
-  const description = "Poznaj Renatę Zubę, psychologa klinicznego i psychoterapeutę z wieloletnim doświadczeniem. Sprawdź kwalifikacje, sposób pracy i obszary wsparcia dla dorosłych w Rzeszowie.";
+    ["Renata Zuba – psycholog kliniczny i psychoterapeutka w Rzeszowie"]);
+  const description = "Poznaj Renatę Zubę, psychologa klinicznego i psychoterapeutkę z wieloletnim doświadczeniem. Sprawdź kwalifikacje, sposób pracy i obszary wsparcia dla dorosłych w Rzeszowie.";
   for (const key of ["description", "og:description", "twitter:description"]) {
     const tag = [...html.matchAll(/<meta\b[^>]*>/gi)].find((m) => m[0].includes(`="${key}"`))?.[0] || "";
     assert(tag.includes(`content="${description}"`), `O mnie: niezgodny ${key}`);
@@ -695,10 +700,18 @@ function verifyAboutPage(html, facts) {
   const main = html.match(/<main\b[^>]*>([\s\S]*?)<\/main>/i)?.[1];
   assert(main, "O mnie: brak obszaru main");
   assert.deepEqual([...main.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)].map((m) => htmlText(m[1])), [
-    "O mnie", "Doświadczenie i sposób pracy", "Kwalifikacje", "Szkolenia i publikacje",
+    "Czym się zajmuję", "Doświadczenie i sposób pracy", "Kwalifikacje", "Wybrane obszary mojego dorobku",
     "Co jest ważne w mojej pracy?", "Jak rozpocząć współpracę?", "Gdzie możesz przejść dalej",
   ]);
   const text = htmlText(main);
+  const paragraphs = [...main.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map((match) => htmlText(match[1]));
+  const introduction = paragraphs.find((paragraph) => paragraph.startsWith("Jestem psychologiem klinicznym i psychoterapeutką."));
+  assert(introduction?.includes("Pracuję z osobami dorosłymi"), "O mnie: brak podsumowania roli i odbiorców w sekcji Czym się zajmuję");
+  for (const phrase of ["przechodzą przez kryzys", "trudnościami w relacjach", "bolesną stratą", "przeciążeniem życiowym",
+    "członków rodzin osób uzależnionych", "Działalność dydaktyczna, szkoleniowa i publikacyjna",
+    "Superwizja indywidualna i grupowa odbywa się wyłącznie stacjonarnie w Rzeszowie."]) {
+    assert(text.includes(phrase), `O mnie: brak uzupełnienia ${phrase}`);
+  }
   assert.equal(facts.credentials?.length, 5, "O mnie: CMS nie potwierdza pięciu kwalifikacji");
   const skillSection = [...main.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)]
     .find((m) => /<h2\b[^>]*>Kwalifikacje[\s<]/.test(m[1]))?.[1];
@@ -722,10 +735,18 @@ function verifyAboutPage(html, facts) {
     ["superwizję dla specjalistów", "/superwizja/"],
     ["gabinet w Rzeszowie", "/lokalizacja/"],
     ["Skontaktuj się w sprawie współpracy", "/skontaktuj-sie/"],
+    ["skontaktuj się ze mną", "/skontaktuj-sie/"],
   ]) assert(links.some((m) => htmlText(m[2]) === anchor && m[1].includes(`href="${route}"`)), `O mnie: brak linku ${anchor}`);
+  const serviceParagraph = [...main.matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)]
+    .map((match) => match[1]).find((paragraph) => htmlText(paragraph).startsWith("Prowadzę psychoterapię dorosłych i pomoc psychologiczną"));
+  assert(serviceParagraph?.includes('href="/oferta-terapeutyczna/"') && serviceParagraph.includes('href="/pomoc-psychologiczna-rzeszow/"'),
+    "O mnie: zakres pracy wymaga kontekstowych linków do usług");
   assert(links.filter((m) => m[1].includes('href="/skontaktuj-sie/"')).length >= 3, "O mnie: przyciski kontaktowe nie prowadzą do kontaktu");
   assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "O mnie: obraz bez alt");
   for (const alt of ["Renata Zuba w gabinecie Psychologica", "Renata Zuba z otwartą książką w gabinecie"]) assert(main.includes(`alt="${alt}"`));
+  for (const image of [...html.matchAll(/<img\b[^>]*>/gi)].map((match) => match[0])) {
+    if (/\balt=""/.test(image)) assert(/\baria-hidden="true"/.test(image), "O mnie: pusty alt tylko dla ukrytej dekoracji lub placeholdera");
+  }
   assert(main.includes('type="image/avif"') && main.includes('type="image/webp"'), "O mnie: brak nowoczesnych formatów");
   for (const m of html.matchAll(/<svg\b[^>]*>/gi)) assert(/aria-hidden="true"|aria-label="[^"]+"/.test(m[0]), "O mnie: SVG bez semantyki");
   const nodes = [...html.matchAll(/<script\b(?=[^>]*\btype=["']application\/ld\+json["'])[^>]*>([\s\S]*?)<\/script>/gi)]

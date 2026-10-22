@@ -46,7 +46,7 @@ const AboutCopy = () => (
   <StaticQuery
     query={graphql`
       query AboutGreenQuery {
-        datoCmsAboout { greenLead greenParagraph }
+        datoCmsAboout { greenParagraph }
         datoCmsHowitlookslike { wspPracaOpis }
       }
     `}
@@ -54,10 +54,23 @@ const AboutCopy = () => (
       <Section>
         <Columns>
           <div>
-            <h2>O mnie</h2>
-            <p>{data.datoCmsAboout.greenLead}</p>
+            <h2>Czym się zajmuję</h2>
             <p>
-              Zakres pracy z osobami uzależnionymi i członkami ich rodzin
+              Jestem psychologiem klinicznym i psychoterapeutką. Pracuję z osobami
+              dorosłymi, które przechodzą przez kryzys, mierzą się z lękiem,
+              obniżonym nastrojem, trudnościami w relacjach, bolesną stratą
+              lub przeciążeniem życiowym.
+            </p>
+            <p>
+              Prowadzę <TextLink to="/oferta-terapeutyczna/">psychoterapię dorosłych</TextLink>{" "}
+              i <TextLink to="/pomoc-psychologiczna-rzeszow/">pomoc psychologiczną</TextLink>,
+              dostosowując sposób pracy do Twojej sytuacji i potrzeb.
+              Pomagam także osobom, które chcą lepiej rozumieć swoje emocje,
+              wzmocnić poczucie własnej wartości lub poradzić sobie z trudnymi doświadczeniami.
+            </p>
+            <p>
+              W swojej pracy zajmuję się również uzależnieniami oraz wsparciem
+              członków rodzin osób uzależnionych. Zakres tej pomocy
               opisuję na stronie <TextLink to="/psychoterapia-uzaleznien-rzeszow/">psychoterapii uzależnień</TextLink>.
             </p>
           </div>

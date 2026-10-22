@@ -1,5 +1,24 @@
 # Publikacja i niezależna weryfikacja
 
+## O mnie: doprecyzowanie bio z 22.10.2026
+
+Punkt wyjścia potwierdzony świeżym fetch `3backup/psychologica-gatsby`, ref `refs/heads/main`: lokalny/zdalny/wdrożony SHA `7e0b21f42b2199c35ec94791a11a6dd9fee41d8b`, czysty katalog, 0/0 ahead/behind, Production ID 7246356039. Pełna kontrola domeny i `/release.json` potwierdziła wydanie. DatoCMS 43634/main, endpoint, schemat i konfiguracja źródła zgodne z baseline i produkcyjnym wydaniem. Brak lokalnej aplikacyjnej bazy, migracji i wersjonowanych seedów. Baza zweryfikowana; brak wymaganych zmian. Nie zapisujemy CMS i nie wywodzimy aktualności wszystkich danych biznesowych z SHA. Powrót aplikacji jest możliwy przez historię Git/Vercel, bez odtwarzania danych CMS.
+
+Każde zalecenie otrzymuje własne rozstrzygnięcie po kontroli publikacji:
+
+| Zalecenie | Realizacja |
+| --- | --- |
+| H1 | Naturalne bio: „Renata Zuba – psycholog kliniczny i psychoterapeutka w Rzeszowie”. Długie słowa mogą się zawijać na małych ekranach. |
+| Title | „Renata Zuba – psycholog kliniczny i psychoterapeutka | Rzeszów”. W opisie Google/social dopasowano formę „psychoterapeutkę”. |
+| Treść, doświadczenie i dorobek | „Czym się zajmuję” podsumowuje rolę, odbiorców, trudności i pomoc rodzinom. „Wybrane obszary mojego dorobku” rozwija szkolenia, warsztaty, treningi, webinaria, wykłady, publikacje i superwizję. Zachowano opis doświadczenia, modeli pracy i kwalifikacji z CMS, bez dopisywania lat pracy, tytułów publikacji, projektów i certyfikatów. |
+| Śródtytuły | Istnieje siedem H2. Dwa nazwy zmieniono dla lepszego dopasowania do bio, bez mnożenia powtarzających się sekcji. |
+| Linkowanie | Pierwsze wzmianki o psychoterapii i pomocy psychologicznej w zakresie pracy prowadzą do usług. Link edukacyjny jest przy opisie szkoleń, zachowano superwizję, uzależnienia, lokalizację i kontakt. W końcowym bloku dodano bezpośredni kontakt. |
+| Opisy obrazów | Zdjęcia mają opisy rzeczywistej zawartości. Pomijamy masowe uzupełnianie pustych alt dekoracji i placeholderów ukrytych przez aria-hidden. |
+
+Raport użytkownika podaje 372 słowa, jeden H2 i cztery linki. Świeży odczyt przeglądarki przed zmianą potwierdza 475 widocznych słów w main, siedem H2, 14 linków main i zero obrazów bez atrybutu alt. Odczyt z cache wyszukiwarki pokazywał starszą wersję, dlatego nie traktujemy go jako bieżącej strony. Fakty o pracy terapeutycznej i doświadczeniu potwierdzają opublikowane bio i rekordy aboout/howitlookslike, a dorobek oferta edukacyjna. Pięć kwalifikacji nadal pochodzi z opublikowanej listy CMS i jest porównywane z produkcją. Zachowano odróżnienie ukończonego szkolenia od uzyskania certyfikatu psychoterapeuty. Superwizja jest wyłącznie stacjonarna, indywidualna lub grupowa. Informacja o spotkaniach online dotyczy psychoterapii i pomocy psychologicznej.
+
+Przed publikacją wymagane: build z kontrolą CMS, weryfikator bio i kontekstowych linków, pojedynczy H1, siedem H2, obrazy i kwalifikacje, widoki 320/390 px i komputer, kontakt klawiaturą. Po publikacji pełny `verify-production.cjs <SHA>`, osobne GITHUB / APLIKACJA / BAZA, nowy PageSpeed i zgłoszenie URL do Google. Kontrola wymaga nowego title, H1, opisu Google/social, zakresu, dorobku, stacjonarnej superwizji, linków w akapicie usługowym i końcowego kontaktu. Aktualizacja Seonate i jego wynik wymagają osobnego dowodu; samo wdrożenie ani zgłoszenie Google nie zamyka statusów w tym narzędziu. Lokalnie przeszły końcowy build z kontrolą CMS, sprawdzenie bio i kontekstowych linków oraz odrzucenie starego title i usuniętej sekcji dorobku. Po przejściowym błędzie HTTP 502 ponowny odczyt CMS potwierdził zgodność. W przeglądarce potwierdzono 546 słów main, siedem H2, nowy tytuł i H1, kontakt klawiaturą oraz brak poziomego przewijania: przy 320 px dokument ma 305 px, a przy 390 px ma 375 px. Na małym ekranie H1 ma 32 px, co pozwala zachować pełną nazwę zawodu w wierszu.
+
 ## Strona główna: kontrola zaleceń i poprawki z 22.10.2026
 
 Punkt wyjścia: świeży fetch `3backup/psychologica-gatsby`, ref `refs/heads/main`, lokalny/zdalny/wdrożony SHA `44777f3cb83de1f4699c28e9ab7a14660279ceba`, początkowo czysty katalog i 0/0 ahead/behind. Wdrożenie Production 7226445637, tożsamość aplikacji potwierdzona przez `/release.json` i pełny weryfikator produkcji. DatoCMS 43634/main, schemat i konfiguracja zgodne z baseline i źródłem produkcji. Nie ma lokalnej aplikacyjnej bazy, migracji ani wersjonowanych seedów. Baza zweryfikowana; brak wymaganych zmian. Aktualności wszystkich danych biznesowych nie wywodzimy z SHA. Bez zapisów CMS i zmian konfiguracji źródła. Odzyskanie aplikacji jest możliwe przez historię Git/Vercel, bez nadpisywania CMS.

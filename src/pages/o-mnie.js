@@ -21,9 +21,9 @@ const oMnie = ({ data }) => {
     <>
       <Layout
         visableHeader
-        pageTitle="Renata Zuba – psycholog kliniczny w Rzeszowie"
-        pageDescription="Poznaj Renatę Zubę, psychologa klinicznego i psychoterapeutę z wieloletnim doświadczeniem. Sprawdź kwalifikacje, sposób pracy i obszary wsparcia dla dorosłych w Rzeszowie."
-        pageImageAlt="Renata Zuba – psycholog kliniczny i psychoterapeuta"
+        pageTitle="Renata Zuba – psycholog kliniczny i psychoterapeutka | Rzeszów"
+        pageDescription="Poznaj Renatę Zubę, psychologa klinicznego i psychoterapeutkę z wieloletnim doświadczeniem. Sprawdź kwalifikacje, sposób pracy i obszary wsparcia dla dorosłych w Rzeszowie."
+        pageImageAlt="Renata Zuba, psycholog kliniczny i psychoterapeutka"
         pageType="AboutPage"
         breadcrumbs={[
           { name: "Strona główna", path: "/" },
@@ -43,6 +43,8 @@ const oMnie = ({ data }) => {
                 Poznaj ofertę psychoterapii i pomocy psychologicznej dla dorosłych
                 oraz zajęć edukacyjnych. Jeśli szukasz wsparcia w pracy zawodowej,
                 sprawdź <TextLink to="/superwizja/">ofertę superwizji</TextLink>.
+                {" "}W sprawie konsultacji, szkoleń lub superwizji{" "}
+                <TextLink to="/skontaktuj-sie/">skontaktuj się ze mną</TextLink>.
               </>
             }
             mainCta={data.datoCmsAboout.offertFirstcta}
