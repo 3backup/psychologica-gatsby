@@ -18,6 +18,7 @@ const SectionProblems = styled.section`
   position: relative;
 `;
 const ProblemsHeader = styled.h2`
+  overflow-wrap: anywhere;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;

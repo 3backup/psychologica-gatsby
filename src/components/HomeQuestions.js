@@ -85,6 +85,22 @@ const HomeQuestions = () => {
           chcą lepiej zrozumieć siebie i swoje reakcje. Pracuję także z osobami
           uzależnionymi i ich bliskimi.
         </p>
+        <h2>Jak przygotować się do pierwszego spotkania?</h2>
+        <p>
+          Możesz zastanowić się, co skłoniło Cię do szukania pomocy, które
+          trudności są teraz najbardziej obciążające i o co chcesz zapytać.
+          Nie musisz mieć gotowej diagnozy ani wiedzieć, od czego zacząć.
+          Pierwsza konsultacja służy wspólnemu rozpoznaniu sytuacji,
+          potrzeb i możliwych dalszych kroków.
+        </p>
+        <h2>Ile spotkań będzie potrzebnych?</h2>
+        <p>
+          Liczbę i częstotliwość spotkań ustalamy indywidualnie podczas
+          konsultacji, uwzględniając Twoją sytuację, potrzeby i cel pracy.
+          Pomoc może obejmować konsultacje dotyczące bieżącej trudności
+          albo regularną psychoterapię. Plan współpracy i dalsze kroki
+          omawiamy po rozpoznaniu potrzeb.
+        </p>
         <h2>Gdzie odbywają się spotkania?</h2>
         <p>
           Sesje osobiste odbywają się w Rzeszowie, a spotkania zdalne są

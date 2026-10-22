@@ -1,5 +1,29 @@
 # Publikacja i niezależna weryfikacja
 
+## Strona główna: kontrola zaleceń i poprawki z 22.10.2026
+
+Punkt wyjścia: świeży fetch `3backup/psychologica-gatsby`, ref `refs/heads/main`, lokalny/zdalny/wdrożony SHA `44777f3cb83de1f4699c28e9ab7a14660279ceba`, początkowo czysty katalog i 0/0 ahead/behind. Wdrożenie Production 7226445637, tożsamość aplikacji potwierdzona przez `/release.json` i pełny weryfikator produkcji. DatoCMS 43634/main, schemat i konfiguracja zgodne z baseline i źródłem produkcji. Nie ma lokalnej aplikacyjnej bazy, migracji ani wersjonowanych seedów. Baza zweryfikowana; brak wymaganych zmian. Aktualności wszystkich danych biznesowych nie wywodzimy z SHA. Bez zapisów CMS i zmian konfiguracji źródła. Odzyskanie aplikacji jest możliwe przez historię Git/Vercel, bez nadpisywania CMS.
+
+Każde zalecenie rozliczamy osobno:
+
+| Zalecenie | Rozstrzygnięcie |
+| --- | --- |
+| Jedna domena i trwałe przekierowanie | Już poprawne: bez www przekierowuje 308 na kanoniczne www. Google traktuje 308 jako trwałe przekierowanie, podobnie jak 301. Zachowujemy poprawną konfigurację. |
+| Prawdziwe 404 i pomocna strona | Już poprawne: dokładny URL z raportu, `/seonate-mvh1mvgy-nie-istnieje`, otrzymuje 308 dodający ukośnik, a następnie 404 z linkiem do strony głównej. Nie ma przekierowania na stronę główną ani miękkiego 404. Sprawdzono także 20 wariantów routingu. |
+| Lżejszy HTML, zewnętrzne zasoby i cache | HTML przed zmianą ma 141822 B, w tym 69782 B CSS inline, zamiast historycznych 440 kB. CSS/SVG mają roczny cache. Wykryto brak takiego cache dla własnych JS i dodano nagłówek wyłącznie dla nazw z 20-znakowym hashem. HTML, service worker, release.json i dane stron nie są objęte nową regułą. |
+| Cały CSS poza HTML | Pominięte: wcześniejsze przeniesienie blokującego arkusza obniżyło rzeczywisty mobile PSI do 78. Zachowujemy odchudzony CSS pierwszego renderowania oraz dostępny zewnętrzny arkusz z cache. Nie usuwamy aktywnych funkcji i analityki tylko dla wyniku audytu. |
+| Brak opisów obrazów | Brak obrazów bez atrybutu alt. Puste alty dotyczą dekoracji i placeholderów z aria-hidden, więc nie dodajemy opisów dekoracjom. |
+| Pytania klientów i porównanie konkurencji | Dodano dwa praktyczne pytania: przygotowanie do pierwszej konsultacji i ustalanie liczby spotkań. Liczba i częstotliwość są indywidualne, bez niepotwierdzonych obietnic. Porównanie opisano poniżej. |
+| Linkowanie | Naprawiono „Oferta terapeutyczna” w sekcji o prowadzącej: link prowadzi do `/oferta-terapeutyczna/`, zamiast z powrotem na stronę główną. |
+
+Ręczne porównanie [Klaudii Świder](https://klaudiaswider.pl/), [MyTherapy](https://mytherapy.clinic/) i [Zrozum Ciało](https://zrozumcialo.com/psychoterapia-rzeszow/) wskazało znaczenie jasnej oferty, pierwszej wizyty, sposobu pracy, warunków i pytań o liczbę spotkań. Psychologica ma już opis odbiorców, usług, kwalifikacji i kontakt; uzupełniamy pytania ułatwiające pierwszą konsultację. Nie przenosimy cen, metod, uprawnień ani zasad konkurencji. To porównanie własne, bez potwierdzenia pozycji lokalnego Google i bez aktualizacji punktacji Seonate. Liczby słów nie traktujemy jako samodzielnego celu.
+
+Wymagane przed publikacją: build z kontrolą CMS, kontrola sześciu pytań i docelowego linku, rzeczywistych plików CSS/SVG/JS i ich konfiguracji cache; wzorzec cache musi wykluczać niehaszowane zasoby i HTML. Sprawdzić widoki 320/390 px i komputer, odnośnik klawiaturą oraz brak regresji routingu i mapy. Po publikacji pełny `verify-production.cjs <SHA>` sprawdza również faktyczny cache JS na produkcji. Osobno potwierdzić GITHUB / APLIKACJA / BAZA, świeży PSI i zgłoszenie Google. Nie oznaczać statusów Seonate ani uruchomienia jego pomiaru bez potwierdzenia w tym narzędziu. Instrukcje AGENTS.md i CLAUDE.md uwzględniają aktualną preferencję użytkownika dotyczącą interpunkcji. Kontrola 320 px wykryła przepełnienie długich słów w istniejącym H1 i nagłówku obszarów pracy; dodano im `overflow-wrap: anywhere`, bez zmiany treści ani rozmiarów na szerszych ekranach.
+
+Lokalnie przeszły końcowy build i kontrola CMS, 12 testów mapy/przekierowań oraz odrzucenie złego celu linku, braku cache JS i usuniętego pytania. HTML po poprawkach ma 142606 B, CSS inline 69828 B. W przeglądarce potwierdzono sześć pytań, przejście poprawionym linkiem klawiaturą, komputer i brak poziomego przewijania przy 320 px (dokument 305 px) oraz 390 px (dokument 375 px). Bazowy [Google PageSpeed](https://pagespeed.web.dev/analysis/https-www-psychologica-pl/hzsc11j1sz?form_factor=mobile) z 21.10.2026, 19:31 GMT+2: telefon 100 (LCP 0,9 s, TBT 20 ms, CLS 0,034), komputer 98 (LCP 0,4 s, TBT 130 ms, CLS 0,016). Pomiar po publikacji wymaga nowego raportu.
+
+Źródła techniczne: [Google o przekierowaniach](https://developers.google.com/search/docs/crawling-indexing/301-redirects), [Vercel: konfiguracja nagłówków](https://vercel.com/docs/project-configuration/vercel-json), [Vercel: Cache-Control](https://vercel.com/docs/caching/cache-control-headers).
+
 ## Psychoterapia uzależnień — cztery zalecenia z 21.10.2026
 
 Każde zalecenie ma osobne rozstrzygnięcie: title — doprecyzowany do „Psychoterapia uzależnień i terapia alkoholowa w Rzeszowie | Renata Zuba”; meta description — uzupełniony o zakres, konsultację, czas i koszt pobierane z opublikowanego CMS; treść — dotychczasowy wstęp uporządkowany jako jedna sekcja H2 „Zakres wsparcia” przed listą odbiorców, z opisem pracy i wsparcia partnerów oraz rodzin; linki — odnośnik do pomocy przy problemie alkoholowym umieszczony przy pierwszej wzmiance, zachowane linki do lokalizacji, psychoterapii dorosłych i pomocy psychologicznej oraz końcowy kontakt. Puste drugie „Uzupełnij treść” pominięto, bez wymyślania brakującej rekomendacji. Są to rozstrzygnięcia zmian na stronie; statusy w Seonate i nowy wynik tego narzędzia wymagają własnego potwierdzenia.

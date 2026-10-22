@@ -762,6 +762,9 @@ async function main() {
     assert(html.includes(text), `Brak treści: ${text}`);
   }
   assert(!/<img\b(?![^>]*\balt=)[^>]*>/i.test(html), "Obraz bez atrybutu alt");
+  for (const question of ["Jak przygotować się do pierwszego spotkania?", "Ile spotkań będzie potrzebnych?"]) {
+    assert(html.includes(question), `Brak pytania klienta: ${question}`);
+  }
   const facts = await readSupportFacts();
   const supportHtml = await read(`${domain}/pomoc-psychologiczna-rzeszow/?verify=${commit}`);
   verifySupportPage(supportHtml, facts);

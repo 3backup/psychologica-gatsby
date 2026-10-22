@@ -3,6 +3,19 @@ const fs = require("node:fs");
 const path = require("node:path");
 
 async function verifyHomeHtml(html, readAsset) {
+  const text = (value) => value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+  const sections = [...html.matchAll(/<section\b[^>]*>([\s\S]*?)<\/section>/gi)].map((match) => match[1]);
+  const about = sections.find((value) => [...value.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)]
+    .some((match) => /^Psycholog Kliniczny Renata Zuba$/i.test(text(match[1]))));
+  const offerLink = [...(about || "").matchAll(/<a\b([^>]*)>([\s\S]*?)<\/a>/gi)]
+    .find((match) => text(match[2]) === "Oferta terapeutyczna");
+  assert.equal(offerLink?.[1].match(/\bhref="([^"]+)"/)?.[1], "/oferta-terapeutyczna/",
+    "Link Oferta terapeutyczna w sekcji o prowadzącej musi prowadzić do oferty");
+  const questions = html.match(/<section\b(?=[^>]*aria-label="Pytania o pomoc psychologiczną i psychoterapię")[^>]*>([\s\S]*?)<\/section>/i)?.[1];
+  assert(questions, "Brak pytań klientów na stronie głównej");
+  assert.equal((questions.match(/<h2\b/g) || []).length, 6, "Strona główna: wymagane sześć pytań klientów");
+  assert(text(questions).includes("Jak przygotować się do pierwszego spotkania?"));
+  assert(text(questions).includes("Ile spotkań będzie potrzebnych?"));
   const bytes = Buffer.byteLength(html);
   assert(bytes <= 160000, `HTML strony głównej przekracza 160 kB: ${bytes} B`);
   const inlineCss = [...html.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)]
@@ -21,8 +34,12 @@ async function verifyHomeHtml(html, readAsset) {
   assert(svgUrls.some((url) => url.includes("logo-psychologica-black-")), "Brak pliku logo nagłówka");
   assert(svgUrls.some((url) => url.includes("logo-psychologica-white-")), "Brak pliku logo stopki");
   assert(svgUrls.some((url) => url.includes("leaves-")), "Brak pliku dekoracji");
+  const jsUrls = [...html.matchAll(/<script\b[^>]*\bsrc="(\/[^"?]+\.js)"/gi)].map((match) => match[1]);
+  assert(jsUrls.length >= 3, "Brak zewnętrznych skryptów aplikacji");
+  assert(jsUrls.every((url) => /^\/[a-zA-Z0-9_-]+-[a-f0-9]{20}\.js$/.test(url)),
+    "Cache immutable jest przeznaczony wyłącznie dla skryptów z hashem w nazwie");
 
-  for (const url of new Set([cssUrl, ...svgUrls])) {
+  for (const url of new Set([cssUrl, ...svgUrls, ...jsUrls])) {
     const asset = await readAsset(url);
     assert(asset.body.length, `Pusty zasób ${url}`);
     assert(/\bmax-age=31536000\b/.test(asset.cacheControl) && /\bimmutable\b/.test(asset.cacheControl),
@@ -30,7 +47,7 @@ async function verifyHomeHtml(html, readAsset) {
     if (url === cssUrl) assert(!/url\(["']?data:(?:font\/|application\/vnd\.ms-fontobject)/i.test(asset.body),
       "Fonty ponownie osadzono w CSS zamiast w plikach");
   }
-  console.log(`HTML: OK — ${bytes} B, ${inlineCss} B CSS inline, dostępne pliki CSS/SVG z rocznym cache`);
+  console.log(`HTML: OK: ${bytes} B, ${inlineCss} B CSS inline, dostępne pliki CSS/SVG/JS z rocznym cache`);
   return { bytes, inlineCss };
 }
 
@@ -43,7 +60,8 @@ async function local() {
     assert(!fs.readFileSync(filename).includes(0), `NUL w wygenerowanym HTML: ${entry.name}`);
   }
   return verifyHomeHtml(fs.readFileSync(path.join(root, "public/index.html"), "utf8"), async (url) => {
-    const source = url.endsWith(".css") ? "/styles.:hash.css" : "/static/:path*";
+    const source = url.endsWith(".css") ? "/styles.:hash.css"
+      : url.endsWith(".js") ? "/:file([a-zA-Z0-9_-]+-[a-f0-9]{20}).js" : "/static/:path*";
     const cacheControl = config.headers.find((entry) => entry.source === source)?.headers
       .find((header) => header.key.toLowerCase() === "cache-control")?.value || "";
     return { body: fs.readFileSync(path.join(root, "public", url), "utf8"), cacheControl };

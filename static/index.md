@@ -6,7 +6,7 @@ Renata Zuba jest psychologiem klinicznym i psychoterapeutą. Prowadzi psychotera
 
 Pracuję z osobami dorosłymi, które mierzą się z trudnościami emocjonalnymi, kryzysami życiowymi, problemami w relacjach, stresem, lękiem, obniżonym nastrojem, problemami ze snem, stratą, doświadczeniami traumatycznymi oraz skutkami uzależnień w życiu własnym lub rodzinnym.
 
-Pomoc może mieć formę psychoterapii albo wsparcia psychologicznego — zależnie od problemu, potrzeb i celu spotkań.
+Pomoc może mieć formę psychoterapii albo wsparcia psychologicznego, zależnie od problemu, potrzeb i celu spotkań.
 
 - [Psychoterapia dorosłych](https://www.psychologica.pl/oferta-terapeutyczna/)
 - [Pomoc psychologiczna](https://www.psychologica.pl/pomoc-psychologiczna-rzeszow/)
@@ -35,6 +35,14 @@ Pierwszy etap to kontakt i wstępna diagnoza problemów, zasobów, potrzeb oraz 
 ## Dla kogo jest ta usługa?
 
 Psychoterapia lub pomoc psychologiczna jest formą wsparcia dla osób dorosłych, które doświadczają cierpienia psychicznego, napięcia, trudności w relacjach, kryzysu, lęku, smutku, problemów ze snem albo chcą lepiej zrozumieć siebie i swoje reakcje. Pracuję także z osobami uzależnionymi i ich bliskimi.
+
+## Jak przygotować się do pierwszego spotkania?
+
+Możesz zastanowić się, co skłoniło Cię do szukania pomocy, które trudności są teraz najbardziej obciążające i o co chcesz zapytać. Nie musisz mieć gotowej diagnozy ani wiedzieć, od czego zacząć. Pierwsza konsultacja służy wspólnemu rozpoznaniu sytuacji, potrzeb i możliwych dalszych kroków.
+
+## Ile spotkań będzie potrzebnych?
+
+Liczbę i częstotliwość spotkań ustalamy indywidualnie podczas konsultacji, uwzględniając Twoją sytuację, potrzeby i cel pracy. Pomoc może obejmować konsultacje dotyczące bieżącej trudności albo regularną psychoterapię. Plan współpracy i dalsze kroki omawiamy po rozpoznaniu potrzeb.
 
 ## Gdzie odbywają się spotkania?
 

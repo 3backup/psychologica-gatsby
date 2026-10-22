@@ -141,7 +141,7 @@ const AboutSection = () => {
                 <Link to="/o-mnie/">
                   <Button>{data.datoCmsIndex.psychologCta}</Button>
                 </Link>
-                <AboutLink to="/">
+                <AboutLink to="/oferta-terapeutyczna/">
                   {data.datoCmsIndex.psychologCtaDrugi}
                 </AboutLink>
               </AboutButtons>

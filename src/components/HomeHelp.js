@@ -60,7 +60,7 @@ const HomeHelp = () => (
           własnym lub rodzinnym.
         </p>
         <p>
-          Pomoc może mieć formę psychoterapii albo wsparcia psychologicznego —
+          Pomoc może mieć formę psychoterapii albo wsparcia psychologicznego,
           zależnie od problemu, potrzeb i celu spotkań. Jeśli chcesz poznać
           pełniejszy zakres pracy, przejdź do zakładek{" "}
           <Link to="/oferta-terapeutyczna/">Psychoterapia dorosłych</Link>,{" "}

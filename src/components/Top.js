@@ -37,6 +37,7 @@ const TextContainer = styled.div`
   }
 `;
 const HeroTitle = styled.h1`
+  overflow-wrap: anywhere;
   font-family: Red Hat Display;
   font-style: normal;
   font-weight: normal;

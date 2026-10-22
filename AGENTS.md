@@ -1,5 +1,7 @@
 # Kontrola środowiska i wdrożeń
 
+Preferencja użytkownika: nie używaj znaku U+2014 w odpowiedziach ani przygotowywanych treściach. Zastępuj go kropką, przecinkiem, dwukropkiem lub nawiasami.
+
 Obowiązują globalne instrukcje użytkownika dotyczące kontroli wersji, produkcji i baz.
 
 - Potwierdź repozytorium i źródło produkcji na podstawie konfiguracji oraz metadanych wdrożeń, nigdy z samej nazwy gałęzi. Zidentyfikowane repozytorium: `3backup/psychologica-gatsby`; domena: `https://www.psychologica.pl/`. Przed każdym zadaniem ponownie sprawdź te informacje.
