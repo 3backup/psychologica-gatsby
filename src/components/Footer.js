@@ -27,10 +27,42 @@ const ContainerFooter = styled(Container)`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: flex-start;
+  gap: 2rem 3rem;
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
   @media (max-width: 768px) {
-    padding: 2rem 0;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
+  }
+`;
+const FooterBusiness = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex-shrink: 0;
+  max-width: 100%;
+
+  @media (max-width: 768px) {
+    align-items: center;
+    text-align: center;
+  }
+`;
+const FooterAddress = styled.address`
+  color: rgba(255, 255, 255, 0.88);
+  font-family: "Red Hat Display", sans-serif;
+  font-size: 0.875rem;
+  font-style: normal;
+  line-height: 1.6;
+
+  strong {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: #ffffff;
   }
 `;
 const FooterNavigation = styled.nav`
@@ -61,6 +93,7 @@ const FooterMeta = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  min-width: 0;
 
   @media (max-width: 768px) {
     align-items: center;
@@ -83,6 +116,15 @@ const Footer = () => {
     <StaticQuery
       query={graphql`
         query FooterQuery {
+          site {
+            siteMetadata {
+              businessAddress {
+                streetAddress
+                postalCode
+                addressLocality
+              }
+            }
+          }
           datoCmsFooter {
             privacyPolicy
             rightsReserverd
@@ -92,7 +134,20 @@ const Footer = () => {
       render={(data) => (
         <FooterStyle>
           <ContainerFooter>
-            <StyledFooterLogo src={logoFooter} alt="Psychologica" height="90" width="211" />
+            <FooterBusiness>
+              <StyledFooterLogo src={logoFooter} alt="Psychologica" height="90" width="211" />
+              <FooterAddress>
+                <strong>Gabinety psychologiczne<br />Renata Zuba</strong>
+                <FooterLink to="/lokalizacja/">
+                  ul. {data.site.siteMetadata.businessAddress.streetAddress}<br />
+                  {data.site.siteMetadata.businessAddress.postalCode}{" "}
+                  {data.site.siteMetadata.businessAddress.addressLocality}
+                </FooterLink>
+                <br />
+                NIP: 8131239390<br />
+                REGON: 365481005
+              </FooterAddress>
+            </FooterBusiness>
             <FooterMeta>
               <FooterNavigation aria-label="Usługi Psychologica">
                 <FooterLink to="/oferta-terapeutyczna/">

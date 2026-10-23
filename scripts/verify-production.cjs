@@ -843,6 +843,16 @@ async function main() {
     const route = new URL(url).pathname;
     if (!pages[route]) pages[route] = route === "/" ? html : await read(`${url}?verify=${commit}`);
     verifyLocalBusiness(pages[route], facts);
+    // The contact page has a dedicated layout without the shared footer.
+    if (route === "/skontaktuj-sie/") continue;
+    const pageFooter = pages[route].match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/i)?.[1] || "";
+    const businessAddress = pageFooter.match(/<address\b[^>]*>([\s\S]*?)<\/address>/i)?.[1] || "";
+    for (const value of ["Gabinety psychologiczne", "Renata Zuba", facts.address.streetAddress,
+      `${facts.address.postalCode} ${facts.address.addressLocality}`, "NIP: 8131239390", "REGON: 365481005"]) {
+      assert(htmlText(businessAddress).includes(value), `Stopka ${route}: brak danych ${value}`);
+    }
+    const logoPosition = pageFooter.indexOf('alt="Psychologica"');
+    assert(logoPosition >= 0 && logoPosition < pageFooter.indexOf("<address"), `Stopka ${route}: dane muszą być pod logo`);
   }
   console.log(`SITEMAP: OK — ${sitemap.length} stron, lastmod, canonical, sitemap.xml i robots.txt`);
   await verifyRouting();
