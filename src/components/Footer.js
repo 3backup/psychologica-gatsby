@@ -11,11 +11,14 @@ const FooterStyle = styled.footer`
 `;
 
 const TermsAndCondition = styled.p`
+  grid-area: legal;
+  margin: 0;
   font-family: "Red Hat Display", sans-serif;
   font-style: normal;
   font-weight: 400;
-  font-size: 16px;
-  line-height: 200%;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  text-align: right;
   color: #ffffff;
   opacity: 0.8;
   @media (max-width: 768px) {
@@ -24,34 +27,25 @@ const TermsAndCondition = styled.p`
 `;
 
 const ContainerFooter = styled(Container)`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 2rem 3rem;
-  padding-top: 2.5rem;
-  padding-bottom: 2.5rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  grid-template-areas:
+    "logo navigation"
+    "address legal";
+  align-items: start;
+  gap: 1rem 3rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   @media (max-width: 768px) {
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
-`;
-const FooterBusiness = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  flex-shrink: 0;
-  max-width: 100%;
-
-  @media (max-width: 768px) {
-    align-items: center;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: "logo" "address" "navigation" "legal";
+    justify-items: center;
+    row-gap: 1.5rem;
     text-align: center;
   }
 `;
 const FooterAddress = styled.address`
+  grid-area: address;
   color: rgba(255, 255, 255, 0.88);
   font-family: "Red Hat Display", sans-serif;
   font-size: 0.875rem;
@@ -60,12 +54,29 @@ const FooterAddress = styled.address`
 
   strong {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.25rem;
     font-weight: 600;
     color: #ffffff;
   }
 `;
+const FooterRegistration = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin-top: 0.25rem;
+
+  span {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    justify-content: center;
+  }
+`;
 const FooterNavigation = styled.nav`
+  grid-area: navigation;
+  align-self: center;
+  justify-self: end;
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
@@ -74,7 +85,7 @@ const FooterNavigation = styled.nav`
 
   @media (max-width: 768px) {
     justify-content: center;
-    margin: 2rem 0;
+    justify-self: center;
   }
 `;
 const FooterLink = styled(Link)`
@@ -89,22 +100,13 @@ const FooterLink = styled(Link)`
     text-underline-offset: 0.3rem;
   }
 `;
-const FooterMeta = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  min-width: 0;
-
-  @media (max-width: 768px) {
-    align-items: center;
-  }
-`;
 const TermsAndConditionLink = styled(Link)`
   text-decoration: none;
   color: #ffffff;
 `;
 const currentYear = new Date().getFullYear();
 const StyledFooterLogo = styled.img`
+  grid-area: logo;
   max-height: 4.5rem;
   margin: 0;
   @media (max-width: 768px) {
@@ -134,42 +136,39 @@ const Footer = () => {
       render={(data) => (
         <FooterStyle>
           <ContainerFooter>
-            <FooterBusiness>
-              <StyledFooterLogo src={logoFooter} alt="Psychologica" height="90" width="211" />
-              <FooterAddress>
-                <strong>Gabinety psychologiczne<br />Renata Zuba</strong>
-                <FooterLink to="/lokalizacja/">
-                  ul. {data.site.siteMetadata.businessAddress.streetAddress}<br />
-                  {data.site.siteMetadata.businessAddress.postalCode}{" "}
-                  {data.site.siteMetadata.businessAddress.addressLocality}
-                </FooterLink>
-                <br />
-                NIP: 8131239390<br />
-                REGON: 365481005
-              </FooterAddress>
-            </FooterBusiness>
-            <FooterMeta>
-              <FooterNavigation aria-label="Usługi Psychologica">
-                <FooterLink to="/oferta-terapeutyczna/">
-                  Psychoterapia dorosłych
-                </FooterLink>
-                <FooterLink to="/pomoc-psychologiczna-rzeszow/">
-                  Pomoc psychologiczna
-                </FooterLink>
-                <FooterLink to="/psychoterapia-uzaleznien-rzeszow/">
-                  Psychoterapia uzależnień
-                </FooterLink>
-                <FooterLink to="/lokalizacja/">Gabinet w Rzeszowie</FooterLink>
-                <FooterLink to="/skontaktuj-sie/">Kontakt</FooterLink>
-              </FooterNavigation>
-              <TermsAndCondition>
-                <TermsAndConditionLink to="/polityka-prywatnosci/">
-                  {data.datoCmsFooter.privacyPolicy}
-                </TermsAndConditionLink>
-                {` | ${data.datoCmsFooter.rightsReserverd}`} &copy;
-                {`${currentYear}`}
-              </TermsAndCondition>
-            </FooterMeta>
+            <StyledFooterLogo src={logoFooter} alt="Psychologica" height="90" width="211" />
+            <FooterAddress>
+              <strong>Gabinety psychologiczne Renata Zuba</strong>
+              <FooterLink to="/lokalizacja/">
+                ul. {data.site.siteMetadata.businessAddress.streetAddress},{" "}
+                {data.site.siteMetadata.businessAddress.postalCode}{" "}
+                {data.site.siteMetadata.businessAddress.addressLocality}
+              </FooterLink>
+              <FooterRegistration>
+                <span>NIP: 8131239390</span>
+                <span>REGON: 365481005</span>
+              </FooterRegistration>
+            </FooterAddress>
+            <FooterNavigation aria-label="Usługi Psychologica">
+              <FooterLink to="/oferta-terapeutyczna/">
+                Psychoterapia dorosłych
+              </FooterLink>
+              <FooterLink to="/pomoc-psychologiczna-rzeszow/">
+                Pomoc psychologiczna
+              </FooterLink>
+              <FooterLink to="/psychoterapia-uzaleznien-rzeszow/">
+                Psychoterapia uzależnień
+              </FooterLink>
+              <FooterLink to="/lokalizacja/">Gabinet w Rzeszowie</FooterLink>
+              <FooterLink to="/skontaktuj-sie/">Kontakt</FooterLink>
+            </FooterNavigation>
+            <TermsAndCondition>
+              <TermsAndConditionLink to="/polityka-prywatnosci/">
+                {data.datoCmsFooter.privacyPolicy}
+              </TermsAndConditionLink>
+              {` | ${data.datoCmsFooter.rightsReserverd}`} &copy;
+              {`${currentYear}`}
+            </TermsAndCondition>
           </ContainerFooter>
         </FooterStyle>
       )}
