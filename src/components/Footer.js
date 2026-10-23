@@ -18,7 +18,7 @@ const TermsAndCondition = styled.p`
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.6;
-  text-align: center;
+  text-align: right;
   color: #ffffff;
   opacity: 0.8;
   span {
@@ -37,12 +37,12 @@ const ContainerFooter = styled(Container)`
   gap: 1rem 1.5rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
+  text-align: left;
   @media (max-width: 1023px) {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "logo" "address" "navigation" "legal";
-    justify-items: center;
+    justify-items: stretch;
     row-gap: 1.5rem;
-    text-align: center;
   }
 `;
 const FooterAddress = styled.address`
@@ -70,9 +70,6 @@ const FooterRegistration = styled.div`
     white-space: nowrap;
   }
 
-  @media (max-width: 1023px) {
-    justify-content: center;
-  }
 `;
 const FooterNavigation = styled.nav`
   grid-area: navigation;
@@ -80,7 +77,7 @@ const FooterNavigation = styled.nav`
   justify-self: stretch;
   display: flex;
   flex-wrap: nowrap;
-  justify-content: center;
+  justify-content: flex-end;
   gap: 0.75rem 1rem;
 
   a {
@@ -112,9 +109,6 @@ const StyledFooterLogo = styled.img`
   grid-area: logo;
   max-height: 4.5rem;
   margin: 0;
-  @media (max-width: 1023px) {
-    margin: 0 auto;
-  }
 `;
 const Footer = () => {
   return (
