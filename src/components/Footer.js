@@ -18,25 +18,26 @@ const TermsAndCondition = styled.p`
   font-weight: 400;
   font-size: 0.875rem;
   line-height: 1.6;
-  text-align: right;
+  text-align: center;
   color: #ffffff;
   opacity: 0.8;
-  @media (max-width: 768px) {
-    text-align: center;
+  span {
+    display: block;
+    margin-top: 0.25rem;
   }
 `;
 
 const ContainerFooter = styled(Container)`
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr);
+  grid-template-columns: minmax(16rem, 1fr) minmax(0, 3fr);
   grid-template-areas:
     "logo navigation"
     "address legal";
   align-items: start;
-  gap: 1rem 3rem;
+  gap: 1rem 1.5rem;
   padding-top: 2rem;
   padding-bottom: 2rem;
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     grid-template-columns: minmax(0, 1fr);
     grid-template-areas: "logo" "address" "navigation" "legal";
     justify-items: center;
@@ -69,23 +70,25 @@ const FooterRegistration = styled.div`
     white-space: nowrap;
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     justify-content: center;
   }
 `;
 const FooterNavigation = styled.nav`
   grid-area: navigation;
   align-self: center;
-  justify-self: end;
+  justify-self: stretch;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  gap: 0.75rem 1.5rem;
-  max-width: 42rem;
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 0.75rem 1rem;
 
-  @media (max-width: 768px) {
-    justify-content: center;
-    justify-self: center;
+  a {
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1023px) {
+    flex-wrap: wrap;
   }
 `;
 const FooterLink = styled(Link)`
@@ -109,7 +112,7 @@ const StyledFooterLogo = styled.img`
   grid-area: logo;
   max-height: 4.5rem;
   margin: 0;
-  @media (max-width: 768px) {
+  @media (max-width: 1023px) {
     margin: 0 auto;
   }
 `;
@@ -166,8 +169,7 @@ const Footer = () => {
               <TermsAndConditionLink to="/polityka-prywatnosci/">
                 {data.datoCmsFooter.privacyPolicy}
               </TermsAndConditionLink>
-              {` | ${data.datoCmsFooter.rightsReserverd}`} &copy;
-              {`${currentYear}`}
+              <span>{data.datoCmsFooter.rightsReserverd} &copy; {currentYear}</span>
             </TermsAndCondition>
           </ContainerFooter>
         </FooterStyle>
