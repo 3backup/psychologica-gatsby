@@ -1,5 +1,9 @@
 # Publikacja i niezależna weryfikacja
 
+## Liczba pojedyncza w stopce, 27.10.2026
+
+Na prośbę użytkownika wspólna stopka wyświetla „Gabinet psychologiczny Renata Zuba”. Weryfikator produkcji wymaga tej samej formy na wszystkich indeksowalnych stronach korzystających ze stopki. Punkt wyjścia potwierdzony świeżym fetch i metadanymi produkcji: `3backup/psychologica-gatsby`, `refs/heads/main`, lokalny/zdalny/wdrożony SHA `cdb7e790de2eb8e02134d665add21870d8c1f1dc`, czysty katalog, 0/0 ahead/behind. Odczyt DatoCMS 43634/main potwierdził zgodność schematu i konfiguracji z baseline oraz wydaniem. Brak lokalnej bazy aplikacyjnej, migracji i seedów. Zmiana wyłącznie tekstowa, bez zmian konfiguracji, schematu i danych CMS. Baza zweryfikowana; brak wymaganych zmian. Odzyskanie aplikacji przez ponowną publikację poprzedniego zatwierdzonego SHA, bez odtwarzania CMS. Przed publikacją obowiązuje kompilacja, po publikacji pełny weryfikator produkcji.
+
 ## Dane gabinetów w stopce, 23.10.2026
 
 Finalne wyrównanie: logo i dane gabinetów do lewej, nawigacja, polityka prywatności i prawa zastrzeżone do prawej. Zachowano siatkę 2x2, szerszą prawą kolumnę, jeden rząd menu od 1024 px i osobny wiersz praw zastrzeżonych. Te same kierunki wyrównania obowiązują po przejściu do układu pionowego. Punkt wyjścia: GitHub `3backup/psychologica-gatsby/main`, lokalny i wdrożony SHA `9b8356abb205617b8ac7bfdd965187f4c3281a14`, 0/0 ahead/behind, czysty katalog; DatoCMS 43634/main zgodny z baseline, brak lokalnej bazy, migracji i seedów. Zmiana dotyczy tylko CSS, bez zmian schematu, konfiguracji lub danych CMS. Odzyskanie przez ponowną publikację poprzedniego zatwierdzonego SHA aplikacji bez przywracania CMS. Kompilacja przeszła. W przeglądarce potwierdzono wspólną prawą krawędź menu i bloku prawnego (1255 px przy szerokości 1280 px), lewe wyrównanie danych, jeden rząd menu oraz brak poziomego przewijania przy 320 px. Po publikacji obowiązuje pełny weryfikator produkcji.

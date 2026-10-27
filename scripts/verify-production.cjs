@@ -847,7 +847,7 @@ async function main() {
     if (route === "/skontaktuj-sie/") continue;
     const pageFooter = pages[route].match(/<footer\b[^>]*>([\s\S]*?)<\/footer>/i)?.[1] || "";
     const businessAddress = pageFooter.match(/<address\b[^>]*>([\s\S]*?)<\/address>/i)?.[1] || "";
-    for (const value of ["Gabinety psychologiczne", "Renata Zuba", facts.address.streetAddress,
+    for (const value of ["Gabinet psychologiczny", "Renata Zuba", facts.address.streetAddress,
       `${facts.address.postalCode} ${facts.address.addressLocality}`, "NIP: 8131239390", "REGON: 365481005"]) {
       assert(htmlText(businessAddress).includes(value), `Stopka ${route}: brak danych ${value}`);
     }

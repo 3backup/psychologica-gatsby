@@ -135,7 +135,7 @@ const Footer = () => {
           <ContainerFooter>
             <StyledFooterLogo src={logoFooter} alt="Psychologica" height="90" width="211" />
             <FooterAddress>
-              <strong>Gabinety psychologiczne Renata Zuba</strong>
+              <strong>Gabinet psychologiczny Renata Zuba</strong>
               <FooterLink to="/lokalizacja/">
                 ul. {data.site.siteMetadata.businessAddress.streetAddress},{" "}
                 {data.site.siteMetadata.businessAddress.postalCode}{" "}
